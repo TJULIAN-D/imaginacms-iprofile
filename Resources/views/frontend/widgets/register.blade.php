@@ -73,7 +73,6 @@
                         $registerExtraFields = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
                     @endphp
                     @foreach($registerExtraFields as $extraField)
-
                         {{-- if is active--}}
                         @if(isset($extraField->active) && $extraField->active)
 
@@ -81,7 +80,14 @@
                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
 
                                 {{-- label --}}
-                                <label for="extraField{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
+                                <label for="extraField{{$extraField->field}}">
+                                  @if(isset($extraField->label))
+                                    {{$extraField->label}}
+                                  @else
+                                    {{trans("iprofile::frontend.form.$extraField->field")}}
+                                  @endif
+                                </label>
+
 
                                 {{-- Generic input --}}
                                 @if( !in_array($extraField->type, ["select","textarea"]) )
