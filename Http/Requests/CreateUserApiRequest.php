@@ -4,6 +4,7 @@ namespace Modules\Iprofile\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 use Modules\Iprofile\Rules\FieldsRule;
+use Modules\Ihelpers\Rules\UniqueRule;
 
 class CreateUserApiRequest extends BaseFormRequest
 {
@@ -12,7 +13,7 @@ class CreateUserApiRequest extends BaseFormRequest
       return [
         'first_name' => 'required',
         'last_name' => 'required',
-        'email' => 'required',
+        'email' => ['required',new UniqueRule("users", null, null, trans("iprofile::userapis.messages.unavailableUserName"))],
         'password' => 'required',
         'fields' => new FieldsRule(),
       ];
