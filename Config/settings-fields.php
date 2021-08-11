@@ -29,6 +29,8 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iprofile::settings.validateRegisterWithEmail'
     ],
   ],
@@ -38,6 +40,8 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iprofile::settings.adminNeedsToActivateNewUsers'
     ],
   ],
@@ -47,6 +51,8 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iprofile::settings.registerUsersWithSocialNetworks'
     ],
   ],
@@ -319,6 +325,37 @@ return [
         'columns' => 'col-12',
         'props' => ['label' => 'iprofile::settings.settingFields.required']
       ],
+    ]
+  ],
+  
+  //Roles to register
+  'rolesToRegister' => [
+    'name' => 'iprofile::rolesToRegister',
+    'value' => [2],
+    'type' => 'select',
+    'group' => 'iprofile::settings.settingGroups.register',
+    'props' => [
+      'label' => 'iprofile::settings.rolesToRegister',
+      'multiple' => true,
+      'useChips' => true
+    ],
+    'loadOptions' => [
+      'apiRoute' => 'apiRoutes.quser.roles',
+      'select' => ['label' => 'name', 'id' => 'id']
+    ]
+  ],
+  
+  'authBanner' => [
+    'value' => (object)['iprofile::authBanner' => null],
+    'name' => 'medias_single',
+    'fakeFieldName' => 'iprofile::authBanner',
+    'type' => 'media',
+    'group' => 'iprofile::settings.settingGroups.register',
+    'props' => [
+      'label' => 'Banner para vista de autenticación',
+      'zone' => 'iprofile::authBanner',
+      'entity' => "Modules\Setting\Entities\Setting",
+      'entityId' => null
     ]
   ],
 ];
