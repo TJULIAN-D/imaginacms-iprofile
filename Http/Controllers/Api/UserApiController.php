@@ -146,8 +146,8 @@ class UserApiController extends BaseApiController
 
       // registerExtraFields
       $registerExtraFieldsSetting = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
-
-      $fields = [];
+      
+      /*
       foreach ($registerExtraFieldsSetting as $extraFieldSetting) {
         if ($extraFieldSetting->active && isset($data[$extraFieldSetting->field])) {
           $fields[] = [
@@ -155,6 +155,12 @@ class UserApiController extends BaseApiController
             "value" => $data[$extraFieldSetting->field]
           ];
         }
+      }*/
+      
+      //Checking Role if exist in the setting rolesToRegister
+      $rolesToRegister = json_decode(setting("iprofile::rolesToRegister",null, "[2]")); //Default role is USER, ID 2
+      if(isset($data->role_id) && in_array($data->role_id,$rolesToRegister)){
+        $role = is_array($data->role_id) ? $data->role_id : [$data->role_id];
       }
 
       //Format dat ot create user
@@ -167,7 +173,7 @@ class UserApiController extends BaseApiController
           'password' => $data->password,
           'password_confirmation' => $data->password_confirmation,
           'departments' => [1],//Default departme is USERS, ID 1
-          'roles' => [2],//Default role is USER, ID 2
+          'roles' => $role ?? [2],//Default role is USER, ID 2
           'fields' => $fields ?? [],
           'is_activated' => (int)$validateEmail ? false : true
         ],

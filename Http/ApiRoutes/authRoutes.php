@@ -20,6 +20,7 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
   $router->post('reset', [
     'as' => $locale . 'api.iprofile.reset',
     'uses' => 'AuthApiController@reset',
+    'middleware' => ['captcha']
   ]);
   /** @var Router $router */
   $router->post('reset-complete', [

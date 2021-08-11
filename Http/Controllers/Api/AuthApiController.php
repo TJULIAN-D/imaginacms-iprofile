@@ -94,8 +94,12 @@ class AuthApiController extends BaseApiController
   public function reset(Request $request)
   {
     try {
+  
+      //Get data
+      $data = (object)$request->input('attributes');
+      
       $credentials = [ //Get credentials
-        'email' => $request->input('username'),
+        'email' => $data->username
       ];
       app(UserResetter::class)->startReset($credentials);
       $response = ["data" => ["data" => "Request successful"]];//Response
