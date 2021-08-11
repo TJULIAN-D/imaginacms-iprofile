@@ -18,6 +18,9 @@ return [
     'form' => [
     ],
     'messages' => [
+      
+      "unavailableUserName" => "El Email o Usuario no está disponible"
+      
     ],
     'validation' => [
     ],
