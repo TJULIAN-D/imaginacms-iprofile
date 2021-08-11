@@ -5,6 +5,7 @@ namespace Modules\Iprofile\Repositories\Eloquent;
 use Modules\Iprofile\Repositories\RoleApiRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\User\Entities\Sentinel\User;
+use Modules\Iforms\Events\SyncFormeable;
 
 class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleApiRepository
 {
@@ -135,6 +136,9 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
     if ($model) {
       $oldData = $model->toArray();
       $model->update($data);
+  
+      event(new SyncFormeable($model,$data));
+      
       $newData = $model->toArray();
     }
     return $model;
@@ -143,8 +147,9 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
   public function create($data)
   {
     $role = $this->model->create($data);
-
-    $newData = $role->toArray();
+    
+    event(new SyncFormeable($role,$data));
+    
     return $role;
   }
 
