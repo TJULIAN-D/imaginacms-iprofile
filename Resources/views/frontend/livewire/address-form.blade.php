@@ -76,30 +76,41 @@
                                         </select>
                                         {!! $errors->first("address.country", '<span class="help-block">:message</span>') !!}
                                     </div>
-
-
-                                    <div class="form-group">
-
-                                        <label for="payment_zone">{{ trans('iprofile::addresses.form.state') }}</label>
-                                        <select id="paymentState"
-                                                class="form-control"
-                                                wire:model.defer="address.state">
-                                            <option value="">{{ trans('iprofile::addresses.form.select_province') }}</option>
-                                            @foreach($provinces as $province)
-                                                <option value="{{$province->iso_2}}">{{ $province->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        {!! $errors->first("address.state", '<span class="help-block">:message</span>') !!}
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for="payment_city">{{ trans('iprofile::addresses.form.city') }}</label>
-                                        <input id="paymentCity"
-                                               type="text"
-                                               class="form-control"
-                                               wire:model.defer="address.city">
-                                        {!! $errors->first("address.city", '<span class="help-block">:message</span>') !!}
-                                    </div>
+    
+    
+                                        <div class="form-group">
+        
+                                            <label for="paymentState">{{ trans('iprofile::addresses.form.state') }}</label>
+                                            <select id="paymentState"
+                                                    class="form-control"
+                                                    wire:model="address.state">
+                                              
+                                                    <option value="">{{ trans('iprofile::addresses.form.select_province') }}</option>
+                                           
+                                                @foreach($provinces as $province)
+                                                    <option value="{{$province->iso_2}}">{{ $province->name }}</option>
+                                                @endforeach
+                                            </select>
+                                       
+                                            {!! $errors->first("address.state", '<span class="help-block">:message</span>') !!}
+                                        </div>
+    
+                                        <div class="form-group">
+        
+                                            <label for="paymentCity">{{ trans('iprofile::addresses.form.city') }}</label>
+                                            <select id="paymentCity"
+                                                    class="form-control"
+                                                    wire:model.defer="address.city_id">
+                                                <option value="">{{ trans('iprofile::addresses.form.select_city') }}</option>
+                                              
+                                             
+                                                @foreach($cities as $city)
+                                                    <option value="{{$city->id}}">{{ $city->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {!! $errors->first("address.state", '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                
 
                                     @foreach($addressesExtraFields as $extraField)
                                         {{-- if is active--}}

@@ -14,6 +14,7 @@ class AddressForm extends Component
   public $type;
   public $countries;
   public $provinces;
+  public $cities;
   public $address;
   public $user;
   public $openInModal;
@@ -40,21 +41,24 @@ class AddressForm extends Component
     $this->initAddress();
     $this->initCountries();
     $this->initProvinces();
+    $this->initCities();
 
   }
   public function updated($name, $value){
-    
+
     switch($name){
       case 'address.country':
         if(!empty($value)){
           $this->address["country_id"] = $this->countries->where("iso_2",$value)->first()->id;
           $this->initProvinces();
         }
-        
+    
         break;
+
         case 'address.state':
           if(!empty($value)) {
             $this->address["state_id"] = $this->provinces->where("iso_2", $value)->first()->id;
+            $this->initCities();
           }
       break;
     }
@@ -66,6 +70,8 @@ class AddressForm extends Component
     $this->validate($this->setRules());
     
     $this->address["user_id"] = \Auth::user()->id ?? null;
+
+    $this->address["city"] = $this->cities->where("id",$this->address["city_id"])->first()->name;
     
     $address = $this->addressRepository()->create($this->address);
 
@@ -130,7 +136,7 @@ class AddressForm extends Component
       'address.last_name' => 'required|string',
       'address.country' => 'required|string',
       'address.telephone' => 'required|string',
-      'address.city' => 'required|string',
+      'address.city_id' => 'required|integer',
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
@@ -159,8 +165,10 @@ class AddressForm extends Component
       'address_1' => "",
       'telephone' => "",
       'country' => "",
+      'country_id' => "",
       'state' => "",
       'city' => "",
+      'city_id' => "",
       'default' => false,
       'user_id' => $this->user->id ?? null,
       'type' => $this->type,
@@ -173,18 +181,36 @@ class AddressForm extends Component
     $params = [];
     
     $this->countries = $this->countryRepository()->getItemsBy(json_decode(json_encode($params)));
+    
+    if($this->countries->count() == 1){
+      $this->address["country"] = $this->countries->first()->iso_2;
+      $this->address["country_id"] = $this->countries->first()->id;
+    }
   }
   
   private function initProvinces()
   {
     
     if(isset($this->address["country_id"])){
-  
+      
       $params = ["filter" => ["countryId" => $this->address["country_id"] ?? null]];
       $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
       
     }else{
       $this->provinces = collect([]);
+    }
+  }
+  
+  private function initCities()
+  {
+
+    if(isset($this->address["state_id"])){
+      
+      $params = ["filter" => ["provinceId" => $this->address["state_id"] ?? null]];
+      $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
+      
+    }else{
+      $this->cities = collect([]);
     }
   }
   
@@ -196,6 +222,11 @@ class AddressForm extends Component
   private function provinceRepository()
   {
     return app('Modules\Ilocations\Repositories\ProvinceRepository');
+  }
+  
+  private function cityRepository()
+  {
+    return app('Modules\Ilocations\Repositories\CityRepository');
   }
   
   private function addressRepository()

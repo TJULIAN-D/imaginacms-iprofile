@@ -31,6 +31,7 @@ return [
       "country" => "Country",
       "select_country" => "Select a country",
       "select_province" => "Select a province",
+      "select_city" => "Select a city",
       "select_option" => "Select an option",
       "default" => "Default Address",
       "billing" => "Billing",

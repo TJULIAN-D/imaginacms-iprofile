@@ -31,6 +31,7 @@ return [
       "country" => "País",
       "select_country" => "Seleccione un País",
       "select_province" => "Seleccione una Provincia",
+      "select_city" => "Seleccione una Ciudad",
       "select_option" => "Seleccione una Opción",
       "default" => "Dirección por defecto",
       "billing" => "Facturación",
