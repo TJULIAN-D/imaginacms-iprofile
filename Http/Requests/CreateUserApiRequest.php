@@ -33,16 +33,16 @@ class CreateUserApiRequest extends BaseFormRequest
     {
       return [
         // First Name
-        'first_name.required' => trans('iprofile::common.messages.field required'),
+        'first_name.required' => trans('iprofile::userapis.messages.firstNameRequired'),
         
         // Last Name
-        'last_name.required' => trans('iprofile::common.messages.field required'),
+        'last_name.required' => trans('iprofile::userapis.messages.lastNameRequired'),
         
         // email
-        'email.required' => trans('iprofile::common.messages.field required'),
+        'email.required' => trans('iprofile::userapis.messages.emailRequired'),
   
         // password
-        'password.required' => trans('iprofile::common.messages.field required'),
+        'password.required' => trans('iprofile::userapis.messages.passwordRequired'),
 
       ];
     }

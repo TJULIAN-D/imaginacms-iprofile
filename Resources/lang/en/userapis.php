@@ -19,8 +19,12 @@ return [
     ],
     'messages' => [
   
-      "unavailableUserName" => "The Email or Username it's not available"
-      
+      "unavailableUserName" => "The Email or Username it's not available",
+      "firstNameRequired" => "The First Name it's required",
+      "lastNameRequired" => "The Last Name it's required",
+      "emailRequired" => "The Email/Username it's required",
+      "passwordRequired" => "The Password it's required",
+  
     ],
     'validation' => [
     ],
