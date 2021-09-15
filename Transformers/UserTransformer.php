@@ -5,6 +5,7 @@ namespace Modules\Iprofile\Transformers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Ihelpers\Http\Controllers\Api\PermissionsApiController;
 use Modules\Ihelpers\Http\Controllers\Api\SettingsApiController;
+use Modules\Isite\Transformers\OrganizationTransformer;
 use Modules\Ihelpers\Transformers\BaseApiTransformer;
 use Cartalyst\Sentinel\Activations\EloquentActivation as Activation;
 
@@ -46,6 +47,7 @@ class UserTransformer extends JsonResource
       'socialNetworks' => isset($socialNetworks->value) ? new FieldTransformer($socialNetworks) : ["name"=>"socialNetworks","value" =>[]],
 
       'departments' => DepartmentTransformer::collection($this->whenLoaded('departments')),
+      'organizations' => OrganizationTransformer::collection($this->whenLoaded('organizations')),
       'settings' => $settingsResponse,//SettingTransformer::collection($this->whenLoaded('settings')),
       'fields' => FieldTransformer::collection($this->whenLoaded('fields')),
       'addresses' => AddressTransformer::collection($this->whenLoaded('addresses')),

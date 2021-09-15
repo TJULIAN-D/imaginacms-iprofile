@@ -170,6 +170,12 @@ class AuthProfileController extends AuthController
     if($usersCanRegisterSetting){
       parent::getRegister();
 
+      $panel = config("asgard.iprofile.config.panel");
+      
+      if($panel == "quasar"){
+        return redirect("/ipanel/#/auth/login"."?redirectTo=".url()->previous());
+      }
+      
       $tpl = 'iprofile::frontend.register';
       $ttpl = 'iprofile.register';
       if (view()->exists($ttpl)) $tpl = $ttpl;
