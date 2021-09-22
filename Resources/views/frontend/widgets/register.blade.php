@@ -14,11 +14,11 @@
                 <div class="border-top title border-bottom border-top-dotted border-bottom-dotted py-4 {{isset($embedded) ? '' : 'mt-4'}} mb-4">
                     <p>{{trans('iprofile::frontend.title.social msj register')}}</p>
                     <div class="d-inline-block mr-3 mb-3">
-                        <a href="{{route('account.social.auth',['facebook'])}}"><img class="img-fluid" src="{{url('modules/iprofile/img/facebook.png')}}" alt="Facebook"></a>
+                        <a href="{{route('account.social.auth',['facebook']).((isset($route) && !empty(isset($route))) ? "?redirect=".route($route) : "")}}"><img class="img-fluid" src="{{url('modules/iprofile/img/facebook.png')}}" alt="Facebook"></a>
 
                     </div>
                     <div class="d-inline-block">
-                        <a href="{{route('account.social.auth',['google'])}}"><img class="img-fluid" src="{{url('modules/iprofile/img/google.png')}}" alt="Google"></a>
+                        <a href="{{route('account.social.auth',['google']).((isset($route) && !empty(isset($route))) ? "?redirect=".route($route) : "")}}"><img class="img-fluid" src="{{url('modules/iprofile/img/google.png')}}" alt="Google"></a>
 
                     </div>
                 </div>
