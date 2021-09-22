@@ -456,11 +456,11 @@ class AuthProfileController extends AuthController
       try {
 
         if(!setting("iprofile::registerUsersWithSocialNetworks")){
-          throw new Exception('Users can\'t login with social networks', 401);
+          throw new \Exception('Users can\'t login with social networks', 401);
         }
-
+       
         $user = $this->_createOrGetUser($provider, $fields);
-
+    
 
         if (isset($user->id)) {
           $autn = \Sentinel::login($user);
@@ -471,14 +471,18 @@ class AuthProfileController extends AuthController
             ->withSuccess(trans('iprofile::messages.account created'));
 
         } else {
-          return redirect()->back()->with(trans('user::messages.error create account'));;
+           throw new \Exception('Users can\'t login with social networks', 401);
         }
 
 
       } catch (\Exception $e) {
         $status = $e->getCode();
         $response = ["errors" => $e->getMessage()];
+        return redirect()->route('account.register')
+          ->withError($e->getMessage());
       }
+  
+  
     }
 
 
@@ -521,29 +525,31 @@ class AuthProfileController extends AuthController
         //$social_picture = $providerUser->user['picture']['data'];
         $userdata['first_name'] = $providerUser->user['first_name'];
         $userdata['last_name'] = $providerUser->user['last_name'];
-        $userdata["verified"] = true;
+        $userdata["is_activated"] = true;
 
       } else {
         $fullname = explode(" ", $providerUser->getName());
         $userdata['first_name'] = $fullname[0];
         $userdata['last_name'] = $fullname[1];
-        $userdata["verified"] = true;
+        $userdata["is_activated"] = true;
       }
-
+      //validating if the userData contain the email
+      if(empty($userdata['email'])) throw new \Exception(trans("iprofile::frontend.messages.providerEmailEmpty",["providerName" => $provider]),400);
+      
       //Let's create the User
       $role = $this->role->findByName(config('asgard.user.config.default_role', 'User'));
       $existUser = false;
       $user = User::where('email', $userdata['email'])->first();
+   
       if (!$user) {
-        if ($userdata["verified"]) {
-          $user = $this->user->createWithRoles($userdata, $role, true);
-        } else {
-          $user = $this->user->createWithRoles($userdata, $role);
+        if ($userdata["is_activated"]) {
+ 
+          $user = $this->user->createWithRoles($userdata, [$role->id], $userdata["is_activated"] ?? false);
+        
         }
       } else {
         $existUser = true;
       }
-
 
       if (isset($user->email) && !empty($user->email)) {
         $createSocial = true;
