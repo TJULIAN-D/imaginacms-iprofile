@@ -164,6 +164,8 @@
                                                 <label for="documentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
                                                 <input id="documentNumber"
                                                        type="number"
+                                                       min="0"
+                                                       max="9999999999"
                                                        class="form-control"
                                                        wire:model.defer="address.options.documentNumber"/>
                                                 {!! $errors->first("address.options.documentNumber", '<span class="help-block">:message</span>') !!}

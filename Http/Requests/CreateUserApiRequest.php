@@ -11,8 +11,8 @@ class CreateUserApiRequest extends BaseFormRequest
     public function rules()
     {
       return [
-        'first_name' => 'required',
-        'last_name' => 'required',
+       // 'first_name' => 'required',
+       // 'last_name' => 'required',
         'email' => ['required',new UniqueRule("users", null, null, trans("iprofile::userapis.messages.unavailableUserName"))],
         'password' => 'required',
         'fields' => new FieldsRule(),
