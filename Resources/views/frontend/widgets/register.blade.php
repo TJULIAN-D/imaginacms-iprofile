@@ -41,13 +41,13 @@
 
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has('first_name') ? ' has-error' : '' }}">
                         <label>{{trans('user::users.form.first-name')}}</label>
-                        {{ Form::text('first_name', old('first_name'),['required'=>true,'class'=>"form-control",'placeholder' => '...']) }}
+                        {{ Form::text('first_name', old('first_name'),["minlength" => 3,'required'=>true,'class'=>"form-control",'placeholder' => '...']) }}
                         {!! $errors->first('first_name', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
 
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has('last_name') ? ' has-error' : '' }}">
                         <label>{{trans('user::users.form.last-name')}}</label>
-                        {{ Form::text('last_name', old('last_name'),['required'=>true,'class'=>"form-control",'placeholder' => '...']) }}
+                        {{ Form::text('last_name', old('last_name'),["minlength" => 3,'required'=>true,'class'=>"form-control",'placeholder' => '...']) }}
                         {!! $errors->first('last_name', '<div class="invalid-feedback">:message</div>') !!}
                     </div>
 
@@ -132,7 +132,7 @@
 
                                             <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} py-2 has-feedback {{ $errors->has($extraField->field) ? ' has-error' : '' }}">
                                                 <label for="extraFieldDocumentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
-                                              <input  type="number" min="0" max="9999999999" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFieldDocumentNumber'/>
+                                              <input  type="number" minlength="6" min="100000" max="9999999999" name="fields[documentNumber]" required="{{$extraField->required}}" class ="form-control" id = 'extraFieldDocumentNumber'/>
 
                                     @endif
 

@@ -21,7 +21,7 @@ class AddressForm extends Component
   protected $addressesExtraFields;
   
   protected $rules;
- 
+  
   
   /**
    * Create a new component instance.
@@ -35,6 +35,7 @@ class AddressForm extends Component
     $this->openInModal = $openInModal;
     $this->route = $route;
     $this->type = $type;
+    
     $this->addressesExtraFields =  json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
     
     $this->initUser();
@@ -67,7 +68,7 @@ class AddressForm extends Component
   public function save()
   {
 
-    $this->validate($this->setRules());
+    $this->validate($this->setRules(),$this->setMessages());
     
     $this->address["user_id"] = \Auth::user()->id ?? null;
 
@@ -115,7 +116,7 @@ class AddressForm extends Component
           break;
         case 'documentType':
           $rule = "string";
-          $rules = array_merge($rules,["address.options.documentNumber" => $rule.($extraField->required ? "|required" : "")]);
+          $rules = array_merge($rules,["address.options.documentNumber" => $rule.($extraField->required ? "|required|min:6|max:10" : "")]);
           
           break;
         case 'textarea':
@@ -132,16 +133,27 @@ class AddressForm extends Component
     }
     
     return array_merge([
-      'address.first_name' => 'required|string',
-      'address.last_name' => 'required|string',
+      'address.first_name' => 'required|string|min:3',
+      'address.last_name' => 'required|string|min:3',
       'address.country' => 'required|string',
       'address.telephone' => 'required|string',
       'address.city_id' => 'required|integer',
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
-      'address.type' => 'string'], $rules);
+      'address.type' => 'string'], $rules,);
     
+  }
+  
+  
+  private function setMessages(){
+    return ([
+      'address.options.documentNumber.min' => trans("iprofile::addresses.validation.documentNumber.min"),
+      'address.options.documentNumber.max' => trans("iprofile::addresses.validation.documentNumber.max"),
+      'address.first_name.min' => trans("iprofile::addresses.validation.first_name.min"),
+      'address.last_name.min' => trans("iprofile::addresses.validation.last_name.min"),
+      'address.address_1.min' => trans("iprofile::addresses.validation.address_1.min"),
+    ]);
   }
   
   
