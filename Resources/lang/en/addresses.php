@@ -47,6 +47,7 @@ return [
     "created" => "Address created successfully"
   ],
   'validation' => [
+    "required" => "The field is required",
     "documentNumber" => [
       "min" => "6 digits minimum",
       "max" => "10 digits maximum",
@@ -59,6 +60,10 @@ return [
     ],
     "address_1" => [
       "min" => "3 digits minimum",
-    ]
+    ],
+    "telephone" => [
+      "min" => "5 digits minimum",
+      "max" => "10 digits maximum",
+    ],
   ],
 ];

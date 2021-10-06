@@ -136,7 +136,7 @@ class AddressForm extends Component
       'address.first_name' => 'required|string|min:3',
       'address.last_name' => 'required|string|min:3',
       'address.country' => 'required|string',
-      'address.telephone' => 'required|string',
+      'address.telephone' => 'required|min:5|max:10',
       'address.city_id' => 'required|integer',
       'address.state' => 'required|string',
       'address.default' => 'boolean',
@@ -153,6 +153,18 @@ class AddressForm extends Component
       'address.first_name.min' => trans("iprofile::addresses.validation.first_name.min"),
       'address.last_name.min' => trans("iprofile::addresses.validation.last_name.min"),
       'address.address_1.min' => trans("iprofile::addresses.validation.address_1.min"),
+      'address.telephone.min' => trans("iprofile::addresses.validation.telephone.min"),
+      'address.telephone.max' => trans("iprofile::addresses.validation.telephone.max"),
+      
+      'address.first_name.required' => trans("iprofile::addresses.validation.required"),
+      'address.last_name.required' => trans("iprofile::addresses.validation.required"),
+      'address.address_1.required' => trans("iprofile::addresses.validation.required"),
+      'address.country.required' => trans("iprofile::addresses.validation.required"),
+      'address.city_id.required' => trans("iprofile::addresses.validation.required"),
+      'address.state.required' => trans("iprofile::addresses.validation.required"),
+      'address.telephone.required' => trans("iprofile::addresses.validation.required"),
+      'address.options.documentNumber.required' => trans("iprofile::addresses.validation.required"),
+      'address.options.documentType.required' => trans("iprofile::addresses.validation.required"),
     ]);
   }
   

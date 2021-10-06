@@ -49,6 +49,7 @@ return [
     "created" => "Dirección creada exitosamente"
   ],
   'validation' => [
+    "required" => "Valor requerido obligatoriamente",
     "documentNumber" => [
       "min" => "Mínimo 6 dígitos permitidos",
       "max" => "Máximo 10 dígitos permitidos"
@@ -61,6 +62,10 @@ return [
     ],
     "address_1" => [
       "min" => "Mínimo 3 dígitos permitidos",
+    ],
+    "telephone" => [
+      "min" => "Mínimo 6 dígitos permitidos",
+      "max" => "Máximo 10 dígitos permitidos"
     ]
   ],
 ];
