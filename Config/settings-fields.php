@@ -105,7 +105,8 @@ return [
     'name' => 'iprofile::rolesToRegister',
     'value' => [2],
     'type' => 'select',
-    'group' => 'iprofile::settings.settingGroups.register',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.register',
     'props' => [
       'label' => 'iprofile::settings.rolesToRegister',
       'multiple' => true,
@@ -122,7 +123,8 @@ return [
     'name' => 'medias_single',
     'fakeFieldName' => 'iprofile::authBanner',
     'type' => 'media',
-    'group' => 'iprofile::settings.settingGroups.register',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.register',
     'props' => [
       'label' => 'Banner para vista de autenticación',
       'zone' => 'iprofile::authBanner',
