@@ -1,12 +1,11 @@
 @php
-    $op = array('required' => 'required', 'autocomplete' => 'off');
+    $op = array('required' => 'required', 'autocomplete' => 'off', "minlength" => 3);
 @endphp
 
 
     <div class="row">
         <div class="order-1 order-lg-0 col-sm-12 col-md-6 ">
-
-
+            
             <h6 id="extraFieldsTitle" class="profile-section-title">{{trans('iprofile::frontend.form.Basic')}}</h6>
 
             <hr class="border-top-dotted">

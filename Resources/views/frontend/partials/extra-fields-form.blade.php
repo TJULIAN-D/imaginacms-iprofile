@@ -64,7 +64,7 @@
       <label for="extraFieldDocumentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
 
       @php($oldValue = isset($fields['documentNumber']->value) ? $fields['documentNumber']->value : null)
-      <input  type="number" min="0" name="fields[documentNumber]" {{$extraField->required ? 'required' : ''}} class ="form-control" id = 'extraFieldDocumentNumber' value="{{$oldValue}}"/>
+      <input  type="number" minlength="6" min="100000" max="9999999999" name="fields[documentNumber]" {{$extraField->required ? 'required' : ''}} class="form-control" id="extraFieldDocumentNumber" value="{{$oldValue}}"/>
 
       @endif
 
