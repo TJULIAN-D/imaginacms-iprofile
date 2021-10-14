@@ -25,6 +25,12 @@ return [
   'registerExtraFieldsRequired' => 'Campos extra requeridos para el registro',
   'addressesExtraFieldsActive' => 'Campos extra de dirección activos',
   'addressesExtraFieldsRequired' => 'Campos extra de dirección requeridos',
+  'authTitle' => 'Titulo',
+  'hideLogo' => 'Ocultar Logo',
+  'authLoginCaption' => 'Subtitulo para Inicio de Sesión',
+  'authRegisterCaption' => 'Subtitulo para Registro',
+  'yes' => 'Si',
+  'no' => 'No',
   'table' => [
   ],
   'form' => [
@@ -36,7 +42,7 @@ return [
   'settingGroups' => [
     'registerExtraFields' => 'Campos extra para el registro',
     'addressesExtraFields' => 'Campos extra para las direcciones',
-    'register' => 'Configuración de Autenticación',
+    'auth' => 'Autenticación',
   ],
   'settingFields' => [
     'enabled' => 'Activo',

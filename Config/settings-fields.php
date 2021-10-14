@@ -19,8 +19,8 @@ return [
     'value' => '1',
     'type' => 'checkbox',
     'props' => [
-      'trueValue'=>"1",
-      'falseValue'=>"0",
+      'trueValue' => "1",
+      'falseValue' => "0",
       'label' => 'iprofile::settings.registerUsers'
     ],
   ],
@@ -31,8 +31,8 @@ return [
     'value' => "0",
     'type' => 'checkbox',
     'props' => [
-      'trueValue'=>"1",
-      'falseValue'=>"0",
+      'trueValue' => "1",
+      'falseValue' => "0",
       'label' => 'iprofile::settings.validateRegisterWithEmail'
     ],
   ],
@@ -43,8 +43,8 @@ return [
     'value' => "0",
     'type' => 'checkbox',
     'props' => [
-      'trueValue'=>"1",
-      'falseValue'=>"0",
+      'trueValue' => "1",
+      'falseValue' => "0",
       'label' => 'iprofile::settings.adminNeedsToActivateNewUsers'
     ],
   ],
@@ -55,8 +55,8 @@ return [
     'value' => "0",
     'type' => 'checkbox',
     'props' => [
-      'trueValue'=>"1",
-      'falseValue'=>"0",
+      'trueValue' => "1",
+      'falseValue' => "0",
       'label' => 'iprofile::settings.registerUsersWithSocialNetworks'
     ],
   ],
@@ -334,7 +334,78 @@ return [
       ],
     ]
   ],
-  
+
+  //==== Auth settings
+  //Auth banner
+  'authBanner' => [
+    'value' => (object)['iprofile::authBanner' => null],
+    'name' => 'medias_single',
+    'fakeFieldName' => 'iprofile::authBanner',
+    'type' => 'media',
+    'groupName' => 'register',
+    'columns' => 'col-12',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'Banner',
+      'zone' => 'iprofile::authBanner',
+      'entity' => "Modules\Setting\Entities\Setting",
+      'entityId' => null
+    ]
+  ],
+  //auth Title
+  'authTitle' => [
+    'name' => 'iprofile::authTitle',
+    'value' => null,
+    'type' => 'input',
+    'isTranslatable' => true,
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.authTitle',
+      'clearable' => true
+    ],
+  ],
+  //Roles to register
+  'hideLogo' => [
+    'name' => 'iprofile::hideLogo',
+    'value' => '0',
+    'type' => 'select',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.hideLogo',
+      'options' => [
+        ['label' => 'iprofile::settings.yes', 'value' => '1'],
+        ['label' => 'iprofile::settings.no', 'value' => '0']
+      ]
+    ]
+  ],
+  //auth login caption
+  'authLoginCaption' => [
+    'name' => 'iprofile::authLoginCaption',
+    'value' => null,
+    'type' => 'input',
+    'isTranslatable' => true,
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.authLoginCaption',
+      'clearable' => true
+    ],
+  ],
+  //auth register caption
+  'authRegisterCaption' => [
+    'name' => 'iprofile::authRegisterCaption',
+    'value' => null,
+    'type' => 'input',
+    'isTranslatable' => true,
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.authRegisterCaption',
+      'clearable' => true
+    ],
+  ],
   //Roles to register
   'rolesToRegister' => [
     "onlySuperAdmin" => true,
@@ -342,7 +413,7 @@ return [
     'value' => [2],
     'type' => 'select',
     'groupName' => 'register',
-    'groupTitle' => 'iprofile::settings.settingGroups.register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
     'props' => [
       'label' => 'iprofile::settings.rolesToRegister',
       'multiple' => true,
@@ -351,21 +422,6 @@ return [
     'loadOptions' => [
       'apiRoute' => 'apiRoutes.quser.roles',
       'select' => ['label' => 'name', 'id' => 'id']
-    ]
-  ],
-  
-  'authBanner' => [
-    'value' => (object)['iprofile::authBanner' => null],
-    'name' => 'medias_single',
-    'fakeFieldName' => 'iprofile::authBanner',
-    'type' => 'media',
-    'groupName' => 'register',
-    'groupTitle' => 'iprofile::settings.settingGroups.register',
-    'props' => [
-      'label' => 'Banner para vista de autenticación',
-      'zone' => 'iprofile::authBanner',
-      'entity' => "Modules\Setting\Entities\Setting",
-      'entityId' => null
     ]
   ],
 ];
