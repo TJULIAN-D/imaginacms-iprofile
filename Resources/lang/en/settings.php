@@ -24,6 +24,12 @@ return [
   'registerExtraFieldsRequired' => 'Required register extra fields',
   'addressesExtraFieldsActive' => 'Active address extra fields',
   'addressesExtraFieldsRequired' => 'Required address extra fields',
+  'authTitle' => 'Title',
+  'hideLogo' => 'hide Logo',
+  'authLoginCaption' => 'Caption Login',
+  'authRegisterCaption' => 'Caption Resgister',
+  'yes' => 'Yes',
+  'no' => 'No',
   'table' => [
   ],
   'form' => [
@@ -35,7 +41,7 @@ return [
   'settingGroups' => [
     'registerExtraFields' => 'Register extra fields',
     'addressesExtraFields' => 'Address extra fields',
-    'register' => 'Auth Configuration',
+    'auth' => 'Auth Configuration',
   ],
   'settingFields' => [
     'enabled' => 'Enabled',
