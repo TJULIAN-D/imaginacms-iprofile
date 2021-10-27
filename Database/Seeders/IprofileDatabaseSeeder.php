@@ -4,7 +4,7 @@ namespace Modules\Iprofile\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Isite\Database\Seeders\IformUserDefaultRegisterTableSeeder;
+use Modules\Iprofile\Database\Seeders\IformUserDefaultRegisterTableSeeder;
 
 class IprofileDatabaseSeeder extends Seeder
 {
