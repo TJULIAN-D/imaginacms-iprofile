@@ -34,6 +34,7 @@
             {!! Form::open(['route' => 'account.register.post', 'class' => 'form-content','autocomplete' => 'off', 'id' => 'registerForm']) !!}
 
             @if(isset($embedded))
+
                 <input name="embedded" type="hidden" value="{{isset($route) && $route ? $route : ''}}">
             @endif
             <div class="px-2 px-sm-0">

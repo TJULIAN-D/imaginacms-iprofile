@@ -226,7 +226,7 @@ class AuthApiController extends BaseApiController
       //Find user with relationships
       $userData = $this->validateResponseApi(
         $this->userApiController->show($user->id, new Request([
-            'include' => 'fields,departments,addresses,settings,roles' . (count($includes) ? ',' . join(',', $includes) : '')]
+            'include' => 'fields,departments,organizations,addresses,settings,roles' . (count($includes) ? ',' . join(',', $includes) : '')]
         ))
       );
       

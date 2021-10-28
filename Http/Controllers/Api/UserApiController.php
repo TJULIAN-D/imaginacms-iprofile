@@ -135,6 +135,7 @@ class UserApiController extends BaseApiController
   {
     try {
       $data = (object)$request->input('attributes');//Get data from request
+
       $filter = [];//define filters
       $validateEmail = $this->settingAsgard->get('iprofile::validateRegisterWithEmail');
 
@@ -147,15 +148,15 @@ class UserApiController extends BaseApiController
       // registerExtraFields
       $registerExtraFieldsSetting = json_decode(setting('iprofile::registerExtraFields', null, "[]"));
       
-      /*
-      foreach ($registerExtraFieldsSetting as $extraFieldSetting) {
-        if ($extraFieldSetting->active && isset($data[$extraFieldSetting->field])) {
-          $fields[] = [
-            "name" => $extraFieldSetting->field,
-            "value" => $data[$extraFieldSetting->field]
-          ];
-        }
-      }*/
+      
+    if(isset($data->fields)){
+      foreach ($data->fields as $name => $value){
+        $fields[] = [
+          "name" => $name,
+          "value" => $value
+        ];
+      }
+    }
       
       //Checking Role if exist in the setting rolesToRegister
       $rolesToRegister = json_decode(setting("iprofile::rolesToRegister",null, "[2]")); //Default role is USER, ID 2
@@ -163,20 +164,20 @@ class UserApiController extends BaseApiController
         $role = is_array($data->role_id) ? $data->role_id : [$data->role_id];
       }
 
+      $attributes = array_merge($request->input('attributes'),[
+        'first_name' => $data->first_name ?? '',
+        'last_name' => $data->last_name ?? '',
+        'email' => $data->email,
+        'password' => $data->password,
+        'password_confirmation' => $data->password_confirmation,
+        'departments' => [1],//Default department is USERS, ID 1
+        'roles' => $role ?? [2],//Default role is USER, ID 2
+        'fields' => $fields ?? [],
+        'is_activated' => (int)$validateEmail ? false : true
+      ],);
       //Format dat ot create user
       $params = [
-        'attributes' => [
-          'first_name' => $data->first_name,
-          'last_name' => $data->last_name,
-          'fields' => $data->fields,
-          'email' => $data->email,
-          'password' => $data->password,
-          'password_confirmation' => $data->password_confirmation,
-          'departments' => [1],//Default departme is USERS, ID 1
-          'roles' => $role ?? [2],//Default role is USER, ID 2
-          'fields' => $fields ?? [],
-          'is_activated' => (int)$validateEmail ? false : true
-        ],
+        'attributes' => $attributes,
         'filter' => json_encode([
           'checkEmail' => (int)$validateEmail ? 1 : 0,
           'checkAdminActivate' => (int)$adminNeedsToActivateNewUsers ? 1 : 0,
@@ -213,6 +214,7 @@ class UserApiController extends BaseApiController
 
       //Get data
       $data = $request->input('attributes');
+
       $data["email"] = strtolower($data["email"]);//Parse email to lowercase
       $params = $this->getParamsRequest($request);
       $checkEmail = isset($params->filter->checkEmail) ? $params->filter->checkEmail : false;
@@ -220,6 +222,7 @@ class UserApiController extends BaseApiController
 
       //$this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
       $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
+     
       if ($checkEmail) { //Create user required validate email
         $user = app(UserRegistration::class)->register($data);
       } else { //Create user activated
@@ -248,7 +251,7 @@ class UserApiController extends BaseApiController
             $this->field->create(new Request(['attributes' => (array)$field]))
           );
         }
-
+   
       //Create Addresses
       if (isset($data["addresses"]))
         foreach ($data["addresses"] as $address) {
@@ -272,7 +275,7 @@ class UserApiController extends BaseApiController
       $response = ["data" => "User Created"];
 
       //dispatch Event
-      event(new UserCreatedEvent($user));
+      event(new UserCreatedEvent($user,$data));
 
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
