@@ -192,14 +192,6 @@
                                 </label>
                             </div>
                         @endif
-
-                        <div class="custom-control custom-radio red mb-3">
-                            <input type="radio" class="custom-control-input"
-                                   id="customradio-select2" name="remember_me">
-                            <label class="custom-control-label" for="customradio-select2">
-                                {{trans('iprofile::frontend.title.stay connect')}}
-                            </label>
-                        </div>
                     </div>
                     <x-isite::captcha formId="registerForm" />
                     <div class="col-sm-12 {{isset($embedded) ? '' : 'col-md-6' }} pt-4 pt-lg-0">
