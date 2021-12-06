@@ -26,8 +26,8 @@ class RoleTransformer extends BaseApiTransformer
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
       'settings' => (object)$settingsResponse,
-      'form' => new FormTransformer($this->form),
-      'formId' => $this->form ? $this->form->id : null,
+      'form' => new FormTransformer($role->form),
+      'formId' => $role->form ? $role->form->id : null,
       'users' => UserTransformer::collection($this->whenLoaded('users'))
     ];
   }
