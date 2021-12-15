@@ -31,7 +31,7 @@
 
             <hr class="border-top-dotted">
 
-            {!! Form::open(['route' => 'account.register.post', 'class' => 'form-content','autocomplete' => 'off', 'id' => 'registerForm']) !!}
+            {!! Form::open(['url' => tenant_route(request()->getHost(), 'account.register.post'), 'class' => 'form-content','autocomplete' => 'off', 'id' => 'registerForm']) !!}
 
             @if(isset($embedded))
 

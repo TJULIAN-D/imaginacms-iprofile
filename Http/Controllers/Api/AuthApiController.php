@@ -71,7 +71,7 @@ class AuthApiController extends BaseApiController
       //Auth attemp and get token
       $token = $this->validateResponseApi($this->authAttempt($credentials));
       $user = $this->validateResponseApi($this->me());//Get user Data
-      
+     
       $response = ["data" => [
         'userToken' => $token->bearer,
         'expiresIn' => $token->expiresDate,
@@ -183,7 +183,7 @@ class AuthApiController extends BaseApiController
       }
       
       $error = $this->auth->login((array)$credentials);
-      
+
       //Try login
       if (!$error) {
         $user = $this->auth->user();//Get user
@@ -195,7 +195,7 @@ class AuthApiController extends BaseApiController
           "expiresDate" => $token->token->expires_at,
         ]];
       } else {
-        throw new Exception('User or Password invalid', 401);
+        throw new Exception(is_string($error) ? $error : 'User or Password invalid', 401);
       }
       
       
