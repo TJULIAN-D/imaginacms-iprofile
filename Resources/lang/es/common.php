@@ -21,6 +21,13 @@ return [
 
   'settings' => [
     'emails' => 'Webmaster - Email',
+    'tenant' => [
+      'group' => 'Inquilinos',
+      'tenantWithCentralData' => 'Entidades con data central',
+      'entities' => [
+        'roles' => 'Roles',
+      ],
+      ]
   ],
 
   'button' => [

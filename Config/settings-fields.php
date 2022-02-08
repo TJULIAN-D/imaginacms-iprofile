@@ -424,4 +424,23 @@ return [
       'select' => ['label' => 'name', 'id' => 'id']
     ]
   ],
+  'tenantWithCentralData' => [
+    'value' => [],
+    'name' => 'iprofile::tenantWithCentralData',
+    'groupName' => 'tenantConfiguration',
+    'groupTitle' => 'iprofile::common.settings.tenant.group',
+    'type' => 'select',
+    'columns' => 'col-6',
+    'props' => [
+      'label' => 'iprofile::common.settings.tenant.tenantWithCentralData',
+      'useInput' => false,
+      'useChips' => true,
+      'multiple' => true,
+      'hideDropdownIcon' => true,
+      'newValueMode' => 'add-unique',
+      'options' => [
+        ['label' => 'iprofile::common.settings.tenant.entities.roles', 'value' => 'roles'],
+      ]
+    ]
+  ],
 ];
