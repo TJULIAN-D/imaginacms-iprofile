@@ -13,6 +13,7 @@ use Modules\Iprofile\Events\Handlers\RegisterIprofileSidebar;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel as SentinelCartalyst;
 use Modules\Iprofile\Http\Middleware\AuthCan;
 use Modules\Iprofile\Http\Middleware\SettingMiddleware;
+use Modules\Iprofile\Http\Middleware\OptionalAuth;
 
 class IprofileServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class IprofileServiceProvider extends ServiceProvider
   protected $middleware = [
     'setting-can' => SettingMiddleware::class,
     'auth-can' => AuthCan::class,
+    'optional-auth' => OptionalAuth::class,
   ];
 
   /**
