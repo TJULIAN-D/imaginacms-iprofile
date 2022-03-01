@@ -59,6 +59,7 @@ class IprofileServiceProvider extends ServiceProvider
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iprofile', 'settings-fields'), "asgard.iprofile.settings-fields");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iprofile', 'permissions'), "asgard.iprofile.permissions");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iprofile', 'cmsPages'), "asgard.iprofile.cmsPages");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('iprofile', 'cmsSidebar'), "asgard.iprofile.cmsSidebar");
 
     $this->publishConfig('iprofile', 'crud-fields');
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
