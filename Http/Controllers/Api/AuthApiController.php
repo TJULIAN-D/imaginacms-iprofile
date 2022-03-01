@@ -229,6 +229,17 @@ class AuthApiController extends BaseApiController
             'include' => 'fields,departments,organizations,addresses,settings,roles' . (count($includes) ? ',' . join(',', $includes) : '')]
         ))
       );
+
+      if(is_module_enabled('Icommerce')){
+
+        // Get a collection with the configuration of each payout for the logged in user
+        $payoutsConfigUser = app('Modules\Icommerce\Services\PaymentMethodService')->getPayoutsForUser();
+
+        // Add in userData
+        if(!is_null($payoutsConfigUser))
+          $userData->payouts = $payoutsConfigUser;
+        
+      }
       
       //Response
       $response = ["data" => [
