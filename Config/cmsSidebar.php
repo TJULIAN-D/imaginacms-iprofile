@@ -13,5 +13,5 @@ return [
       ]
     ]
   ],
-  "panel" => ["iprofile_cms_panel_userProfile"],
+  "panel" => ["iprofile_cms_main_userProfile"],
 ];
