@@ -32,7 +32,7 @@ return [
       "subHeader" => [
         "refresh" => true,
         "breadcrumb" => [
-          "quser.userIndex"
+          "iprofile_cms_admin_userIndex"
         ]
       ]
     ],
@@ -51,7 +51,7 @@ return [
       "subHeader" => [
         "refresh" => true,
         "breadcrumb" => [
-          "quser.userIndex"
+          "iprofile_cms_admin_userIndex"
         ]
       ]
     ],
