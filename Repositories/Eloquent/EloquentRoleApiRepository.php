@@ -71,19 +71,20 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
         });
       }
     }
-  
-  
-    if (isset($this->model->tenantWithCentralData) && $this->model->tenantWithCentralData && isset(tenant()->id)) {
+
+    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]"));
+    $tenantWithCentralData = in_array("roles",$entitiesWithCentralData);
+
+    if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       $query->withoutTenancy();
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
           ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
       });
     }
-  
-    
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
@@ -123,21 +124,24 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
       if (isset($filter->field))//Filter by specific field
         $field = $filter->field;
     }
-  
-    if (isset($this->model->tenantWithCentralData) && $this->model->tenantWithCentralData && isset(tenant()->id)) {
+
+    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]"));
+    $tenantWithCentralData = in_array("roles",$entitiesWithCentralData);
+
+    if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       $query->withoutTenancy();
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
           ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
       });
     }
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
 
-//    dd($query->toSql());
     /*== REQUEST ==*/
     return $query->where($field ?? 'id', $criteria)->first();
   }

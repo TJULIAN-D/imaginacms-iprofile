@@ -15,7 +15,7 @@ use BelongsToTenant;
   protected $fillable = [
     'title',
     'parent_id',
-    'internal',
+    'is_internal',
     'options'
   ];
 
