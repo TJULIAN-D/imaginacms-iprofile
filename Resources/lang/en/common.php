@@ -26,6 +26,7 @@ return [
       'tenantWithCentralData' => 'Entities with central data',
       'entities' => [
         'roles' => 'Roles',
+        'settings' => 'Settings'
       ],
     ]
   ],

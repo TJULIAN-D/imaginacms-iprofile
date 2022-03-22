@@ -13,9 +13,7 @@ class RoleTransformer extends BaseApiTransformer
   {
     $roleRepository = app("Modules\Iprofile\Repositories\RoleApiRepository");
     $role = $roleRepository->getItem($this->id);
-    // dd($role);
     $settings = $role->settings()->get();
-    
     //Get settings
     $settings = json_decode(json_encode(SettingTransformer::collection($settings)));
     $settingsResponse = [];

@@ -440,6 +440,7 @@ return [
       'newValueMode' => 'add-unique',
       'options' => [
         ['label' => 'iprofile::common.settings.tenant.entities.roles', 'value' => 'roles'],
+        ['label' => 'iprofile::common.settings.tenant.entities.settings', 'value' => 'settings'],
       ]
     ]
   ],

@@ -77,7 +77,7 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       $query->withoutTenancy();
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
@@ -142,7 +142,6 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
 
-//    dd($query->toSql());
     /*== REQUEST ==*/
     return $query->where($field ?? 'id', $criteria)->first();
   }
