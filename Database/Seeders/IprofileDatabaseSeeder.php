@@ -21,5 +21,6 @@ class IprofileDatabaseSeeder extends Seeder
     $this->call(RolePermissionsToAccessSeeder::class);
     //Seed User default register form
     $this->call(IformUserDefaultRegisterTableSeeder::class);
+    $this->call(AsignedSettingsInRoles::class);
   }
 }
