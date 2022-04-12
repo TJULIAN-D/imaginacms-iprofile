@@ -14,6 +14,7 @@ return [
     'create departmentsetting' => 'Create a departmentsetting',
   ],
   'registerUsers' => 'Usuarios se pueden registrar',
+  'allowResetPassword' => 'Permitir recuperar contraseña en el login',
   'validateRegisterWithEmail' => 'Validar registro por email',
   'adminNeedsToActivateNewUsers' => 'El administrador necesita activar los usuarios',
   'registerUsersWithSocialNetworks' => 'Permitir registro con redes sociales',

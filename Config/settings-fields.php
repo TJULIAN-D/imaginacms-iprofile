@@ -48,6 +48,18 @@ return [
       'label' => 'iprofile::settings.adminNeedsToActivateNewUsers'
     ],
   ],
+  //Admin needs to activate any new user - Slim:
+  'allowResetPassword' => [
+    "onlySuperAdmin" => true,
+    'name' => 'iprofile::allowResetPassword',
+    'value' => "1",
+    'type' => 'checkbox',
+    'props' => [
+      'trueValue' => "1",
+      'falseValue' => "0",
+      'label' => 'iprofile::settings.allowResetPassword'
+    ],
+  ],
   //Enable register with social media
   'registerUsersWithSocialNetworks' => [
     "onlySuperAdmin" => true,
