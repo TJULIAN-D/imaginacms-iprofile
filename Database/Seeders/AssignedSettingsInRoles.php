@@ -39,21 +39,16 @@ class AssignedSettingsInRoles extends Seeder
             }
           }
         }
-        $roleAssignedSettings = Setting::where('related_id', $role->id)
-          ->where('entity_name', 'role')
-          ->where('name', 'assignedSettings')
-          ->first();
-
-        if (!isset($roleAssignedSettings->id)) {
-          Setting::create(
-            [
-              'related_id' => $role->id,
-              'entity_name' => 'role',
-              'name' => 'assignedSettings',
-              'value' => $data
-            ]
-          );
-        }
+        // Update or create the setting
+        Setting::updateOrCreate(
+          ['related_id' => $role->id, 'entity_name' => 'role', 'name' => 'assignedSettings'],
+          [
+            'related_id' => $role->id,
+            'entity_name' => "role",
+            'name' => "assignedSettings",
+            'value' => $data
+          ]
+        );
       }
     }
   }
