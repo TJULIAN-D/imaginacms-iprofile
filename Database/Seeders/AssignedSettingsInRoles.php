@@ -32,7 +32,7 @@ class AssignedSettingsInRoles extends Seeder
         foreach ($settings as $key => $setting) {
           $moduleName = strtolower($key);
           foreach ($setting as $key => $settingsModules) {
-            if (isset($settingsModules) && $settingsModules->onlySuperAdmin == false) {
+            if (isset($settingsModules) && isset($settingsModules->onlySuperAdmin) && $settingsModules->onlySuperAdmin == false) {
               $settingName = $key;
               $settingAssigned = $moduleName . '::' . $settingName;
               array_push($data, $settingAssigned);
