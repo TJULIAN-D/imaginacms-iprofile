@@ -102,7 +102,8 @@ class AuthApiController extends BaseApiController
         'email' => $data->username
       ];
       app(UserResetter::class)->startReset($credentials);
-      $response = ["data" => ["data" => "Request successful"]];//Response
+      
+      $response = ["data" => ["message" => trans('iprofile::cms.message.checkMail')]];//Response
     } catch (UserNotFoundException $e) {
       $status = $this->getStatusError(404);
       $response = ["errors" => trans('user::messages.no user found')];
