@@ -64,7 +64,8 @@ return [
     "quickAccess" => "Quick access",
     "privacyData" => "I declare that I have read and accept {concatData} of {siteName}",
     "termsAndConditions" => "Terms and Conditions",
-    "privacyPolicy" => "Privacy Policy"
+    "privacyPolicy" => "Privacy Policy",
+    "resetPasswordRequested" => "check your email to restore your password please"
   ],
   "quickCard" => [
     "lastUsers" => "Users - Last registered users"

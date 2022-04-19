@@ -66,7 +66,8 @@ return [
     "quickAccess" => "Acceso rapido",
     "privacyData" => "Declaro que he leído y acepto {concatData} de <b>{siteName}</b>",
     "termsAndConditions" => "Terminos y Condiciones",
-    "privacyPolicy" => "Politica de Privacidad"
+    "privacyPolicy" => "Politica de Privacidad",
+    "resetPasswordRequested" => "Revisa tu email para recuperar tu contraseña"
   ],
   "quickCard" => [
     "lastUsers" => "Usuarios - Ultimos usuarios registrados"
