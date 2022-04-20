@@ -126,7 +126,7 @@ class AuthApiController extends BaseApiController
     try {
       $credentials = [ //Get credentials
         'password' => $request->input('password'),
-        'password_confirmation' => $request->input('passwordConfirmation'),
+        'password_confirmation' => $request->input('password_confirmation'),
         'userId' => $request->input('userId'),
         'code' => $request->input('token')
       ];
