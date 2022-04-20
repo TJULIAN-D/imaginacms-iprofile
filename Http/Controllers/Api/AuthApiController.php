@@ -128,7 +128,7 @@ class AuthApiController extends BaseApiController
         'password' => $request->input('password'),
         'password_confirmation' => $request->input('password_confirmation'),
         'userId' => $request->input('userId'),
-        'code' => $request->input('token')
+        'code' => $request->input('code')
       ];
       $this->validateRequestApi(new ResetCompleteRequest($credentials));
       app(UserResetter::class)->finishReset($credentials);
