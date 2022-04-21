@@ -122,10 +122,11 @@ return [
       "activated" => true,
       "path" => "/auth/reset/:userId/:token",
       "name" => "auth.reset-complete",
-      "page" => "quser/_pages/resetPasswordComplete",
+      "page" => "quser/_pages/wrapper",
       "layout" => "qsite/_layouts/blank.vue",
       "title" => "iprofile.cms.sidebar.resetPassword",
-      "icon" => "fas fa-chart-bar"
+      "icon" => "fas fa-chart-bar",
+      "authType" => "resetPasswordComplete"
     ],
     "userProfile" => [
       "permission" => null,
