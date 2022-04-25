@@ -32,6 +32,14 @@ return [
   'authRegisterCaption' => 'Subtitulo para Registro',
   'yes' => 'Si',
   'no' => 'No',
+  'passwordExpiredTime' => 'Tiempo de expiración para la contraseña',
+  'expiredTime' =>[
+    'never' => 'Nunca',
+    '1 week' => '1 semana',
+    '1 month' => '1 mes',
+    '3 months' => '3 meses',
+    '1 year' => '1 año'
+  ],
   'table' => [
   ],
   'form' => [

@@ -436,6 +436,27 @@ return [
       'select' => ['label' => 'name', 'id' => 'id']
     ]
   ],
+  //Password
+  'passwordExpiredTime' => [
+    'name' => 'iprofile::passwordExpiredTime',
+    'value' => '0',
+    'type' => 'select',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.passwordExpiredTime',
+      'options' => [
+        ['label' => 'iprofile::settings.expiredTime.never','value' => '0'],
+        ['label' => 'iprofile::settings.expiredTime.1 week','value' => '7'],
+        ['label' => 'iprofile::settings.expiredTime.1 month','value' => '30'],
+        ['label' => 'iprofile::settings.expiredTime.3 months','value' => '90'],
+        ['label' => 'iprofile::settings.expiredTime.1 year','value' => '365']
+      ]
+    ],
+  ],
+
+
+  //==== Tenant settings
   'tenantWithCentralData' => [
     'value' => [],
     'name' => 'iprofile::tenantWithCentralData',
