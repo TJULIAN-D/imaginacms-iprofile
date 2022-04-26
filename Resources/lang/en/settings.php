@@ -39,6 +39,7 @@ return [
     '3 months' => '3 months',
     '1 year' => '1 year'
   ],
+  'notAllowOldPassword' => 'The user will not be able to save repeated passwords',
   'table' => [
   ],
   'form' => [

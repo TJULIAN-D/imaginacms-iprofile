@@ -40,6 +40,7 @@ return [
     '3 months' => '3 meses',
     '1 year' => '1 año'
   ],
+  'notAllowOldPassword' => 'El usuario no podra guardar contraseñas repetidas',
   'table' => [
   ],
   'form' => [

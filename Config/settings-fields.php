@@ -454,6 +454,19 @@ return [
       ]
     ],
   ],
+  //Password not allow old
+  'notAllowOldPassword' => [
+    'name' => 'iprofile::notAllowOldPassword',
+    'value' => '1',
+    'type' => 'checkbox',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'trueValue' => "1",
+      'falseValue' => "0",
+      'label' => 'iprofile::settings.notAllowOldPassword'
+    ],
+  ],
 
 
   //==== Tenant settings
