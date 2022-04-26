@@ -25,6 +25,9 @@ use Modules\Iprofile\Repositories\FieldRepository;
 use Modules\Iprofile\Events\UserUpdatedEvent;
 use Modules\Iprofile\Events\UserCreatedEvent;
 
+use Modules\Iprofile\Entities\UserPasswordHistory;
+use Carbon\Carbon;
+
 class UserApiController extends BaseApiController
 {
   private $user;
@@ -208,7 +211,7 @@ class UserApiController extends BaseApiController
   public function create(Request $request)
   {
 
-    \Log::info("Iprofile: UserApiController|Create");
+    //\Log::info("Iprofile: UserApiController|Create");
 
     \DB::beginTransaction();
     try {
@@ -634,4 +637,84 @@ class UserApiController extends BaseApiController
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
+
+  /**
+   * Password Validate Change
+   *
+   * @return mixed
+   */
+  public function passwordValidateChange(Request $request){
+
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+
+      $user = Auth::user();
+
+      // Get last history
+      $lastPasswordHistory = UserPasswordHistory::where('user_id',$user->id)->latest()->first();
+
+      // Default change password
+      $shouldChangePassword = false;
+     
+      // User has password history (Only if was Generated from the frontend)
+      if(!empty($lastPasswordHistory)){
+
+          //Get diference in days
+          $datePassword = $lastPasswordHistory->created_at->format("Y-m-d");
+          $date = Carbon::parse($datePassword);
+          $now = Carbon::now();
+
+          $diff = $date->diffInDays($now);
+
+          $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
+
+          // 0 is (Never update)
+          if($settingDays!=0 && $diff>=$settingDays)
+            $shouldChangePassword = true;
+
+      }else{
+
+        // User was created from the iadmin and has never been logged in
+        // Only first time
+        if(is_null($user->last_login)){
+          $shouldChangePassword = true;
+        }
+
+      }
+
+      // Response
+      $response['data']['shouldChangePassword'] = $shouldChangePassword;
+
+      // Response Messages like modal
+      if($shouldChangePassword){
+        $response['data']["messages"] = [
+          [
+            "mode" => "modal",
+            "type" => "warning",
+            "title" => trans("iprofile::frontend.title.resetPassword"),
+            "message" => trans("iprofile::frontend.messages.resetPasswordModal"),
+            "persistent" => true,
+            "actions" => [
+              [
+                "label" => trans("iprofile::frontend.title.resetPassword"),
+                "toUrl" => url("/iadmin/#/auth/reset")
+              ]
+            ]
+          ]
+        ];
+      }
+      
+      
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
+    }
+
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+
+  }
+
+
 }

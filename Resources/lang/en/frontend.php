@@ -99,7 +99,8 @@ return [
 
   'messages' => [
     'account created' => 'Account created! You can sign in now.',
-    "providerEmailEmpty" => "The Email is empty, check your provider (:providerName) permissions to get the email field."
+    "providerEmailEmpty" => "The Email is empty, check your provider (:providerName) permissions to get the email field.",
+    "resetPasswordModal" => 'Hello, You must change the password'
   ]
 
 

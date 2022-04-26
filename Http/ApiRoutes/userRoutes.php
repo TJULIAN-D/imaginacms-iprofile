@@ -55,4 +55,10 @@ $router->group(['prefix' => '/users'], function (Router $router) {
     'uses' => 'UserApiController@mediaDelete',
     'middleware' => ['auth:api']
   ]);
+  $router->get('/password/validate-change', [
+    'as' => 'api.profile.users.password.validate-change',
+    'uses' => 'UserApiController@passwordValidateChange',
+    'middleware' => ['auth:api']
+  ]);
+
 });
