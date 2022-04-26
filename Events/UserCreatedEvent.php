@@ -12,8 +12,7 @@ class UserCreatedEvent
 
   public function __construct($user, $bindings)
   {
-    \Log::info('Iprofile|Events|UserCreatedEvent');
-
+   
     $this->user = $user;
     $this->bindings = $bindings;
 

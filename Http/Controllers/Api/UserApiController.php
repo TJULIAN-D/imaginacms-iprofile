@@ -207,6 +207,9 @@ class UserApiController extends BaseApiController
    */
   public function create(Request $request)
   {
+
+    \Log::info("Iprofile: UserApiController|Create");
+
     \DB::beginTransaction();
     try {
       //Validate permissions
@@ -214,6 +217,10 @@ class UserApiController extends BaseApiController
 
       //Get data
       $data = $request->input('attributes');
+
+      //Get setting from request
+      $requestSetting = json_decode($request->input('setting'));
+      //\Log::info("Iprofile: UserApiController|Create|RequestSetting: ".$request->input('setting'));
 
       $data["email"] = strtolower($data["email"]);//Parse email to lowercase
       $params = $this->getParamsRequest($request);
@@ -271,6 +278,10 @@ class UserApiController extends BaseApiController
           );
         }
       }
+
+      //Add value from admin
+      if(isset($requestSetting->fromAdmin))
+        $data['fromAdmin'] = $requestSetting->fromAdmin;
 
       $response = ["data" => "User Created"];
 
