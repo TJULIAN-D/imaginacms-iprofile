@@ -39,6 +39,7 @@ class UserApiController extends BaseApiController
   private $fhaOld;
   private $settingAsgard;
   private $profileSetting;
+  private $userPasswordHistoryService;
 
   public function __construct(
     UserApiRepository $user,
@@ -59,6 +60,7 @@ class UserApiController extends BaseApiController
     $this->userRepository = $userRepository;
     $this->settingAsgard = $settingAsgard;
     $this->profileSetting = $profileSetting;
+    $this->userPasswordHistoryService = app("Modules\Iprofile\Services\UserPasswordHistoryService");
   }
 
   /**
@@ -311,11 +313,18 @@ class UserApiController extends BaseApiController
    */
   public function update($criteria, Request $request)
   {
+
+    //\Log::info("Iprofile: UserApiController|Update");
+
     \DB::beginTransaction(); //DB Transaction
     try {
       //Validate permissions
       $this->validatePermission($request, 'profile.user.edit');
       $data = $request->input('attributes');//Get data
+
+      //Get setting from request
+      $requestSetting = json_decode($request->input('setting'));
+
       $params = $this->getParamsRequest($request);//Get Params
 
       //Validate Request
@@ -437,8 +446,12 @@ class UserApiController extends BaseApiController
         $response = ["errors" => $data["email"] . ' | User Name already exist'];
       }
 
+      //Add value from admin
+      if(isset($requestSetting->fromAdmin))
+        $data['fromAdmin'] = $requestSetting->fromAdmin;
+
       //dispatch Event
-      event(new UserUpdatedEvent($user));
+      event(new UserUpdatedEvent($user,$data));
 
       \DB::commit();//Commit to DataBase
     } catch (\Exception $e) {
@@ -459,7 +472,7 @@ class UserApiController extends BaseApiController
    */
   public function changePassword(Request $request)
   {
-      
+
     \DB::beginTransaction(); //DB Transaction
     try {
       //Auth api controller
@@ -475,7 +488,7 @@ class UserApiController extends BaseApiController
       $user = Auth::user();//Get User
 
       //Check if password exist in history
-      //$usedPassword = $this->validateResponseApi($authApiController->checkPasswordHistory($params['newPassword']));
+      $result = $this->userPasswordHistoryService->checkOldPasswords($user,$params);
 
       //Update password
       $userUpdated = $this->validateResponseApi(
