@@ -196,14 +196,19 @@ class AuthApiController extends BaseApiController
           "expiresDate" => $token->token->expires_at,
         ]];
       } else {
-        throw new Exception(is_string($error) ? $error : 'User or Password invalid', 401);
+        throw new Exception(is_string($error) ? $error : 'User or Password invalid', 400);
       }
       
       
     } catch (Exception $e) {
+      /*
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $this->getErrorMessage($e)];
-      if ($e->getMessage() === 'Your account has not been activated yet.') $status = 401;
+      if ($e->getMessage() === 'Your account has not been activated yet.') $status = 400;
+      */
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+
     }
     
     //Return response
