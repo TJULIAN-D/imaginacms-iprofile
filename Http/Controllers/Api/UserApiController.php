@@ -459,6 +459,7 @@ class UserApiController extends BaseApiController
    */
   public function changePassword(Request $request)
   {
+      
     \DB::beginTransaction(); //DB Transaction
     try {
       //Auth api controller
@@ -467,14 +468,14 @@ class UserApiController extends BaseApiController
 
       //Get Parameters from URL.
       $params = $request->input('attributes');
-
+      
       //Try to login and Get Token
       $token = $this->validateResponseApi($authApiController->authAttempt($params));
       $requestLogout->headers->set('Authorization', $token->bearer);//Add token to headers
       $user = Auth::user();//Get User
 
       //Check if password exist in history
-      $usedPassword = $this->validateResponseApi($authApiController->checkPasswordHistory($params['newPassword']));
+      //$usedPassword = $this->validateResponseApi($authApiController->checkPasswordHistory($params['newPassword']));
 
       //Update password
       $userUpdated = $this->validateResponseApi(
@@ -490,13 +491,27 @@ class UserApiController extends BaseApiController
       //Logout token
       $this->validateResponseApi($authApiController->logout($requestLogout));
 
-      //response with userId
-      $response = ['data' => ['userId' => $user->id]];
+      $response['data']["messages"] = [
+          [
+            "mode" => "modal",
+            "type" => "warning",
+            "title" => trans("iprofile::frontend.title.resetPassword"),
+            "message" => trans("iprofile::frontend.messages.password updated"),
+            "persistent" => true,
+            "actions" => [
+              [
+                "label" => trans("iprofile::frontend.title.login"),
+                "toUrl" => url("/iadmin/#/auth/login")
+              ]
+            ]
+          ]
+      ];
+
       \DB::commit();//Commit to DataBase
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
 
     //Return response

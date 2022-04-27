@@ -20,7 +20,7 @@ $router->group(['prefix' => '/users'], function (Router $router) {
     'uses' => 'UserApiController@index',
     'middleware' => ['auth:api']
   ]);
-  $router->put('change-password', [
+  $router->post('change-password', [
     'as' => $locale . 'api.iprofile.change.password',
     'uses' => 'UserApiController@changePassword',
     //'middleware' => ['auth:api']

@@ -100,7 +100,8 @@ return [
   'messages' => [
     'account created' => 'Cuenta creada! ya puedes iniciar sesión',
     "providerEmailEmpty" => "El correo electrónico está vacío, compruebe los permisos de su proveedor (:providerName) para obtener el campo de correo electrónico.",
-    "resetPasswordModal" => 'Hola, debes cambiar la contraseña'
+    "resetPasswordModal" => 'Hola, debes cambiar la contraseña',
+    "password updated" => 'Contraseña actualizada!',
   ]
 
 
