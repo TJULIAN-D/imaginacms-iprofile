@@ -102,6 +102,7 @@ return [
     "providerEmailEmpty" => "El correo electrónico está vacío, compruebe los permisos de su proveedor (:providerName) para obtener el campo de correo electrónico.",
     "resetPasswordModal" => 'Hola, debes cambiar la contraseña',
     "password updated" => 'Contraseña actualizada!',
+    "You already used this password" => "Ya utilizaste esta contraseña",
   ]
 
 

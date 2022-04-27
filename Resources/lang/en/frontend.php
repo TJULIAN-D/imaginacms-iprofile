@@ -102,6 +102,7 @@ return [
     "providerEmailEmpty" => "The Email is empty, check your provider (:providerName) permissions to get the email field.",
     "resetPasswordModal" => 'Hello, You must change the password',
     "password updated" => 'Password Updated!',
+    "You already used this password" => "You already used this password",
   ]
 
 
