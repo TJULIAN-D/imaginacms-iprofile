@@ -29,6 +29,7 @@ return [
     'password confirmation' => 'Password confirmation',
     'stay connect'      => 'Stay connected to this computer.',
     'resetPassword'     => 'Reset Password',
+    'changePassword'     => 'Change Password',
   ],
 
   'form' => [

@@ -29,6 +29,7 @@ return [
     'password confirmation' => 'Confirmacion de Contraseña',
     'stay connect'      => 'Mantenerme conectado a éste computador.',
     'resetPassword'      => 'Restablecer Contraseña',
+    'changePassword'     => 'Cambiar Contraseña',
   ],
 
   'form' => [
