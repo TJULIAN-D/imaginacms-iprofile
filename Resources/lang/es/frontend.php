@@ -104,6 +104,7 @@ return [
     "resetPasswordModal" => 'Hola, debes cambiar la contraseña',
     "password updated" => 'Contraseña actualizada!',
     "You already used this password" => "Ya utilizaste esta contraseña",
+    "You must change the password" => "Debes cambiar la contraseña ya que se encuentra vencida"
   ]
 
 

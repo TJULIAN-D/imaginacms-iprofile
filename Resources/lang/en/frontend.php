@@ -104,6 +104,7 @@ return [
     "resetPasswordModal" => 'Hello, You must change the password',
     "password updated" => 'Password Updated!',
     "You already used this password" => "You already used this password",
+    "You must change the password" => "You must change the password since it is expired"
   ]
 
 
