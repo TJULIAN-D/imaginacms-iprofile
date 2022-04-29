@@ -9,7 +9,9 @@ class UserPasswordHistoryService
 {
 
 	/**
-  	* check old password with setting
+  	* Review history depending on setting
+  	* @param $user
+  	* @param $data - $data['newPassword']
   	*/
   	public function checkOldPasswords($user,$data){
 
