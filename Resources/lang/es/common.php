@@ -3,8 +3,9 @@
 return [
 
   'messages' => [
-    'field required' => 'This field is required',
-    'min 2 characters' => 'Minimum of 2 characters',
+    'field required' => 'Este campo es obligatorio',
+    'min 2 characters' => 'Minimo 2 caracteres',
+    'new password confirmed' => 'El campo de confirmación de Nueva Contraseña no coincide',
   ],
 
   'email' => [
