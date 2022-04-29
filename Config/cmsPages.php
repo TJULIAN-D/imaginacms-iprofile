@@ -141,6 +141,18 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
+    ],
+    "forceChangePassword" => [
+      "permission" => null,
+      "activated" => true,
+      "path" => "/auth/force-change-password",
+      "name" => "auth.change-password",
+      "page" => "quser/_pages/wrapper",
+      "layout" => "qsite/_layouts/blank.vue",
+      "title" => "iprofile.cms.sidebar.resetPassword",
+      "icon" => "fas fa-chart-bar",
+      "authType" => "forceChangePassword",
+      "authenticated" => "true",
     ]
   ]
 ];
