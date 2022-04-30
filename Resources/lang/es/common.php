@@ -5,7 +5,7 @@ return [
   'messages' => [
     'field required' => 'Este campo es obligatorio',
     'min 2 characters' => 'Minimo 2 caracteres',
-    'new password confirmed' => 'El campo de confirmación de Nueva Contraseña no coincide',
+    'new password confirmed' => 'Los campos Nueva Contraseña y Confirmación de Nueva Contraseña no coinciden',
   ],
 
   'email' => [
