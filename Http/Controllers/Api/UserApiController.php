@@ -21,6 +21,8 @@ use Modules\Setting\Contracts\Setting;
 use Modules\Iprofile\Entities\Setting as profileSetting;
 use Modules\Iprofile\Repositories\FieldRepository;
 
+use Modules\Iprofile\Http\Requests\UpdatePasswordRequest;
+
 //Events
 use Modules\Iprofile\Events\UserUpdatedEvent;
 use Modules\Iprofile\Events\UserCreatedEvent;
@@ -40,6 +42,7 @@ class UserApiController extends BaseApiController
   private $settingAsgard;
   private $profileSetting;
   private $userPasswordHistoryService;
+  private $userService;
 
   public function __construct(
     UserApiRepository $user,
@@ -61,6 +64,7 @@ class UserApiController extends BaseApiController
     $this->settingAsgard = $settingAsgard;
     $this->profileSetting = $profileSetting;
     $this->userPasswordHistoryService = app("Modules\Iprofile\Services\UserPasswordHistoryService");
+    $this->userService = app("Modules\Iprofile\Services\UserService");
   }
 
   /**
@@ -212,7 +216,6 @@ class UserApiController extends BaseApiController
    */
   public function create(Request $request)
   {
-
     //\Log::info("Iprofile: UserApiController|Create");
 
     \DB::beginTransaction();
@@ -481,6 +484,9 @@ class UserApiController extends BaseApiController
 
       //Get Parameters from URL.
       $params = $request->input('attributes');
+
+      //Validate Request
+      $this->validateRequestApi(new UpdatePasswordRequest((array)$params));
       
       //Try to login and Get Token
       $token = $this->validateResponseApi($authApiController->authAttempt($params));
@@ -684,6 +690,9 @@ class UserApiController extends BaseApiController
 
       // Default change password
       $shouldChangePassword = false;
+
+      //Default description
+      $description = trans("iprofile::frontend.messages.You must change the password");
      
       // User has password history (Only if was Generated from the frontend)
       if(!empty($lastPasswordHistory)){
@@ -698,21 +707,27 @@ class UserApiController extends BaseApiController
           $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
 
           // 0 is (Never update)
-          if($settingDays!=0 && $diff>=$settingDays)
+          if($settingDays!=0 && $diff>=$settingDays){
             $shouldChangePassword = true;
+          }
 
       }else{
 
         // User was created from the iadmin and has never been logged in
         // Only first time
-        if(is_null($user->last_login)){
+        //if(is_null($user->last_login)){
           $shouldChangePassword = true;
-        }
+        //}
 
       }
 
+      // Get Workspace User
+      $workspace = $this->userService->getUserWorkspace($user);
+
       // Response
       $response['data']['shouldChangePassword'] = $shouldChangePassword;
+      if($shouldChangePassword)
+        $response['data']['description'] = $description;
 
       // Response Messages like modal
       if($shouldChangePassword){
@@ -720,13 +735,13 @@ class UserApiController extends BaseApiController
           [
             "mode" => "modal",
             "type" => "warning",
-            "title" => trans("iprofile::frontend.title.resetPassword"),
+            "title" => trans("iprofile::frontend.title.changePassword"),
             "message" => trans("iprofile::frontend.messages.resetPasswordModal"),
             "persistent" => true,
             "actions" => [
               [
-                "label" => trans("iprofile::frontend.title.resetPassword"),
-                "toUrl" => url("/iadmin/#/auth/reset")
+                "label" => trans("iprofile::frontend.title.changePassword"),
+                "toUrl" => url("/{$workspace}/#/auth/force-change-password")
               ]
             ]
           ]
