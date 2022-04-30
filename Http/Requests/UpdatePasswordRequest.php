@@ -11,8 +11,8 @@ class UpdatePasswordRequest extends BaseFormRequest
         return [
             'email' => 'required',
             'password' => 'required',
-            'newPassword' => 'required|min:3|confirmed',
-            'newPasswordConfirmation' => 'required'
+            'newPassword' => 'required|min:3',
+            'newPasswordConfirmation' => 'required|same:newPassword'
         ];
     }
 
@@ -32,8 +32,8 @@ class UpdatePasswordRequest extends BaseFormRequest
             'email.required' => trans('iprofile::common.messages.field required'),
             'password.required' => trans('iprofile::common.messages.field required'),
             'newPassword.required' => trans('iprofile::common.messages.field required'),
-            'newPassword.confirmed' => trans('iprofile::common.messages.new password confirmed'),
             'newPasswordConfirmation.required' => trans('iprofile::common.messages.field required'),
+            'newPasswordConfirmation.same' => trans('iprofile::common.messages.new password confirmed'),
         ];
     }
 
