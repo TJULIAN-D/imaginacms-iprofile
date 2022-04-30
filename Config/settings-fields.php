@@ -346,6 +346,19 @@ return [
       ],
     ]
   ],
+  //Register Users
+  'logoutIdlTime' => [
+    'name' => 'iprofile::logoutIdlTime',
+    'value' => '0',
+    'type' => 'input',
+    'help' => [
+      'description' => 'iprofile::settings.logoutIdlTime.helpText'
+    ],
+    'props' => [
+      'type' => "number",
+      'label' => 'iprofile::settings.logoutIdlTime.label'
+    ],
+  ],
 
   //==== Auth settings
   //Auth banner
@@ -446,11 +459,11 @@ return [
     'props' => [
       'label' => 'iprofile::settings.passwordExpiredTime',
       'options' => [
-        ['label' => 'iprofile::settings.expiredTime.never','value' => '0'],
-        ['label' => 'iprofile::settings.expiredTime.1 week','value' => '7'],
-        ['label' => 'iprofile::settings.expiredTime.1 month','value' => '30'],
-        ['label' => 'iprofile::settings.expiredTime.3 months','value' => '90'],
-        ['label' => 'iprofile::settings.expiredTime.1 year','value' => '365']
+        ['label' => 'iprofile::settings.expiredTime.never', 'value' => '0'],
+        ['label' => 'iprofile::settings.expiredTime.1 week', 'value' => '7'],
+        ['label' => 'iprofile::settings.expiredTime.1 month', 'value' => '30'],
+        ['label' => 'iprofile::settings.expiredTime.3 months', 'value' => '90'],
+        ['label' => 'iprofile::settings.expiredTime.1 year', 'value' => '365']
       ]
     ],
   ],

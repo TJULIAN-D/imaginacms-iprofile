@@ -65,7 +65,8 @@ return [
     "privacyData" => "I declare that I have read and accept {concatData} of {siteName}",
     "termsAndConditions" => "Terms and Conditions",
     "privacyPolicy" => "Privacy Policy",
-    "resetPasswordRequested" => "check your email to restore your password please"
+    "resetPasswordRequested" => "check your email to restore your password please",
+    "logoutIdlTime" => "Your session has been logged out due to inactivity. Please log in again"
   ],
   "quickCard" => [
     "lastUsers" => "Users - Last registered users"

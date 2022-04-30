@@ -32,7 +32,7 @@ return [
   'yes' => 'Yes',
   'no' => 'No',
   'passwordExpiredTime' => 'Password expired time',
-  'expiredTime' =>[
+  'expiredTime' => [
     'never' => 'Never',
     '1 week' => '1 week',
     '1 month' => '1 month',
@@ -63,5 +63,9 @@ return [
     "company" => 'Company',
     "zipCode" => 'Zipcode',
     "extraInfo" => 'Additional Information',
+  ],
+  'logoutIdlTime' => [
+    'label' => "Logout due to inactivity (minutes)",
+    'helpText' => "Define the number of minutes, to close the session due to inactivity. If the value is less than 1, the session will not be closed due to inactivity"
   ]
 ];

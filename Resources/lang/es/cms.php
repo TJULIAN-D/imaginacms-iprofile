@@ -67,7 +67,8 @@ return [
     "privacyData" => "Declaro que he leído y acepto {concatData} de <b>{siteName}</b>",
     "termsAndConditions" => "Terminos y Condiciones",
     "privacyPolicy" => "Politica de Privacidad",
-    "resetPasswordRequested" => "Revisa tu email para recuperar tu contraseña"
+    "resetPasswordRequested" => "Revisa tu email para recuperar tu contraseña",
+    "logoutIdlTime" => "La sesión se ha cerrado por inactividad. Por favor inicia sesión de nuevo"
   ],
   "quickCard" => [
     "lastUsers" => "Usuarios - Ultimos usuarios registrados"

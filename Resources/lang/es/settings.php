@@ -33,7 +33,7 @@ return [
   'yes' => 'Si',
   'no' => 'No',
   'passwordExpiredTime' => 'Tiempo de expiración para la contraseña',
-  'expiredTime' =>[
+  'expiredTime' => [
     'never' => 'Nunca',
     '1 week' => '1 semana',
     '1 month' => '1 mes',
@@ -64,5 +64,9 @@ return [
     "company" => 'Compañia',
     "zipCode" => 'Codigo Zip',
     "extraInfo" => 'Información Adicional',
+  ],
+  'logoutIdlTime' => [
+    'label' => "Cerrar sesión por inactividad (minutos)",
+    'helpText' => "Define el numero de minutos, para cerrar la sesión por inactividad. Si el valor es menor a 1, no se cerrara la sesión por inactividad"
   ]
 ];
