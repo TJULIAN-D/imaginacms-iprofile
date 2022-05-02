@@ -723,7 +723,8 @@ class UserApiController extends BaseApiController
       }
 
       // Get Workspace User
-      $workspace = $this->userService->getUserWorkspace($user);
+      //$workspace = $this->userService->getUserWorkspace($user);
+      $workspace = "iadmin";
 
       // Response
       $response['data']['shouldChangePassword'] = $shouldChangePassword;
