@@ -685,9 +685,6 @@ class UserApiController extends BaseApiController
 
       $user = Auth::user();
 
-      // Get last history
-      $lastPasswordHistory = UserPasswordHistory::where('user_id',$user->id)->latest()->first();
-
       // Default change password
       $shouldChangePassword = false;
 
@@ -697,32 +694,37 @@ class UserApiController extends BaseApiController
       // Get setting days
       $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
 
-      // User has password history (Only if was Generated from the frontend)
-      if(!empty($lastPasswordHistory)){
+      // 0 is (Never update)
+      if($settingDays!=0){
 
-          //Get diference in days
+        // Get last history
+        $lastPasswordHistory = UserPasswordHistory::where('user_id',$user->id)->latest()->first();
+
+        // User has password history
+        if(!empty($lastPasswordHistory)){
+          
+          
           $datePassword = $lastPasswordHistory->created_at->format("Y-m-d");
           $date = Carbon::parse($datePassword);
+
           $now = Carbon::now();
 
+          //Get diference in days
           $diff = $date->diffInDays($now);
 
-          // 0 is (Never update)
-          if($settingDays!=0 && $diff>=$settingDays){
+          if($diff>=$settingDays)
             $shouldChangePassword = true;
-          }
+          
 
-      }else{
+        }else{
 
-        // User was created from the iadmin and has never been logged in
-        // Only first time
-        //if(is_null($user->last_login)){
-          //$shouldChangePassword = true;
-        //}
+          //The user has no history so he is forced to change and it will be saved in the history
+          $shouldChangePassword = true;
+
+        }
 
       }
 
-    
       // Response
       $response['data']['shouldChangePassword'] = $shouldChangePassword;
       if($shouldChangePassword)
