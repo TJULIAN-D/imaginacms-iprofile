@@ -722,10 +722,7 @@ class UserApiController extends BaseApiController
 
       }
 
-      // Get Workspace User
-      //$workspace = $this->userService->getUserWorkspace($user);
-      $workspace = "iadmin";
-
+    
       // Response
       $response['data']['shouldChangePassword'] = $shouldChangePassword;
       if($shouldChangePassword)
@@ -733,6 +730,10 @@ class UserApiController extends BaseApiController
 
       // Response Messages like modal
       if($shouldChangePassword){
+
+        // Get Workspace User
+        $workspace = $this->userService->getUserWorkspace($user);
+        
         $response['data']["messages"] = [
           [
             "mode" => "modal",

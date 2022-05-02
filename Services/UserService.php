@@ -25,12 +25,12 @@ class UserService
      	// Search Workspace user in setting by role
 	    $resultQuery = ProfileSetting::where("entity_name","role")
 	    ->where("related_id",$userRoleId)
-	    ->where("name","workSpace")->first()->value;
+	    ->where("name","workSpace")->first();
 
 	    if(!empty($resultQuery) && !is_null($resultQuery))
-	    	$workspace = $resultQuery;
+	    	$workspace = $resultQuery->value;
 	    
-
+	    // return data 
 	    return $workspace;
 
   	}
