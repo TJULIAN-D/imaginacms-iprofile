@@ -694,6 +694,9 @@ class UserApiController extends BaseApiController
       //Default description
       $description = trans("iprofile::frontend.messages.You must change the password");
      
+      // Get setting days
+      $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
+
       // User has password history (Only if was Generated from the frontend)
       if(!empty($lastPasswordHistory)){
 
@@ -703,8 +706,6 @@ class UserApiController extends BaseApiController
           $now = Carbon::now();
 
           $diff = $date->diffInDays($now);
-
-          $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
 
           // 0 is (Never update)
           if($settingDays!=0 && $diff>=$settingDays){
@@ -716,7 +717,7 @@ class UserApiController extends BaseApiController
         // User was created from the iadmin and has never been logged in
         // Only first time
         //if(is_null($user->last_login)){
-          $shouldChangePassword = true;
+          //$shouldChangePassword = true;
         //}
 
       }
