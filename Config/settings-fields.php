@@ -486,6 +486,7 @@ return [
   'tenantWithCentralData' => [
     'value' => [],
     'name' => 'iprofile::tenantWithCentralData',
+    "onlySuperAdmin" => true,
     'groupName' => 'tenantConfiguration',
     'groupTitle' => 'iprofile::common.settings.tenant.group',
     'type' => 'select',
