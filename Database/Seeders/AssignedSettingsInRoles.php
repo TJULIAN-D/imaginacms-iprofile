@@ -20,25 +20,31 @@ class AssignedSettingsInRoles extends Seeder
     $settingsRepository = app("Modules\Setting\Repositories\SettingRepository");
     $roles = $rolesRepository->getItemsBy();
     $data = [];
+    $translatableSettings=[];
+    $plainSettings=[];
 
     $modulesWithSettings = $settingsRepository->moduleSettings($module->allEnabled());
+
     foreach ($modulesWithSettings as $key => $module) {
+      $translatableSettings[$key] = $settingsRepository->translatableModuleSettings($key);
       $plainSettings[$key] = $settingsRepository->plainModuleSettings($key);
     }
-    $settings = json_decode(json_encode($plainSettings));
 
+    $mergedSettings = array_merge_recursive($translatableSettings, $plainSettings);
+
+    $modules = json_decode(json_encode($mergedSettings));
+
+    foreach ($modules as $key => $module) {
+      $moduleName = strtolower($key);
+      foreach ($module as $key => $setting) {
+        if (isset($setting) && isset($setting->onlySuperAdmin) && $setting->onlySuperAdmin == false) {
+          $settingAssigned = $moduleName . '::' . $key;
+          array_push($data, $settingAssigned);
+        }
+      }
+    }
     foreach ($roles as $role) {
       if (isset($role->slug) && $role->slug != 'super-admin') {
-        foreach ($settings as $key => $setting) {
-          $moduleName = strtolower($key);
-          foreach ($setting as $key => $settingsModules) {
-            if (isset($settingsModules) && isset($settingsModules->onlySuperAdmin) && $settingsModules->onlySuperAdmin == false) {
-              $settingName = $key;
-              $settingAssigned = $moduleName . '::' . $settingName;
-              array_push($data, $settingAssigned);
-            }
-          }
-        }
         // Update or create the setting
         Setting::updateOrCreate(
           ['related_id' => $role->id, 'entity_name' => 'role', 'name' => 'assignedSettings'],
