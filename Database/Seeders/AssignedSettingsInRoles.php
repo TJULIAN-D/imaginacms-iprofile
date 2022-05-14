@@ -43,7 +43,6 @@ class AssignedSettingsInRoles extends Seeder
         }
       }
     }
-dd($data);
     foreach ($roles as $role) {
       if (isset($role->slug) && $role->slug != 'super-admin') {
         // Update or create the setting
