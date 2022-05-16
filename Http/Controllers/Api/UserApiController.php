@@ -142,6 +142,9 @@ class UserApiController extends BaseApiController
    */
   public function register(Request $request)
   {
+    
+    //\Log::info("Iprofile:: UserApiController|Register");
+
     try {
       $data = (object)$request->input('attributes');//Get data from request
 
@@ -199,6 +202,8 @@ class UserApiController extends BaseApiController
       //Response and especific if user required check email
       $response = ["data" => ['checkEmail' => (int)$validateEmail ? true : false]];
     } catch (\Exception $e) {
+      \Log::error("Iprofile:: UserApiController|Register: ".$e->getMessage());
+      //dd($e);
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
