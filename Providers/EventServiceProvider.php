@@ -10,15 +10,18 @@ use Modules\Iprofile\Events\UserUpdatedEvent;
 
 //Handlers
 use Modules\Iprofile\Events\Handlers\CreateUserPasswordHistory;
+use Modules\Iprofile\Events\Handlers\CreateQrByDepartments;
 
 class EventServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        UserCreatedEvent::class => [
-            CreateUserPasswordHistory::class
-        ],
-        UserUpdatedEvent::class => [
-            CreateUserPasswordHistory::class
-        ]
-    ];
+  protected $listen = [
+    UserCreatedEvent::class => [
+      CreateUserPasswordHistory::class,
+      CreateQrByDepartments::class
+    ],
+    UserUpdatedEvent::class => [
+      CreateUserPasswordHistory::class,
+      CreateQrByDepartments::class
+    ],
+  ];
 }
