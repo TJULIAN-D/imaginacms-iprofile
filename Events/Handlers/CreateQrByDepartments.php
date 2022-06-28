@@ -29,12 +29,13 @@ class CreateQrByDepartments
 
   public function __construct()
   {
-    $this->qrService = app("Modules\Qreable\Services\QrService");
+
   }
 
   public function handle($event)
   {
     if(is_module_enabled('Qreable')){
+      $this->qrService = app("Modules\Qreable\Services\QrService");
       try {
         $user = $event->user;
         $departments = $user->departments;
