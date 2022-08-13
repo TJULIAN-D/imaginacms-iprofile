@@ -3,7 +3,7 @@
 namespace Modules\Iprofile\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 
 use Log;
 use Mockery\CountValidator\Exception;
@@ -71,7 +71,13 @@ class VcardController extends AdminBaseController
 //    return $vcard->getOutput();
 
     // return vcard as a download
-    return $vcard->download();
+    //return $vcard->download();
+  
+    return Response::make(
+      $vcard->getOutput(),
+      200,
+      $vcard->getHeaders(true)
+    );
   }
 
 }
