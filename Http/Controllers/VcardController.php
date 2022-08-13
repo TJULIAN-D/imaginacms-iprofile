@@ -19,7 +19,7 @@ use Modules\User\Contracts\Authentication;
 
 //**** Vcard
 use JeroenDesloovere\VCard\VCard;
-
+use Illuminate\Support\Facades\Storage;
 class VcardController extends AdminBaseController
 {
 
@@ -59,14 +59,17 @@ class VcardController extends AdminBaseController
     $vcard->addRole($user->settings->where("name", "jobRole")->first()->value ?? "");
     $vcard->addEmail($user->settings->where("name", "jobEmail")->first()->value ?? $user->email);
     $vcard->addPhoneNumber($user->settings->where("name", "jobMobile")->first()->value ?? "", 'PREF;WORK');
-
-//    $defaultImage = 'modules/iprofile/img/default.jpg';
-//    $mainImage = !$user->fields->isEmpty() ? $user->fields->where('name', 'mainImage')->first() : null;
-//    if (!is_null($mainImage)) {
-//      $vcard->addPhoto(url('/' . $mainImage->value));
-//    } else {
-//      $vcard->addPhoto(url('/' . $defaultImage));
-//    }
+    
+    $defaultImage = 'modules/iprofile/img/default.jpg';
+    $mainImage = !$user->fields->isEmpty() ? $user->fields->where('name', 'mainImage')->first() : null;
+    
+    if (!is_null($mainImage)) {
+      $contents = Storage::disk("publicmedia")->path($mainImage->value->getRelativeUrl());
+      $vcard->addPhoto($contents);
+    } else {
+      $contents = Storage::disk("publicmedia")->path($defaultImage);
+      $vcard->addPhoto(url($defaultImage));
+    }
 
 //    return $vcard->getOutput();
 
