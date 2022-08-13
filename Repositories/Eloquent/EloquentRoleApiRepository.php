@@ -72,7 +72,7 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
       }
     }
 
-    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]"));
+    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]",true));
     $tenantWithCentralData = in_array("roles",$entitiesWithCentralData);
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
@@ -125,7 +125,7 @@ class EloquentRoleApiRepository extends EloquentBaseRepository implements RoleAp
         $field = $filter->field;
     }
 
-    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]"));
+    $entitiesWithCentralData = json_decode(setting("iprofile::tenantWithCentralData",null,"[]",true));
     $tenantWithCentralData = in_array("roles",$entitiesWithCentralData);
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
