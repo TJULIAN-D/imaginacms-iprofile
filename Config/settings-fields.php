@@ -504,4 +504,17 @@ return [
       ]
     ]
   ],
+  
+  //Allow local login
+  'allowLocalLogin' => [
+    "onlySuperAdmin" => true,
+    'name' => 'iprofile::allowLocalLogin',
+    'value' => "1",
+    'type' => 'checkbox',
+    'props' => [
+      'trueValue' => "1",
+      'falseValue' => "0",
+      'label' => 'iprofile::settings.allowLocalLogin'
+    ],
+  ],
 ];

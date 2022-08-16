@@ -15,6 +15,7 @@ return [
   ],
   'registerUsers' => 'Usuarios se pueden registrar',
   'allowResetPassword' => 'Permitir recuperar contraseña en el login',
+  'allowLocalLogin' => 'Permitir login local',
   'validateRegisterWithEmail' => 'Validar registro por email',
   'adminNeedsToActivateNewUsers' => 'El administrador necesita activar los usuarios',
   'registerUsersWithSocialNetworks' => 'Permitir registro con redes sociales',
