@@ -47,6 +47,7 @@ return [
     'documentType' => 'Tipo de Documento',
     'documentNumber' => 'Número de Documento',
     'extraInfo' => 'Información Extra',
+    'email' => 'Correo Electronico'
   ],
   'messages' => [
     "created" => "Dirección creada exitosamente"

@@ -42,6 +42,7 @@ return [
     'documentType' => 'Document Type',
     'documentNumber' => 'Document Number',
     'extraInfo' => 'Extra Info',
+    'email' => 'Email'
   ],
   'messages' => [
     "created" => "Address created successfully"
