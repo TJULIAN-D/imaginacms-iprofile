@@ -66,5 +66,9 @@ return [
       "min" => "5 digits minimum",
       "max" => "10 digits maximum",
     ],
+    'alerts' => [
+      'invalid_data' => 'invalid information',
+      'missing_fields' => 'Required fields are missing, fill out and send again',
+    ],
   ],
 ];

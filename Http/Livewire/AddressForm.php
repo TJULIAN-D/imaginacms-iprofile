@@ -21,6 +21,7 @@ class AddressForm extends Component
   public $withButtonSubmit;
   public $livewireEvent;
   public $shopAsGuest;
+  public $addressGuest;
 
   protected $addressesExtraFields;
   protected $rules;
@@ -32,7 +33,7 @@ class AddressForm extends Component
    * @return void
    */
   public function mount($embedded = false, $route = false, $type = null, $openInModal = false,
-                        $withButtonSubmit = true, $livewireEvent = null)
+                        $withButtonSubmit = true, $livewireEvent = null, $addressGuest = [])
   {
     $this->embedded = $embedded;
     $this->openInModal = $openInModal;
@@ -40,6 +41,7 @@ class AddressForm extends Component
     $this->type = $type;
     $this->withButtonSubmit = $withButtonSubmit;
     $this->livewireEvent = $livewireEvent;
+    $this->addressGuest = $addressGuest;
     $this->shopAsGuest = false;
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
     $this->initUser();
@@ -51,10 +53,20 @@ class AddressForm extends Component
 
   public function addressEmit()
   {
-    $this->validate($this->setRules(),$this->setMessages());
-    $this->initCities();
-    $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
-    $this->emit($this->livewireEvent, $this->address);
+    try {
+      $this->validate($this->setRules(), $this->setMessages());
+      $this->initCities();
+      $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
+      $this->emit($this->livewireEvent, $this->address);
+    }catch (\Illuminate\Validation\ValidationException $e) {
+      // Do your thing and use $validator here
+      $validator = $e->validator;
+
+      $this->alert('warning', trans("iprofile::addresses.validation.alerts.invalid_data"), config("asgard.isite.config.livewireAlerts"));
+
+      // Once you're done, re-throw the exception
+      throw $e;
+    }
   }
 
   public function updated($name, $value)
@@ -79,13 +91,23 @@ class AddressForm extends Component
 
   public function save()
   {
-    $this->validate($this->setRules(), $this->setMessages());
-    $this->address["user_id"] = \Auth::user()->id ?? null;
-    $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
-    $address = $this->addressRepository()->create($this->address);
-    $this->emit('addressAdded', $address);
-    $this->initAddress();
-    $this->alert('success', trans('iprofile::addresses.messages.created'), config("asgard.isite.config.livewireAlerts"));
+    try {
+      $this->validate($this->setRules(), $this->setMessages());
+      $this->address["user_id"] = \Auth::user()->id ?? null;
+      $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
+      $address = $this->addressRepository()->create($this->address);
+      $this->emit('addressAdded', $address);
+      $this->initAddress();
+      $this->alert('success', trans('iprofile::addresses.messages.created'), config("asgard.isite.config.livewireAlerts"));
+    } catch (\Illuminate\Validation\ValidationException $e) {
+      // Do your thing and use $validator here
+      $validator = $e->validator;
+
+      $this->alert('warning', trans("iprofile::addresses.validation.alerts.invalid_data"), config("asgard.isite.config.livewireAlerts"));
+
+      // Once you're done, re-throw the exception
+      throw $e;
+    }
   }
 
 
@@ -183,21 +205,21 @@ class AddressForm extends Component
         $options[$extraField->field] = "";
       }
     }
-
     $this->address = [
-      'first_name' => "",
-      'last_name' => "",
-      'address_1' => "",
-      'telephone' => "",
-      'country' => "",
-      'country_id' => "",
-      'state' => "",
-      'city' => "",
-      'city_id' => "",
-      'default' => false,
-      'user_id' => $this->user->id ?? null,
-      'type' => $this->type,
-      'options' => $options
+      'first_name' => $this->addressGuest['first_name'] ?? "",
+      'last_name' => $this->addressGuest['last_name'] ?? "",
+      'address_1' => $this->addressGuest['address_1'] ?? "",
+      'telephone' => $this->addressGuest['telephone'] ?? "",
+      'country' => $this->addressGuest['country'] ?? "",
+      'country_id' => $this->addressGuest['country_id'] ?? "",
+      'state_id' => $this->addressGuest['state_id'] ?? "",
+      'state' => $this->addressGuest['state'] ?? "",
+      'city' => $this->addressGuest['city'] ?? "",
+      'city_id' => $this->addressGuest['city_id'] ?? "",
+      'default' => $this->addressGuest['default'] ?? false,
+      'user_id' => $this->addressGuest['user_id'] ?? $this->user->id ?? null,
+      'type' => $this->addressGuest['type'] ?? $this->type,
+      'options' => $this->addressGuest['options'] ?? $options
     ];
   }
 
