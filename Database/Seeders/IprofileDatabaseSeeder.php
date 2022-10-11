@@ -15,6 +15,7 @@ class IprofileDatabaseSeeder extends Seeder
    */
   public function run()
   {
+    $this->call(IprofileModuleTableSeeder::class);
     $this->call(DepartmentTableSeeder::class);
     $this->call(UserDepartmentTableSeeder::class);
     $this->call(RolePermissionsSeeder::class);
