@@ -504,7 +504,6 @@ return [
       ]
     ]
   ],
-  
   //Allow local login
   'allowLocalLogin' => [
     "onlySuperAdmin" => true,
@@ -515,6 +514,21 @@ return [
       'trueValue' => "1",
       'falseValue' => "0",
       'label' => 'iprofile::settings.allowLocalLogin'
+    ],
+  ],
+  'customLogin' => [
+    'name' => 'iprofile::customLogin',
+    'value' => [],
+    'type' => 'select',
+    'props' => [
+      'label' => 'Ingrese una opcion como ingreso al sistema',
+      'multiple' => true,
+      'useChips' => true,
+      'hideDropdownIcon' => true,
+      'options' => [
+        ['label' => 'Correo Electronico', 'value' => 'email'],
+        ['label' => 'Nombre De Usuario', 'value' => 'user_name']
+      ]
     ],
   ],
 ];
