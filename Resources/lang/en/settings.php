@@ -33,6 +33,9 @@ return [
   'yes' => 'Yes',
   'no' => 'No',
   'passwordExpiredTime' => 'Password expired time',
+  'labelCustomLogin' => 'Columns to allow Login',
+  'optionMailCustomLogin' => 'Email',
+  'optionUserNameCustomLogin' => 'Username',
   'expiredTime' => [
     'never' => 'Never',
     '1 week' => '1 week',

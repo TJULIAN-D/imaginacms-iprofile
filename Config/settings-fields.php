@@ -521,13 +521,13 @@ return [
     'value' => [],
     'type' => 'select',
     'props' => [
-      'label' => 'Ingrese una opcion como ingreso al sistema',
+      'label' => 'iprofile::settings.labelCustomLogin',
       'multiple' => true,
       'useChips' => true,
       'hideDropdownIcon' => true,
       'options' => [
-        ['label' => 'Correo Electronico', 'value' => 'email'],
-        ['label' => 'Nombre De Usuario', 'value' => 'user_name']
+        ['label' => 'iprofile::settings.optionMailCustomLogin', 'value' => 'email'],
+        ['label' => 'iprofile::settings.optionUserNameCustomLogin', 'value' => 'user_name']
       ]
     ],
   ],
