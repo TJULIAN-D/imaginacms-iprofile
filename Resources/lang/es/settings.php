@@ -34,6 +34,9 @@ return [
   'yes' => 'Si',
   'no' => 'No',
   'passwordExpiredTime' => 'Tiempo de expiración para la contraseña',
+  'labelCustomLogin' => 'Columnas para permitir Login',
+  'optionMailCustomLogin' => 'Correo Electrónico',
+  'optionUserNameCustomLogin' => 'Nombre De Usuario',
   'expiredTime' => [
     'never' => 'Nunca',
     '1 week' => '1 semana',
