@@ -65,7 +65,6 @@ class AuthApiController extends BaseApiController
     try {
       $credentials = [ //Get credentials
         'email' => $request->input('username'),
-        'user_name' => $request->input('username'),
         'password' => $request->input('password')
       ];
       
