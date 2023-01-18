@@ -225,7 +225,9 @@ class AddressForm extends Component
 
   private function initCountries()
   {
-    $params = [];
+    $params = [
+      "filter"=> ["order" => ["way"=> "asc", "field" => "name"]]
+    ];
     $this->countries = $this->countryRepository()->getItemsBy(json_decode(json_encode($params)));
     if ($this->countries->count() == 1) {
       $this->address["country"] = $this->countries->first()->iso_2;
@@ -236,7 +238,7 @@ class AddressForm extends Component
   private function initProvinces()
   {
     if (isset($this->address["country_id"])) {
-      $params = ["filter" => ["countryId" => $this->address["country_id"] ?? null]];
+      $params = ["filter" => ["countryId" => $this->address["country_id"] ?? null,"order" => ["way"=> "asc", "field" => "name"]]];
       $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
       $this->provinces = collect([]);
@@ -246,7 +248,7 @@ class AddressForm extends Component
   private function initCities()
   {
     if (isset($this->address["state_id"])) {
-      $params = ["filter" => ["provinceId" => $this->address["state_id"] ?? null]];
+      $params = ["filter" => ["provinceId" => $this->address["state_id"] ?? null,"order" => ["way"=> "asc", "field" => "name"]]];
       $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
       $this->cities = collect([]);
