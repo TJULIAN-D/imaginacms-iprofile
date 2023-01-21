@@ -27,7 +27,7 @@ return [
     "address" => "Address",
     "phone" => "Phone",
     "city" => "City",
-    "state" => "Province",
+    "state" => "Province/State",
     "country" => "Country",
     "select_country" => "Select a country",
     "select_province" => "Select a province",
