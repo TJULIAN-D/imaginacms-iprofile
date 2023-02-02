@@ -32,14 +32,6 @@
         }
     ],
     "extra": {
-        "laravel": {
-            "providers": [
-                "Modules\\Iprofile\\Providers\\IprofileServiceProvider"
-            ],
-            "aliases": {
-
-            }
-        },
         "branch-alias": {
             "dev-master": "4.0.x-dev",
             "dev-v8.x": "8.0.x-dev"
