@@ -36,7 +36,7 @@
                   <input class="form-control" type="text"
                          id="paymentFirstname"
                          wire:model.defer="address.first_name">
-                  {!! $errors->first("address.first_name", '<span class="help-block">:message</span>') !!}
+                  {!! $errors->first("address.first_name", '<span class="help-block text-danger">:message</span>') !!}
 
                 </div>
                 <div class="col pl-1">
@@ -44,7 +44,7 @@
                   <input class="form-control" type="text"
                          id="paymentLastname"
                          wire:model.defer="address.last_name">
-                  {!! $errors->first("address.last_name", '<span class="help-block">:message</span>') !!}
+                  {!! $errors->first("address.last_name", '<span class="help-block text-danger">:message</span>') !!}
                 </div>
 
               </div>
@@ -54,7 +54,7 @@
                 <input class="form-control" type="text"
                        id="paymentAddress1"
                        wire:model.defer="address.address_1">
-                {!! $errors->first("address.address_1", '<span class="help-block">:message</span>') !!}
+                {!! $errors->first("address.address_1", '<span class="help-block text-danger">:message</span>') !!}
               </div>
               <div class="form-group">
                 <label for="payment_telephone">{{ trans('iprofile::addresses.form.telephone') }}</label>
@@ -62,7 +62,7 @@
                        class="form-control"
                        id="paymentTelephone"
                        wire:model.defer="address.telephone">
-                {!! $errors->first("address.telephone", '<span class="help-block">:message</span>') !!}
+                {!! $errors->first("address.telephone", '<span class="help-block text-danger">:message</span>') !!}
               </div>
 
               <div class="form-group">
@@ -75,7 +75,7 @@
                     <option value="{{$country->iso_2}}">{{ $country->name }}</option>
                   @endforeach
                 </select>
-                {!! $errors->first("address.country", '<span class="help-block">:message</span>') !!}
+                {!! $errors->first("address.country", '<span class="help-block text-danger">:message</span>') !!}
               </div>
 
 
@@ -93,7 +93,7 @@
                   @endforeach
                 </select>
 
-                {!! $errors->first("address.state", '<span class="help-block">:message</span>') !!}
+                {!! $errors->first("address.state", '<span class="help-block text-danger">:message</span>') !!}
               </div>
 
               <div class="form-group">
@@ -109,7 +109,7 @@
                     <option value="{{$city->id}}">{{ $city->name }}</option>
                   @endforeach
                 </select>
-                {!! $errors->first("address.state", '<span class="help-block">:message</span>') !!}
+                {!! $errors->first("address.state", '<span class="help-block text-danger">:message</span>') !!}
               </div>
 
 
@@ -155,7 +155,7 @@
 
                           @endforeach {{--- end foreach options --}}
                         </select>
-                        {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
 
                   </div>
                   {{-- DocumentNumber input --}}
@@ -169,13 +169,13 @@
                            max="9999999999"
                            class="form-control"
                            wire:model.defer="address.options.documentNumber"/>
-                    {!! $errors->first("address.options.documentNumber", '<span class="help-block">:message</span>') !!}
+                    {!! $errors->first("address.options.documentNumber", '<span class="help-block text-danger">:message</span>') !!}
                     @else
                       <input id="{{$extraField->field}}"
                              type="{{$extraField->type}}"
                              class="form-control"
                              wire:model.defer="address.options.{{$extraField->field}}"/>
-                      {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
+                      {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
                     @endif
                     @else
                       {{-- if is select --}}
@@ -206,7 +206,7 @@
 
                           @endforeach {{--- end foreach options --}}
                         </select>
-                        {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
                       @else
                         {{-- if is textarea --}}
                         @if($extraField->type == "textarea")
@@ -215,7 +215,7 @@
                                     wire:model.defer="address.options.{{$extraField->field}}"
                                     class="form-control" cols="30"
                                     rows="3"></textarea>
-                          {!! $errors->first("address.options.$extraField->field", '<span class="help-block">:message</span>') !!}
+                          {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
                         @endif {{--- end if is textarea --}}
                       @endif {{-- end if is select --}}
                     @endif {{-- end if is generic input --}}
