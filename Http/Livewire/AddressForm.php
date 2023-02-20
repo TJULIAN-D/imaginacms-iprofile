@@ -130,7 +130,7 @@ class AddressForm extends Component
   private function setRules()
   {
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
-    $rules = [];
+    $extraFieldRules = [];
     foreach ($this->addressesExtraFields as $extraField) {
       $rule = "";
       switch ($extraField->type) {
@@ -142,7 +142,7 @@ class AddressForm extends Component
           break;
         case 'documentType':
           $rule = "string";
-          $rules = array_merge($rules, ["address.options.documentNumber" => $rule . ($extraField->required ? "|required|min:6|max:10" : "")]);
+          $extraFieldRules = array_merge($extraFieldRules, ["address.options.documentNumber" => $rule . ($extraField->required ? "|required|min:6|max:10" : "")]);
 
           break;
         case 'textarea':
@@ -153,7 +153,7 @@ class AddressForm extends Component
         $rule .= "|required";
       }
       if ($extraField->active) {
-        $rules = array_merge($rules, ["address.options." . $extraField->field => $rule]);
+        $extraFieldRules = array_merge($extraFieldRules, ["address.options." . $extraField->field => $rule]);
       }
     }
 
@@ -166,7 +166,7 @@ class AddressForm extends Component
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
-      'address.type' => 'string'], $rules);
+      'address.type' => 'string'], $extraFieldRules);
 
   }
 
