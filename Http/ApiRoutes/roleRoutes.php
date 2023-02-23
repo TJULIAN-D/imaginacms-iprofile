@@ -13,6 +13,7 @@ $router->group(['prefix' => '/roles'], function (Router $router) {
   $router->get('/', [
     'as' => $locale . 'api.iprofile.roles.index',
     'uses' => 'RoleApiController@index',
+    'middleware' => ['auth:api']
   ]);
   $router->put('/{criteria}', [
     'as' => $locale . 'api.iprofile.roles.update',

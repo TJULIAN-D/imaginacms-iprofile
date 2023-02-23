@@ -68,9 +68,9 @@ class UserMenu extends Component
               $routeWithLocale = $locale . '.' . $moduleLink['routeName'];
               if (Route::has($routeWithLocale))
                 $moduleLink['url'] = \URL::route($routeWithLocale);
-              else if($moduleLink['routeName'])
+              else if($moduleLink['routeName'] && Route::has($moduleLink['routeName']))
                 $moduleLink['url'] = \URL::route($moduleLink['routeName']);
-                else if (!Route::has($moduleLink['routeName']))
+                else
                 $moduleLink['url'] = \URL::to('/');
      
             }

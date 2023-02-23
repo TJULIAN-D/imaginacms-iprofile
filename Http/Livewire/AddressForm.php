@@ -130,7 +130,7 @@ class AddressForm extends Component
   private function setRules()
   {
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
-    $rules = [];
+    $extraFieldRules = [];
     foreach ($this->addressesExtraFields as $extraField) {
       $rule = "";
       switch ($extraField->type) {
@@ -142,7 +142,7 @@ class AddressForm extends Component
           break;
         case 'documentType':
           $rule = "string";
-          $rules = array_merge($rules, ["address.options.documentNumber" => $rule . ($extraField->required ? "|required|min:6|max:10" : "")]);
+          $extraFieldRules = array_merge($extraFieldRules, ["address.options.documentNumber" => $rule . ($extraField->required ? "|required|min:6|max:10" : "")]);
 
           break;
         case 'textarea':
@@ -153,7 +153,7 @@ class AddressForm extends Component
         $rule .= "|required";
       }
       if ($extraField->active) {
-        $rules = array_merge($rules, ["address.options." . $extraField->field => $rule]);
+        $extraFieldRules = array_merge($extraFieldRules, ["address.options." . $extraField->field => $rule]);
       }
     }
 
@@ -166,7 +166,7 @@ class AddressForm extends Component
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
-      'address.type' => 'string'], $rules);
+      'address.type' => 'string'], $extraFieldRules);
 
   }
 
@@ -225,7 +225,9 @@ class AddressForm extends Component
 
   private function initCountries()
   {
-    $params = [];
+    $params = [
+      "filter"=> ["order" => ["way"=> "asc", "field" => "name"]]
+    ];
     $this->countries = $this->countryRepository()->getItemsBy(json_decode(json_encode($params)));
     if ($this->countries->count() == 1) {
       $this->address["country"] = $this->countries->first()->iso_2;
@@ -236,7 +238,7 @@ class AddressForm extends Component
   private function initProvinces()
   {
     if (isset($this->address["country_id"])) {
-      $params = ["filter" => ["countryId" => $this->address["country_id"] ?? null]];
+      $params = ["filter" => ["countryId" => $this->address["country_id"] ?? null,"order" => ["way"=> "asc", "field" => "name"]]];
       $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
       $this->provinces = collect([]);
@@ -246,7 +248,7 @@ class AddressForm extends Component
   private function initCities()
   {
     if (isset($this->address["state_id"])) {
-      $params = ["filter" => ["provinceId" => $this->address["state_id"] ?? null]];
+      $params = ["filter" => ["provinceId" => $this->address["state_id"] ?? null,"order" => ["way"=> "asc", "field" => "name"]]];
       $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
       $this->cities = collect([]);
