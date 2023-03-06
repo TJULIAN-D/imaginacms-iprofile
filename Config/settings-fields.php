@@ -518,7 +518,7 @@ return [
   ],
   'customLogin' => [
     'name' => 'iprofile::customLogin',
-    'value' => [],
+    'value' => ['email'],
     'type' => 'select',
     'props' => [
       'label' => 'iprofile::settings.labelCustomLogin',
