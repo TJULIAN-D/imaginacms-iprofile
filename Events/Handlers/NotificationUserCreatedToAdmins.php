@@ -10,8 +10,8 @@ class NotificationUserCreatedToAdmins
   public function handle($event = null)
   {
     $user = $event->user;
-    $userToNotify = json_decode(setting('isite::usersToNotifyApi'));
-    $emailToNotify = json_decode(setting('isite::emailsToNotifyApi'));
+    $userToNotify = json_decode(setting('isite::usersToNotify'));
+    $emailToNotify = json_decode(setting('isite::emailsToNotify'));
 
     $notification = app("Modules\Notification\Services\Inotification");
     $notification->to([
