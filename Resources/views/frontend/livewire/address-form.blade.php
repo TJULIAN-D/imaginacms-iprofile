@@ -1,5 +1,5 @@
 <div class="address-form my-2">
-
+  
   @if($openInModal)
     <button
       type="button"
@@ -7,7 +7,7 @@
       data-toggle="modal"
       data-target="#addressModal{{$type}}"
     ><i class="fa fa-plus-circle"></i> {{trans('iprofile::addresses.title.create address')}}</button>
-
+    
     <div wire:ignore.self class="modal fade" id="addressModal{{$type}}" tabindex="-1" role="dialog"
          aria-labelledby="addressModal{{$type}}"
          aria-hidden="true">
@@ -22,14 +22,14 @@
           </div>
           <div class="modal-body">
             @endif
-
-
+            
+            
             <form class="needs-validation" novalidate wire:submit.prevent="save">
-
+              
               @if(!empty($type))
                 <input wire:model.defer="address.type" type="hidden" value="{{$type}}">
               @endif
-
+              
               <div class="form-group row pt-2">
                 <div class="col pr-1">
                   <label for="payment_firstname">{{ trans('iprofile::addresses.form.firstName') }} </label>
@@ -37,7 +37,7 @@
                          id="paymentFirstname"
                          wire:model.defer="address.first_name">
                   {!! $errors->first("address.first_name", '<span class="help-block text-danger">:message</span>') !!}
-
+                
                 </div>
                 <div class="col pl-1">
                   <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}</label>
@@ -46,9 +46,9 @@
                          wire:model.defer="address.last_name">
                   {!! $errors->first("address.last_name", '<span class="help-block text-danger">:message</span>') !!}
                 </div>
-
+              
               </div>
-
+              
               <div class="form-group">
                 <label for="payment_address_1">{{ trans('iprofile::addresses.form.address1') }}</label>
                 <input class="form-control" type="text"
@@ -64,7 +64,7 @@
                        wire:model.defer="address.telephone">
                 {!! $errors->first("address.telephone", '<span class="help-block text-danger">:message</span>') !!}
               </div>
-
+              
               <div class="form-group">
                 <label for="payment_country">{{ trans('iprofile::addresses.form.country') }}</label>
                 <select id="paymentCountry"
@@ -77,58 +77,109 @@
                 </select>
                 {!! $errors->first("address.country", '<span class="help-block text-danger">:message</span>') !!}
               </div>
-
-
+              
+              
               <div class="form-group">
-
+                
                 <label for="paymentState">{{ trans('iprofile::addresses.form.state') }}</label>
                 <select id="paymentState"
                         class="form-control"
                         wire:model="address.state">
-
+                  
                   <option value="">{{ trans('iprofile::addresses.form.select_province') }}</option>
-
+                  
                   @foreach($provinces as $province)
                     <option value="{{$province->iso_2}}">{{ $province->name }}</option>
                   @endforeach
                 </select>
-
+                
                 {!! $errors->first("address.state", '<span class="help-block text-danger">:message</span>') !!}
               </div>
-
+              
+              @if(!isset($address["options"]["customCity"]) || !$address["options"]["customCity"])
+                <div class="form-group">
+                  
+                  <label for="paymentCity">{{ trans('iprofile::addresses.form.city') }}</label>
+                  <select id="paymentCity"
+                          class="form-control"
+                          wire:model.defer="address.city_id">
+                    <option value="">{{ trans('iprofile::addresses.form.select_city') }}</option>
+                    
+                    
+                    @foreach($cities as $city)
+                      <option value="{{$city->id}}">{{ $city->name }}</option>
+                    @endforeach
+                  </select>
+                  {!! $errors->first("address.state", '<span class="help-block text-danger">:message</span>') !!}
+                  
+                  <div class="form-check">
+                    
+                    <label class="form-check-label">
+                      <input id="cantFindcity"
+                             wire:model="address.options.customCity"
+                             type="checkbox"
+                      />
+                      {{ trans('iprofile::addresses.form.cantFindMyCity') }}
+                    </label>
+                  </div>
+                </div>
+              @endif
+              
+              
+              
+              @if(isset($address["options"]["customCity"]) && $address["options"]["customCity"])
+                
+                <div class="form-group">
+                  <label for="customCity">{{ trans('iprofile::addresses.form.city') }}</label>
+                  <input class="form-control" type="text"
+                         id="customCity" placeholder="{{trans("iprofile::addresses.form.customCityPlaceholder")}}"
+                         wire:model.defer="address.city"/>
+                  {!! $errors->first("address.city", '<span class="help-block text-danger">:message</span>') !!}
+                  
+                  <div class="form-check">
+                    
+                    <label class="form-check-label">
+                      <input id="cantFindcity"
+                             wire:model="address.options.customCity"
+                             type="checkbox"
+                      />
+                      {{ trans('iprofile::addresses.form.cantFindMyCity') }}
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="zipCode">{{ trans('iprofile::addresses.form.zipCode') }}</label>
+                  <input class="form-control" type="text"
+                         id="zipCode"
+                         wire:model.defer="address.zip_code"/>
+                  {!! $errors->first("address.zip_code", '<span class="help-block text-danger">:message</span>') !!}
+                </div>
+              @endif
+            
+            <!-- Extra info added by default for all addresses | not required-->
               <div class="form-group">
-
-                <label for="paymentCity">{{ trans('iprofile::addresses.form.city') }}</label>
-                <select id="paymentCity"
-                        class="form-control"
-                        wire:model.defer="address.city_id">
-                  <option value="">{{ trans('iprofile::addresses.form.select_city') }}</option>
-
-
-                  @foreach($cities as $city)
-                    <option value="{{$city->id}}">{{ $city->name }}</option>
-                  @endforeach
-                </select>
-                {!! $errors->first("address.state", '<span class="help-block text-danger">:message</span>') !!}
+                <label for="extraInfo">{{ trans('iprofile::addresses.form.extraInfo') }}</label>
+                <textarea class="form-control" type="text"
+                          id="extraInfo"
+                          wire:model.defer="address.options.extraInfo"></textarea>
               </div>
-
-
+              
               @foreach($addressesExtraFields as $extraField)
                 {{-- if is active--}}
                 @if($extraField->active)
-
+                  
                   {{-- form group--}}
                   <div class="form-group">
                     @php(!isset($extraField->type) ? $extraField->type = "text" : false)
                     {{-- label --}}
                     <label for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
-
+                    
                     {{-- Generic input --}}
                     @if( !in_array($extraField->type, ["select","textarea"]) )
-
+                      
                       {{-- Document input --}}
                       @if($extraField->type == "documentType")
-
+                        
                         {{-- foreach options --}}
                         @if(isset($extraField->availableOptions) && is_array($extraField->availableOptions) && count($extraField->availableOptions))
                           @php($optionValues = [])
@@ -143,7 +194,7 @@
                         @else
                           @php($optionValues = $extraField->options)
                         @endif
-
+                        
                         {{-- Select Document Type --}}
                         <select id="{{$extraField->field}}"
                                 wire:model.defer="address.options.{{$extraField->field}}"
@@ -152,15 +203,15 @@
                           {{-- select options --}}
                           @foreach($optionValues as $option)
                             <option value="{{$option->value}}">{{$option->label}}</option>
-
+                          
                           @endforeach {{--- end foreach options --}}
                         </select>
                         {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
-
+                  
                   </div>
                   {{-- DocumentNumber input --}}
                   <div class="form-group">
-
+                    
                     {{-- label --}}
                     <label for="documentNumber">{{trans("iprofile::frontend.form.documentNumber")}}</label>
                     <input id="documentNumber"
@@ -194,7 +245,7 @@
                         @else
                           @php($optionValues = $extraField->options)
                         @endif
-
+                        
                         {{-- Select --}}
                         <select id="{{$extraField->field}}"
                                 wire:model.defer="address.options.{{$extraField->field}}"
@@ -203,28 +254,18 @@
                           {{-- validate availableOptions and options --}}
                           @foreach($optionValues as $option)
                             <option value="{{$option->value}}">{{$option->label}}</option>
-
+                          
                           @endforeach {{--- end foreach options --}}
                         </select>
                         {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
-                      @else
-                        {{-- if is textarea --}}
-                        @if($extraField->type == "textarea")
-                          {{-- Textarea --}}
-                          <textarea id="{{$extraField->field}}"
-                                    wire:model.defer="address.options.{{$extraField->field}}"
-                                    class="form-control" cols="30"
-                                    rows="3"></textarea>
-                          {!! $errors->first("address.options.$extraField->field", '<span class="help-block text-danger">:message</span>') !!}
-                        @endif {{--- end if is textarea --}}
                       @endif {{-- end if is select --}}
                     @endif {{-- end if is generic input --}}
                   </div>
                 @endif {{-- end if is active --}}
               @endforeach
-
+              
               <div class="form-check">
-
+                
                 <label class="form-check-label">
                   <input type="checkbox"
                          wire:model.defer="address.default">
@@ -235,27 +276,27 @@
                     @case('shipping')
                     {{ trans('iprofile::frontend.form.defaultShipping') }}
                     @break;
-
+                  
                   @endswitch
                 </label>
               </div>
-
+              
               <div class="form-group text-center">
                 <button @if(is_null($livewireEvent)) type="submit" @else wire:click.prevent="addressEmit" @endif
                 class="btn btn-primary" name="button"> {{trans('iprofile::addresses.button.add_address')}}
                 </button>
               </div>
-
+            
             </form>
-
+            
             @if($openInModal)
-
-
+          
+          
           </div>
         </div>
       </div>
     </div>
-
+  
   @endif
 
 </div>
@@ -263,9 +304,9 @@
 @section('scripts')
   @parent
   <script type="text/javascript">
-    window.livewire.on('addressAdded', () => {
-      $('#addressModal{{$type}}').modal('hide')
-    });
+      window.livewire.on('addressAdded', () => {
+          $('#addressModal{{$type}}').modal('hide')
+      });
   </script>
 @stop
 

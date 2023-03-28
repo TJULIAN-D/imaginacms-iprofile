@@ -13,6 +13,8 @@
         :</b> {{$address->state}}</p>
     <p class="card-text m-0"><b>{{trans("iprofile::addresses.form.country")}}
         :</b> {{$address->country}}</p>
+    <p class="card-text m-0"><b>{{trans("iprofile::addresses.form.extraInfo")}}
+        :</b> {{$address->options->extraInfo ?? ""}}</p>
     @if(isset($address->options) && !empty($address->options))
       <div>
 

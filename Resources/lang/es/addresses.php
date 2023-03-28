@@ -47,6 +47,8 @@ return [
     'documentType' => 'Tipo de Documento',
     'documentNumber' => 'Número de Documento',
     'extraInfo' => 'Información Extra',
+    'cantFindMyCity' => 'No encuentro mi ciudad',
+    'customCityPlaceholder' => 'Escribe tu ciudad aquí',
     'email' => 'Correo Electronico'
   ],
   'messages' => [

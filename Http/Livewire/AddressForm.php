@@ -56,7 +56,10 @@ class AddressForm extends Component
     try {
       $this->validate($this->setRules(), $this->setMessages());
       $this->initCities();
-      $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
+      
+      //validate if the address doesnt have a custom City to get the city name from the DB
+      $this->validateCity();
+      
       $this->emit($this->livewireEvent, $this->address);
     }catch (\Illuminate\Validation\ValidationException $e) {
       // Do your thing and use $validator here
@@ -94,7 +97,10 @@ class AddressForm extends Component
     try {
       $this->validate($this->setRules(), $this->setMessages());
       $this->address["user_id"] = \Auth::user()->id ?? null;
-      $this->address["city"] = $this->cities->where("id", $this->address["city_id"])->first()->name;
+  
+      //validate if the address doesnt have a custom City to get the city name from the DB
+      $this->validateCity();
+      
       $address = $this->addressRepository()->create($this->address);
       $this->emit('addressAdded', $address);
       $this->initAddress();
@@ -110,7 +116,16 @@ class AddressForm extends Component
     }
   }
 
-
+private function validateCity(){
+  //validate if the address doesnt have a custom City to get the city name from the DB
+  if(!isset($this->address["options"]["customCity"]) || !$this->address["options"]["customCity"]){
+    $city = $this->cities->where("id", $this->address["city_id"])->first();
+    $this->address["city"] = $city->name ?? "";
+    $this->address["zip_code"] = $city->code ?? "";
+  }else{
+    $this->address["city_id"] = null;
+  }
+}
   /**
    *
    */
@@ -156,17 +171,25 @@ class AddressForm extends Component
         $extraFieldRules = array_merge($extraFieldRules, ["address.options." . $extraField->field => $rule]);
       }
     }
-
+    
+    //custom validation for City: could be city from DB or custom city from the user
+    if(isset($this->address["options"]["customCity"]) && $this->address["options"]["customCity"])
+      $cityRule = [
+        'address.city' => 'required|string',
+        'address.zip_code' => 'required|string',
+      ];
+    else
+      $cityRule = ['address.city_id' => 'required|integer'];
+    
     return array_merge([
       'address.first_name' => 'required|string|min:3',
       'address.last_name' => 'required|string|min:3',
       'address.country' => 'required|string',
       'address.telephone' => 'required|min:5|max:10',
-      'address.city_id' => 'required|integer',
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
-      'address.type' => 'string'], $extraFieldRules);
+      'address.type' => 'string'], $extraFieldRules, $cityRule);
 
   }
 
@@ -185,6 +208,8 @@ class AddressForm extends Component
       'address.address_1.required' => trans("iprofile::addresses.validation.required"),
       'address.country.required' => trans("iprofile::addresses.validation.required"),
       'address.city_id.required' => trans("iprofile::addresses.validation.required"),
+      'address.city.required' => trans("iprofile::addresses.validation.required"),
+      'address.zip_code.required' => trans("iprofile::addresses.validation.required"),
       'address.state.required' => trans("iprofile::addresses.validation.required"),
       'address.telephone.required' => trans("iprofile::addresses.validation.required"),
       'address.options.documentNumber.required' => trans("iprofile::addresses.validation.required"),
@@ -216,6 +241,7 @@ class AddressForm extends Component
       'state' => $this->addressGuest['state'] ?? "",
       'city' => $this->addressGuest['city'] ?? "",
       'city_id' => $this->addressGuest['city_id'] ?? "",
+      'zip_code' => $this->addressGuest['zip_code'] ?? "",
       'default' => $this->addressGuest['default'] ?? false,
       'user_id' => $this->addressGuest['user_id'] ?? $this->user->id ?? null,
       'type' => $this->addressGuest['type'] ?? $this->type,

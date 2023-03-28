@@ -42,6 +42,8 @@ return [
     'documentType' => 'Document Type',
     'documentNumber' => 'Document Number',
     'extraInfo' => 'Extra Info',
+    'cantFindMyCity' => 'I can\'t find my city',
+    'customCityPlaceholder' => 'Type your city here',
     'email' => 'Email'
   ],
   'messages' => [
