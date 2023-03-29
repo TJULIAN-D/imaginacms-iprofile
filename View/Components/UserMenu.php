@@ -37,7 +37,7 @@ class UserMenu extends Component
 
     $this->moduleLinks = [];
     $this->moduleLinksWithoutSession = [];
-    $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
+    $locale = locale();
     $this->panel = config("asgard.iprofile.config.panel");
     
     if($this->panel == "quasar"){
