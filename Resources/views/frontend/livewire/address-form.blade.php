@@ -172,7 +172,9 @@
                   <div class="form-group">
                     @php(!isset($extraField->type) ? $extraField->type = "text" : false)
                     {{-- label --}}
+                    @if(!in_array($extraField->field,["extraInfo","zipCode"]))
                     <label for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
+                    @endif
                     
                     {{-- Generic input --}}
                     @if( !in_array($extraField->type, ["select","textarea"]) )
@@ -220,8 +222,8 @@
                            max="9999999999"
                            class="form-control"
                            wire:model.defer="address.options.documentNumber"/>
-                    {!! $errors->first("address.options.documentNumber", '<span class="help-block text-danger">:message</span>') !!}
-                    @else
+                      {!! $errors->first("address.options.documentNumber", '<span class="help-block text-danger">:message</span>') !!}
+                    @elseif(!in_array($extraField->field,["extraInfo","zipCode"]))
                       <input id="{{$extraField->field}}"
                              type="{{$extraField->type}}"
                              class="form-control"

@@ -230,6 +230,8 @@ private function validateCity(){
         $options[$extraField->field] = "";
       }
     }
+    $options["extraInfo"] = "";
+    $options["customCity"] = false;
     $this->address = [
       'first_name' => $this->addressGuest['first_name'] ?? "",
       'last_name' => $this->addressGuest['last_name'] ?? "",
