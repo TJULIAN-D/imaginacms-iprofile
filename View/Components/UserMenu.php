@@ -20,15 +20,18 @@ class UserMenu extends Component
   public $openLoginInModal;
   public $openRegisterInModal;
   protected $authApiController;
+  public $label;
 
   public function __construct($layout = 'user-menu-layout-1', $showLabel = false, $id = "userMenuComponent",
                               $params = [], $openLoginInModal = true, $openRegisterInModal = false,
-                              $onlyShowInTheDropdownHeader = true, $onlyShowInTheMenuOfTheIndexProfilePage = false)
+                              $onlyShowInTheDropdownHeader = true, $onlyShowInTheMenuOfTheIndexProfilePage = false,
+                              $label = null )
   {
 
     $this->view = 'iprofile::frontend.components.user-menu.layouts.' . (isset($layout) ? $layout : 'user-menu-layout-1') . '.index';
 
     $this->showLabel = $showLabel;
+    $this->label = $label ?? trans('iprofile::frontend.button.my_account');
     $this->openLoginInModal = $openLoginInModal;
     $this->openRegisterInModal = $openRegisterInModal;
 
