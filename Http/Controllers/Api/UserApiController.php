@@ -156,7 +156,7 @@ class UserApiController extends BaseApiController
       $userRepository = app('Modules\Iprofile\Repositories\UserApiRepository');
       $user = $userRepository->getItemsBy()->where('email', $data->email)->first();
 
-      if(isset($user) & $user->is_guest) {
+      if(isset($user) && $user->is_guest) {
         $data->is_guest = 0;
         $response = $userRepository->updateBy($user->id,$data);
       } else {
