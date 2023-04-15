@@ -23,6 +23,7 @@ return [
   'registerUserWithTermsAndConditions' => 'Requerido registro con Términos y condiciones',
   'rolesAsDirectory' => 'Roles como directorio corporativo',
   'rolesToRegister' => 'Roles habilitados para registro',
+  'rolesToRegisterInWizard' => 'Roles habilitados para registro en el Wizard',
   'registerExtraFieldsActive' => 'Campos extra activos para el registro',
   'registerExtraFieldsRequired' => 'Campos extra requeridos para el registro',
   'addressesExtraFieldsActive' => 'Campos extra de dirección activos',

@@ -449,6 +449,24 @@ return [
       'select' => ['label' => 'name', 'id' => 'id']
     ]
   ],
+  //Roles to register
+  'rolesToRegisterInWizard' => [
+    "onlySuperAdmin" => true,
+    'name' => 'iprofile::rolesToRegisterInWizard',
+    'value' => [2],
+    'type' => 'select',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.rolesToRegisterInWizard',
+      'multiple' => true,
+      'useChips' => true
+    ],
+    'loadOptions' => [
+      'apiRoute' => 'apiRoutes.quser.roles',
+      'select' => ['label' => 'name', 'id' => 'id']
+    ]
+  ],
   //Password
   'passwordExpiredTime' => [
     'name' => 'iprofile::passwordExpiredTime',

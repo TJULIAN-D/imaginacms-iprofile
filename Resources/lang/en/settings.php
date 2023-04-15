@@ -22,6 +22,7 @@ return [
   'registerUserWithPoliticsOfPrivacy' => 'Require register with politics of privacy',
   'rolesAsDirectory' => 'Roles as corporate directory',
   'rolesToRegister' => 'Roles to register',
+  'rolesToRegisterInWizard' => 'Roles to register in the Wizard',
   'registerExtraFieldsActive' => 'Active register extra fields',
   'registerExtraFieldsRequired' => 'Required register extra fields',
   'addressesExtraFieldsActive' => 'Active address extra fields',
