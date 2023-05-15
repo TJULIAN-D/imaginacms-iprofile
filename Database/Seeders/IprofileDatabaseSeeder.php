@@ -5,7 +5,6 @@ namespace Modules\Iprofile\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Iprofile\Database\Seeders\IformUserDefaultRegisterTableSeeder;
-use Modules\Isite\Jobs\ProcessSeeds;
 
 class IprofileDatabaseSeeder extends Seeder
 {
@@ -16,12 +15,12 @@ class IprofileDatabaseSeeder extends Seeder
    */
   public function run()
   {
-    Model::unguard();
-    ProcessSeeds::dispatch([
-      "baseClass" => "\Modules\Iprofile\Database\Seeders",
-      "seeds" => ["IprofileModuleTableSeeder", "DepartmentTableSeeder", "UserDepartmentTableSeeder",
-        "RolePermissionsSeeder", "RolePermissionsToAccessSeeder", "IformUserDefaultRegisterTableSeeder",
-        "AssignedSettingsInRoles"]
-    ]);
+    $this->call(IprofileModuleTableSeeder::class);
+    $this->call(DepartmentTableSeeder::class);
+    $this->call(UserDepartmentTableSeeder::class);
+    $this->call(RolePermissionsSeeder::class);
+    $this->call(RolePermissionsToAccessSeeder::class);
+    $this->call(IformUserDefaultRegisterTableSeeder::class);
+    $this->call(AssignedSettingsInRoles::class);
   }
 }
