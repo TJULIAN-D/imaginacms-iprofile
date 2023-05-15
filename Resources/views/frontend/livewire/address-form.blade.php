@@ -32,7 +32,8 @@
               
               <div class="form-group row pt-2">
                 <div class="col pr-1">
-                  <label for="payment_firstname">{{ trans('iprofile::addresses.form.firstName') }} </label>
+                  <label for="payment_firstname">{{ trans('iprofile::addresses.form.firstName') }}
+                    <span class="text-danger">*</span> </label>
                   <input class="form-control" type="text"
                          id="paymentFirstname"
                          wire:model.defer="address.first_name">
@@ -40,7 +41,9 @@
                 
                 </div>
                 <div class="col pl-1">
-                  <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}</label>
+                  <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}
+                    <span class="text-danger">*</span>
+                  </label>
                   <input class="form-control" type="text"
                          id="paymentLastname"
                          wire:model.defer="address.last_name">
@@ -50,14 +53,17 @@
               </div>
               
               <div class="form-group">
-                <label for="payment_address_1">{{ trans('iprofile::addresses.form.address1') }}</label>
+                <label for="payment_address_1">{{ trans('iprofile::addresses.form.address1') }}
+                  <span class="text-danger">*</span>
+                </label>
                 <input class="form-control" type="text"
                        id="paymentAddress1"
                        wire:model.defer="address.address_1">
                 {!! $errors->first("address.address_1", '<span class="help-block text-danger">:message</span>') !!}
               </div>
               <div class="form-group">
-                <label for="payment_telephone">{{ trans('iprofile::addresses.form.telephone') }}</label>
+                <label for="payment_telephone">{{ trans('iprofile::addresses.form.telephone') }}
+                  <span class="text-danger">*</span> </label>
                 <input type="number"
                        class="form-control"
                        id="paymentTelephone"
@@ -66,7 +72,9 @@
               </div>
               
               <div class="form-group">
-                <label for="payment_country">{{ trans('iprofile::addresses.form.country') }}</label>
+                <label for="payment_country">{{ trans('iprofile::addresses.form.country') }}
+                  <span class="text-danger">*</span>
+                </label>
                 <select id="paymentCountry"
                         class="form-control"
                         wire:model="address.country">
@@ -81,7 +89,9 @@
               
               <div class="form-group">
                 
-                <label for="paymentState">{{ trans('iprofile::addresses.form.state') }}</label>
+                <label for="paymentState">{{ trans('iprofile::addresses.form.state') }}
+                  <span class="text-danger">*</span>
+                </label>
                 <select id="paymentState"
                         class="form-control"
                         wire:model="address.state">
@@ -99,7 +109,9 @@
               @if(!isset($address["options"]["customCity"]) || !$address["options"]["customCity"])
                 <div class="form-group">
                   
-                  <label for="paymentCity">{{ trans('iprofile::addresses.form.city') }}</label>
+                  <label for="paymentCity">{{ trans('iprofile::addresses.form.city') }}
+                    <span class="text-danger">*</span>
+                  </label>
                   <select id="paymentCity"
                           class="form-control"
                           wire:model.defer="address.city_id">
@@ -130,7 +142,9 @@
               @if(isset($address["options"]["customCity"]) && $address["options"]["customCity"])
                 
                 <div class="form-group">
-                  <label for="customCity">{{ trans('iprofile::addresses.form.city') }}</label>
+                  <label for="customCity">{{ trans('iprofile::addresses.form.city') }}
+                    <span class="text-danger">*</span>
+                  </label>
                   <input class="form-control" type="text"
                          id="customCity" placeholder="{{trans("iprofile::addresses.form.customCityPlaceholder")}}"
                          wire:model.defer="address.city"/>
@@ -155,8 +169,8 @@
                   {!! $errors->first("address.zip_code", '<span class="help-block text-danger">:message</span>') !!}
                 </div>
               @endif
-            
-            <!-- Extra info added by default for all addresses | not required-->
+              
+              <!-- Extra info added by default for all addresses | not required-->
               <div class="form-group">
                 <label for="extraInfo">{{ trans('iprofile::addresses.form.extraInfo') }}</label>
                 <textarea class="form-control" type="text"
@@ -173,7 +187,10 @@
                     @php(!isset($extraField->type) ? $extraField->type = "text" : false)
                     {{-- label --}}
                     @if(!in_array($extraField->field,["extraInfo","zipCode"]))
-                    <label for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}</label>
+                      <label
+                        for="{{$extraField->field}}">{{trans("iprofile::frontend.form.$extraField->field")}}
+                        <span class="text-danger">*</span>
+                      </label>
                     @endif
                     
                     {{-- Generic input --}}
@@ -222,7 +239,7 @@
                            max="9999999999"
                            class="form-control"
                            wire:model.defer="address.options.documentNumber"/>
-                      {!! $errors->first("address.options.documentNumber", '<span class="help-block text-danger">:message</span>') !!}
+                    {!! $errors->first("address.options.documentNumber", '<span class="help-block text-danger">:message</span>') !!}
                     @elseif(!in_array($extraField->field,["extraInfo","zipCode"]))
                       <input id="{{$extraField->field}}"
                              type="{{$extraField->type}}"
@@ -273,11 +290,11 @@
                          wire:model.defer="address.default">
                   @switch($type)
                     @case('billing')
-                    {{ trans('iprofile::frontend.form.defaultBilling') }}
-                    @break;
+                      {{ trans('iprofile::frontend.form.defaultBilling') }}
+                      @break;
                     @case('shipping')
-                    {{ trans('iprofile::frontend.form.defaultShipping') }}
-                    @break;
+                      {{ trans('iprofile::frontend.form.defaultShipping') }}
+                      @break;
                   
                   @endswitch
                 </label>
@@ -306,9 +323,9 @@
 @section('scripts')
   @parent
   <script type="text/javascript">
-      window.livewire.on('addressAdded', () => {
-          $('#addressModal{{$type}}').modal('hide')
-      });
+    window.livewire.on('addressAdded', () => {
+      $('#addressModal{{$type}}').modal('hide')
+    });
   </script>
 @stop
 
