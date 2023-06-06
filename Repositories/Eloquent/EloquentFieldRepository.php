@@ -168,7 +168,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
   }
 
   //Get users birthday
-  public function usersBirthday($params)
+  public function usersBirthday($params = false)
   {
     $birthdayFields = $this->model->where('name', 'birthday')->get();
     $futureBirthdayUsersId = [];

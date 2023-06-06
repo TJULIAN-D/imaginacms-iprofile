@@ -54,7 +54,7 @@ class CacheFieldDecorator extends BaseCacheDecorator implements FieldRepository
    *
    * @return mixed
    */
-  public function updateBy($criteria, $data, $params)
+  public function updateBy($criteria, $data, $params = false)
   {
     $this->clearCache();
     
@@ -66,7 +66,7 @@ class CacheFieldDecorator extends BaseCacheDecorator implements FieldRepository
    *
    * @return mixed
    */
-  public function deleteBy($criteria, $params)
+  public function deleteBy($criteria, $params = false)
   {
     $this->clearCache();
     
@@ -78,7 +78,7 @@ class CacheFieldDecorator extends BaseCacheDecorator implements FieldRepository
    *
    * @return collection
    */
-  public function usersBirthday($params)
+  public function usersBirthday($params  = false)
   {
     return $this->remember(function () use ($params) {
       return $this->repository->usersBirthday($params);
