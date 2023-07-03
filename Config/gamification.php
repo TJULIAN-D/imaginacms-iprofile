@@ -11,6 +11,7 @@ return [
       'description' => "$transPrefix.activities.manageUsersDescription",
       'type' => 1,
       'url' => "iadmin/#/users/index",
+      'permission' => 'iprofile.user.manage',
       'categoryId' => 'admin_home_actions',
       'icon' => 'fal fa-users',
       'roles' => []
