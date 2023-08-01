@@ -19,7 +19,7 @@ class CacheRoleApiDecorator extends BaseCacheDecorator implements RoleApiReposit
    *
    * @return collection
    */
-  public function getItemsBy($params)
+  public function getItemsBy($params = false)
   {
     return $this->remember(function () use ($params) {
       return $this->repository->getItemsBy($params);
