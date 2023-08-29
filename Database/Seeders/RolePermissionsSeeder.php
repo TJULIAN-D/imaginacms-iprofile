@@ -14,10 +14,12 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 class RolePermissionsSeeder extends Seeder
 {
   private $permissions;
+  private $profileRoleRepository;
   
   public function __construct(PermissionManager $permissions)
   {
     $this->permissions = $permissions;
+    $this->profileRoleRepository = app("Modules\Iprofile\Repositories\RoleApiRepository");
   }
   
   /**
@@ -28,13 +30,16 @@ class RolePermissionsSeeder extends Seeder
   public function run()
   {
     Model::unguard();
-    
-    
+
+    //Added because when the job was called again in the creation of the tenant, it did not find the admin role
+    if(isset(tenant()->id))
+      forceInitializeTenant(tenant()->id);
+
     $roles = Sentinel::getRoleRepository();
-    //Update permissions of role SUPER USER
-    $admin = Sentinel::findRoleBySlug('admin');
     
-    
+    $params = ["filter" => ["field" => "slug"],"include" => [],"fields" => []];
+    $admin = $this->profileRoleRepository->getItem("admin", json_decode(json_encode($params)));
+
     if (!isset($admin->id)) {
       
       $permissions = $this->permissions->all();
@@ -75,7 +80,7 @@ class RolePermissionsSeeder extends Seeder
       ->where('entity_name', 'role')
       ->where('name', 'assignedRoles')
       ->first();
-    
+
     if (!isset($adminAssignedRoles->id)) {
       Setting::create(
         [
@@ -84,7 +89,12 @@ class RolePermissionsSeeder extends Seeder
           'name' => 'assignedRoles',
           'value' => $allOtherRoles->pluck('id')->toArray()
         ]);
+    }else{
+      $adminAssignedRoles->update([
+        "value" => $allOtherRoles->pluck('id')->toArray()
+      ]);
     }
-    
+
   }
+
 }
