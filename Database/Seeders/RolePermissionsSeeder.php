@@ -64,6 +64,7 @@ class RolePermissionsSeeder extends Seeder
         [
           'name' => 'Admin',
           'slug' => 'admin',
+          'title' => trans("iprofile::roles.types.admin"),
           'permissions' => $allPermissions
           ]
       );
