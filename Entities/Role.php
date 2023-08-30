@@ -8,14 +8,20 @@ use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Modules\Iforms\Support\Traits\Formeable;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
+use Astrotomic\Translatable\Translatable;
+
 class Role extends EloquentRole
 {
-  use Formeable, BelongsToTenant, hasEventsWithBindings;
+  use Formeable, BelongsToTenant, hasEventsWithBindings, Translatable;
 
   protected $fillable = [
     'slug',
     'name',
     'permissions'
+  ];
+
+  public $translatedAttributes = [
+    'title'
   ];
 
   public $tenantWithCentralData = false;
