@@ -59,20 +59,22 @@ class RolePermissionsSeeder extends Seeder
           }
       }
       
-      // Create an Admin group
-      $roles->createModel()->create(
-        [
-          'name' => 'Admin',
-          'slug' => 'admin',
-          'title' => trans("iprofile::roles.types.admin"),
-          'permissions' => $allPermissions
-          ]
-      );
-      
-      // Find Admin group entity
-      $admin = Sentinel::findRoleBySlug('admin');
     }
-    
+
+    // Create or Update data to Role
+    $roleData = [
+      'name' => 'Admin',
+      'slug' => 'admin',
+      'en' => ['title' => trans("iprofile::roles.types.admin",[],"en")],
+      'es' => ['title' => trans("iprofile::roles.types.admin",[],"es")]
+    ];
+
+    //Only when create
+    if(isset($allPermissions))
+      $roleData['permissions'] = $allPermissions;
+
+    $admin = createOrUpdateRole($roleData);
+
     // Find all other Roles to assign it
     $allOtherRoles = Role::where("slug", "!=", "super-admin")->get();
     
