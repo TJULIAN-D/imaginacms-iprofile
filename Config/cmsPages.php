@@ -1,7 +1,7 @@
 <?php
 
 return [
-  'admin' => [
+    'admin' => [
     "userIndex" => [
       "permission" => "profile.user.manage",
       "activated" => true,
@@ -16,7 +16,7 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
-    ],
+            ],
     "userDepartments" => [
       "permission" => "profile.departments.manage",
       "activated" => true,
@@ -35,7 +35,7 @@ return [
           "iprofile_cms_admin_userIndex"
         ]
       ]
-    ],
+        ],
     "userRoles" => [
       "permission" => "profile.role.manage",
       "activated" => true,
@@ -54,7 +54,7 @@ return [
           "iprofile_cms_admin_userIndex"
         ]
       ]
-    ],
+            ],
     "directory" => [
       "permission" => "profile.user.directory",
       "activated" => true,
@@ -69,9 +69,9 @@ return [
         "refresh" => true
       ]
     ]
-  ],
-  'panel' => [],
-  'main' => [
+    ],
+    'panel' => [],
+    'main' => [
     "login" => [
       "permission" => null,
       "activated" => true,
@@ -83,7 +83,7 @@ return [
       "icon" => "fas fa-chart-bar",
       "authenticated" => true,
       "authType" => "login"
-    ],
+        ],
     "logout" => [
       "permission" => null,
       "activated" => true,
@@ -94,7 +94,7 @@ return [
       "title" => "iprofile.cms.sidebar.logout",
       "icon" => "fas fa-chart-bar",
       "authType" => "logout"
-    ],
+        ],
     "register" => [
       "permission" => null,
       "activated" => true,
@@ -105,7 +105,7 @@ return [
       "title" => "iprofile.cms.sidebar.register",
       "icon" => "fas fa-chart-bar",
       "authType" => "register"
-    ],
+        ],
     "resetPassword" => [
       "permission" => null,
       "activated" => true,
@@ -116,7 +116,7 @@ return [
       "title" => "iprofile.cms.sidebar.resetPassword",
       "icon" => "fas fa-chart-bar",
       "authType" => "resetPassword"
-    ],
+            ],
     "resetPasswordComplete" => [
       "permission" => null,
       "activated" => true,
@@ -127,7 +127,7 @@ return [
       "title" => "iprofile.cms.sidebar.resetPassword",
       "icon" => "fas fa-chart-bar",
       "authType" => "resetPasswordComplete"
-    ],
+        ],
     "userProfile" => [
       "permission" => null,
       "activated" => true,
@@ -141,7 +141,7 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
-    ],
+        ],
     "forceChangePassword" => [
       "permission" => null,
       "activated" => true,
