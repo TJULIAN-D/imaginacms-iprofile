@@ -38,12 +38,12 @@ class AuthApiController extends BaseApiController
   private $providerAccount;
   private $role;
   private $userRepository;
-  
+
   private $userApiController;
   private $fieldApiController;
   private $user;
   protected $auth;
-  
+
   public function __construct(UserApiController $userApiController, FieldApiController $fieldApiController, UserApiRepository $user)
   {
     parent::__construct();
@@ -53,8 +53,8 @@ class AuthApiController extends BaseApiController
     $this->auth = app(Authentication::class);
     $this->clearTokens();//CLear tokens
   }
-  
-  
+
+
   /**
    * Login Api Controller
    * @param Request $request
@@ -67,11 +67,11 @@ class AuthApiController extends BaseApiController
         'login' => $request->input('username'),
         'password' => $request->input('password')
       ];
-      
+
       //Auth attemp and get token
       $token = $this->validateResponseApi($this->authAttempt($credentials));
       $user = $this->validateResponseApi($this->me());//Get user Data
-     
+
       $response = ["data" => [
         'userToken' => $token->bearer,
         'expiresIn' => $token->expiresDate,
@@ -81,11 +81,11 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $this->getErrorMessage($e)];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * Reset Api Controller
    * @param Request $request
@@ -94,15 +94,15 @@ class AuthApiController extends BaseApiController
   public function reset(Request $request)
   {
     try {
-  
+
       //Get data
       $data = (object)$request->input('attributes');
-      
+
       $credentials = [ //Get credentials
         'email' => $data->username
       ];
       app(UserResetter::class)->startReset($credentials);
-      
+
       $response = ["data" => ["message" => trans('iprofile::cms.message.checkMail')]];//Response
     } catch (UserNotFoundException $e) {
       $status = $this->getStatusError(404);
@@ -111,11 +111,11 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * Reset Complete Api Controller
    * @param Request $request
@@ -132,16 +132,16 @@ class AuthApiController extends BaseApiController
       ];
       $this->validateRequestApi(new ResetCompleteRequest($credentials));
       app(UserResetter::class)->finishReset($credentials);
-      
+
       $user = $this->user->find($request->input('userId'));
-      
+
       $response = ["data" => ['email' => $user->email]];//Response
-      
+
     } catch (UserNotFoundException $e) {
       \Log::error($e->getMessage());
       $status = $this->getStatusError(404);
       $response = ["errors" => trans('user::messages.no user found')];
-      
+
     } catch (InvalidOrExpiredResetCode $e) {
       $status = $this->getStatusError(402);
       $response = ["errors" => trans('user::messages.invalid reset code')];
@@ -149,12 +149,12 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * Auth Attempt Api Controller
    * @param $credentials
@@ -165,7 +165,7 @@ class AuthApiController extends BaseApiController
 
     try {
       $credentials = (object)$credentials;
-      
+
       try {
         //Find email in users fields
         $field = $this->validateResponseApi(
@@ -177,19 +177,19 @@ class AuthApiController extends BaseApiController
             ])
           )
         );
-        
+
         //If exist email in users fields, change email of credentials
         if (isset($field->user)) $credentials->login = $field->user->email;
       } catch (Exception $e) {
       }
-      
+
       $error = $this->auth->login((array)$credentials);
 
       //Try login
       if (!$error) {
         $user = $this->auth->user();//Get user
         $token = $this->getToken($user);//Get token
-        
+
         //Response bearer and expires date
         $response = ["data" => [
           "bearer" => 'Bearer ' . $token->accessToken,
@@ -198,8 +198,8 @@ class AuthApiController extends BaseApiController
       } else {
         throw new Exception(is_string($error) ? $error : 'User or Password invalid', 400);
       }
-      
-      
+
+
     } catch (Exception $e) {
       /*
       $status = $this->getStatusError($e->getCode());
@@ -210,12 +210,12 @@ class AuthApiController extends BaseApiController
       $response = ["errors" => $e->getMessage()];
 
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * Me Api Controller
    * @return mixed
@@ -224,11 +224,11 @@ class AuthApiController extends BaseApiController
   {
     try {
       $user = Auth::user();//Get user loged
-      
+
       //add: custom user includes from config (slim)
       $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
       $includes = array_keys($customUserIncludes);
-      
+
       //Find user with relationships
       $userData = $this->validateResponseApi(
         $this->userApiController->show($user->id, new Request([
@@ -244,9 +244,9 @@ class AuthApiController extends BaseApiController
         // Add in userData
         if(!is_null($payoutsConfigUser))
           $userData->payouts = $payoutsConfigUser;
-        
+
       }
-      
+
       //Response
       $response = ["data" => [
         'userData' => $userData
@@ -255,12 +255,12 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $this->getErrorMessage($e)];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * Logout Api Controller
    * @param Request $request
@@ -272,17 +272,17 @@ class AuthApiController extends BaseApiController
       $token = $this->validateResponseApi($this->getRequestToken($request));//Get Token
       DB::table('oauth_access_tokens')->where('id', $token->id)->delete();//Delete Token
       $this->auth->logout();
-      
+
     } catch (Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "You have been successfully logged out!"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * logout All Sessions Api Controller
    * @param Request $request
@@ -300,12 +300,12 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "You have been successfully logged out!"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * Impersonate Api Controller
    * @param Request $request
@@ -316,23 +316,23 @@ class AuthApiController extends BaseApiController
     try {
       //Get Token
       $this->validateResponseApi($this->getRequestToken($request));
-      
+
       $userId = $request->input('userId');//GEt user id impersonator
       $userIdToImpersonate = $request->input('userIdImpersonate');//Get user ID to impersonate
-      
+
       Auth::loginUsingId($userId);//Loged impersonator
       $params = $this->getParamsRequest($request);//Get params
-      
+
       //Check permissions of impersonator and settings to impersonate
       if (isset($params->permissions['profile.user.impersonate']) && $params->permissions['profile.user.impersonate']) {
         //Emit event impersonate
         event(new ImpersonateEvent($userIdToImpersonate, $request->ip()));
-        
+
         Auth::logout();//logout impersonator
         $userImpersonate = Auth::loginUsingId($userIdToImpersonate);//Loged impersonator
         $token = $this->getToken($userImpersonate);//Get Token
         $user = $this->validateResponseApi($this->me());//Get user Data
-        
+
         //Response
         $response = ["data" => [
           "userToken" => 'Bearer ' . $token->accessToken,
@@ -344,12 +344,12 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * Refresh Token Api Controller
    * @param Request $request
@@ -361,24 +361,24 @@ class AuthApiController extends BaseApiController
       //Get Token
       $token = $this->validateResponseApi($this->getRequestToken($request));
       $expiresIn = now()->addMinutes(1440);
-      
+
       //Add 15 minutos to token
       DB::table('oauth_access_tokens')->where('id', $token->id)->update([
         'updated_at' => now(),
         'expires_at' => $expiresIn
       ]);
-      
+
       $response = ['data' => ['expiresIn' => $expiresIn]];
     } catch (Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * GET A ITEM
    *
@@ -395,38 +395,34 @@ class AuthApiController extends BaseApiController
       $params = $this->getParamsRequest($request);
       //Get data
       $data = $request->input('attributes');
-      
+
       $user = $this->_createOrGetUser($criteria,$data);
-      
+
       //Request to Repository
       if (isset($user->id)) {
-        
-        //Find user with relationships
-        $userData = $this->user->getItem($user->id,(object)(["include" => ['fields','departments','addresses','settings','roles']]));
-        
         $auth = \Sentinel::login($user);
         $token = $this->getToken($auth);//Get token
-        
-        
+        $userData = $this->validateResponseApi($this->me());
+
         $response = ["data" => [
           'userToken' => 'Bearer ' . $token->accessToken,
           'expiresIn' => $token->token->expires_at,
-          'userData' => $userData
+          'userData' => $userData->userData
         ]];//Response
       }else{
         throw new \Exception('User not found', 404);
       }
-      
+
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
-  
+
+
   /**
    * GET SOCIAL
    *
@@ -435,59 +431,59 @@ class AuthApiController extends BaseApiController
    */
   function _createOrGetUser($criteria, $data)
   {
-    
+
     if($criteria=="facebook") {
       $fields = ['first_name', 'last_name', 'picture.width(1920).redirect(false)', 'email', 'gender', 'birthday', 'address', 'about', 'link'];
       $providerUser = Socialite::driver($criteria)->stateless()->fields($fields)->userFromToken($data["token"]);
     }else
       $providerUser = Socialite::driver($criteria)->stateless()->userFromToken($data["token"]);
-    
+
     $providerAccount = app('Modules\Iprofile\Entities\ProviderAccount');
     $provideraccount = $providerAccount->whereProvider($criteria)->whereProviderUserId($providerUser->getId())
       ->first();
     //dd($providerUser,$providerUser->getAvatar());
     //If user for this social login exists update short token and return the user associated
     if (isset($provideraccount->user)) {
-      
+
       $updateoptions = $provideraccount->options;
       $updateoptions["short_token"] = $providerUser->token;
       $provideraccount->options = $updateoptions;
       $provideraccount->save();
-      
+
       return $provideraccount->user;
-      
+
       //New social login or user
     } else {
       $userdata = (object)[];
-      
+
       $userdata->email = $providerUser->getEmail();
       $userdata->password = Str::random(16);
-      
-      
+
+
       if ($criteria == 'facebook') {
         //$social_picture = $providerUser->user['picture']['data'];
         $userdata->first_name = $providerUser->user['first_name'];
         $userdata->last_name = $providerUser->user['last_name'];
-        
+
       } else {
         $fullname = explode(" ", $providerUser->getName());
         $userdata->first_name = $fullname[0];
         $userdata->last_name = $fullname[1];
-        
+
       }
-      
+
       $existUser = false;
       $user = User::where('email',$userdata->email)->first();
-      
-      
+
+
       if(!$user){
-        
-        
+
+
         $whiteListEmails = config("asgard.iprofile.config.whiteListEmails");
         if(!empty($whiteListEmails)){
           if(!in_array($userdata->email,$whiteListEmails)) throw new \Exception('Email register unauthorized', 401);
         }
-        
+
         //Format dat ot create user
         $data = [
           'first_name' => $userdata->first_name,
@@ -499,22 +495,22 @@ class AuthApiController extends BaseApiController
           'roles' => [2],// role 2 User
           'activated' => true
         ];
-        
+
         //Create user
         $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);
-        
+
         if($user) {
           $user->departments()->sync(Arr::get($data, 'departments', []));
           $user = User::where('email', $userdata->email)->first();
         }else
           return null;
-        
+
       }else{
         $existUser=true;
       }
-      
-      
-      
+
+
+
       if (isset($user->email) && !empty($user->email)) {
         $createSocial=true;
         if($existUser){
@@ -530,8 +526,8 @@ class AuthApiController extends BaseApiController
           $provideraccount->provider = $criteria;
           $provideraccount->options = ['short_token'=>$providerUser->token];
           $provideraccount->save();
-          
-          
+
+
           //Let's create the Profile for this user
           switch($criteria){
             case 'facebook':
@@ -541,29 +537,29 @@ class AuthApiController extends BaseApiController
               $social_picture = str_replace("=s50","=s1920",$providerUser->getAvatar());
               break;
           }
-          
-          
+
+
           $b64image = 'data:image/jpg;base64,' . base64_encode(file_get_contents($social_picture));
           $field['user_id'] = $user->id;// Add user Id
           $field['value'] = $b64image;
           $field['name'] = 'mainImage';
           $this->validateResponseApi($this->field->create(new Request(['attributes' => (array)$field])));
-          
+
         }
-        
-        
+
+
       } else {
         return null;
       }
-      
-      
+
+
       return $user;
     }
-    
+
   }
-  
-  
-  
+
+
+
   /*======== Private Methods ========*/
   //Return token from request
   private function getRequestToken($request)
@@ -579,26 +575,26 @@ class AuthApiController extends BaseApiController
         } elseif ($parsedJwt->hasClaim('jti')) {
           $tokenId = $parsedJwt->getClaim('jti');
         }
-        
+
         //Find data Token
         $token = \DB::table('oauth_access_tokens')->where('id', $tokenId)->first();
         $success = true;//Default state
-        
+
         //Validate if exist token
         if (!isset($token)) $success = false;
-        
+
         //Validate if is revoked
         if (isset($token) && (int)$token->revoked >= 1) $success = false;
-        
+
         //Validate if Token was ended
         if (isset($token) && (strtotime(now()) >= strtotime($token->expires_at))) $success = false;
-        
+
         //Revoke Token if is invalid
         if (!$success) {
           if (isset($token)) $token->delete();//Delete token
           throw new Exception('Unauthorized', 401);//Throw unautorize
         }
-        
+
         $response = ['data' => $token];//Response Token ID decode
         \DB::commit();//Commit to DataBase
       } else throw new Exception('Unauthorized', 401);//Throw unautorize
@@ -606,12 +602,12 @@ class AuthApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response, $status ?? 200);
   }
-  
-  
+
+
   /**
    * Provate method Clear Tokens
    */
@@ -622,8 +618,8 @@ class AuthApiController extends BaseApiController
       ->orWhere('revoked', 1)
       ->delete();
   }
-  
-  
+
+
   /**
    * @param $user
    * @return bool
