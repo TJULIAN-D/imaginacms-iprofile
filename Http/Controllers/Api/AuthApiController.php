@@ -28,6 +28,9 @@ use Modules\User\Contracts\Authentication;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Modules\Iprofile\Entities\ProviderAccount;
 use Modules\User\Repositories\RoleRepository;
+use Modules\User\Repositories\UserRepository;
+use Modules\Iprofile\Http\Controllers\Api\FieldApiController;
+
 //Controllers
 
 use Illuminate\Support\Arr;
@@ -44,9 +47,10 @@ class AuthApiController extends BaseApiController
   private $user;
   protected $auth;
 
-  public function __construct(UserApiController $userApiController, FieldApiController $fieldApiController, UserApiRepository $user)
+  public function __construct(UserApiController $userApiController, FieldApiController $fieldApiController, UserApiRepository $user, UserRepository $userRepository)
   {
     parent::__construct();
+    $this->userRepository = $userRepository;
     $this->userApiController = $userApiController;
     $this->fieldApiController = $fieldApiController;
     $this->user = $user;
@@ -236,13 +240,13 @@ class AuthApiController extends BaseApiController
         ))
       );
 
-      if(is_module_enabled('Icommerce')){
+      if (is_module_enabled('Icommerce')) {
 
         // Get a collection with the configuration of each payout for the logged in user
         $payoutsConfigUser = app('Modules\Icommerce\Services\PaymentMethodService')->getPayoutsForUser();
 
         // Add in userData
-        if(!is_null($payoutsConfigUser))
+        if (!is_null($payoutsConfigUser))
           $userData->payouts = $payoutsConfigUser;
 
       }
@@ -396,7 +400,7 @@ class AuthApiController extends BaseApiController
       //Get data
       $data = $request->input('attributes');
 
-      $user = $this->_createOrGetUser($criteria,$data);
+      $user = $this->_createOrGetUser($criteria, $data);
 
       //Request to Repository
       if (isset($user->id)) {
@@ -409,7 +413,7 @@ class AuthApiController extends BaseApiController
           'expiresIn' => $token->token->expires_at,
           'userData' => $userData->userData
         ]];//Response
-      }else{
+      } else {
         throw new \Exception('User not found', 404);
       }
 
@@ -432,10 +436,12 @@ class AuthApiController extends BaseApiController
   function _createOrGetUser($criteria, $data)
   {
 
-    if($criteria=="facebook") {
+    if ($criteria == "facebook") {
       $fields = ['first_name', 'last_name', 'picture.width(1920).redirect(false)', 'email', 'gender', 'birthday', 'address', 'about', 'link'];
       $providerUser = Socialite::driver($criteria)->stateless()->fields($fields)->userFromToken($data["token"]);
-    }else
+    } else if ($criteria == "google") {
+      $providerUser = Socialite::driver("google-jwt")->stateless()->userFromToken($data["token"]);
+    } else
       $providerUser = Socialite::driver($criteria)->stateless()->userFromToken($data["token"]);
 
     $providerAccount = app('Modules\Iprofile\Entities\ProviderAccount');
@@ -473,15 +479,15 @@ class AuthApiController extends BaseApiController
       }
 
       $existUser = false;
-      $user = User::where('email',$userdata->email)->first();
+      $user = User::where('email', $userdata->email)->first();
 
 
-      if(!$user){
+      if (!$user) {
 
 
         $whiteListEmails = config("asgard.iprofile.config.whiteListEmails");
-        if(!empty($whiteListEmails)){
-          if(!in_array($userdata->email,$whiteListEmails)) throw new \Exception('Email register unauthorized', 401);
+        if (!empty($whiteListEmails)) {
+          if (!in_array($userdata->email, $whiteListEmails)) throw new \Exception('Email register unauthorized', 401);
         }
 
         //Format dat ot create user
@@ -499,42 +505,41 @@ class AuthApiController extends BaseApiController
         //Create user
         $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["activated"]);
 
-        if($user) {
+        if ($user) {
           $user->departments()->sync(Arr::get($data, 'departments', []));
           $user = User::where('email', $userdata->email)->first();
-        }else
+        } else
           return null;
 
-      }else{
-        $existUser=true;
+      } else {
+        $existUser = true;
       }
 
 
-
       if (isset($user->email) && !empty($user->email)) {
-        $createSocial=true;
-        if($existUser){
-          $providerData = ProviderAccount::where('user_id',$user->id)->first();
-          if($providerData)
-            $createSocial=false;
+        $createSocial = true;
+        if ($existUser) {
+          $providerData = ProviderAccount::where('user_id', $user->id)->first();
+          if ($providerData)
+            $createSocial = false;
         }
-        if($createSocial){
+        if ($createSocial) {
           //Let's associate the Social Login with this user
           $provideraccount = new ProviderAccount();
           $provideraccount->provider_user_id = $providerUser->getId();
           $provideraccount->user_id = $user->id;
           $provideraccount->provider = $criteria;
-          $provideraccount->options = ['short_token'=>$providerUser->token];
+          $provideraccount->options = ['short_token' => $providerUser->token];
           $provideraccount->save();
 
 
           //Let's create the Profile for this user
-          switch($criteria){
+          switch ($criteria) {
             case 'facebook':
-              $social_picture = str_replace("type=normal","width=1920",$providerUser->getAvatar());
+              $social_picture = str_replace("type=normal", "width=1920", $providerUser->getAvatar());
               break;
             case 'google':
-              $social_picture = str_replace("=s50","=s1920",$providerUser->getAvatar());
+              $social_picture = str_replace("=s50", "=s1920", $providerUser->getAvatar());
               break;
           }
 
@@ -543,7 +548,7 @@ class AuthApiController extends BaseApiController
           $field['user_id'] = $user->id;// Add user Id
           $field['value'] = $b64image;
           $field['name'] = 'mainImage';
-          $this->validateResponseApi($this->field->create(new Request(['attributes' => (array)$field])));
+          $this->validateResponseApi($this->fieldApiController->create(new Request(['attributes' => (array)$field])));
 
         }
 

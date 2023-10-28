@@ -14,6 +14,8 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel as SentinelCartalyst;
 use Modules\Iprofile\Http\Middleware\AuthCan;
 use Modules\Iprofile\Http\Middleware\SettingMiddleware;
 use Modules\Iprofile\Http\Middleware\OptionalAuth;
+use Socialite;
+use Modules\Iprofile\Services\SocialiteGoogleJWTProvider;
 
 class IprofileServiceProvider extends ServiceProvider
 {
@@ -66,6 +68,12 @@ class IprofileServiceProvider extends ServiceProvider
     //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     $this->registerComponents();
     $this->registerComponentsLivewire();
+
+    //Include custom provider for Socialite
+    Socialite::extend('google-jwt', function ($app) {
+      $config = $app['config']['services.google'];
+      return new SocialiteGoogleJWTProvider($app['request'], $config['client_id'], $config['client_secret'], $config['redirect']);
+    });
   }
 
   /**

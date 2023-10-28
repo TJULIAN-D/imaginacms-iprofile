@@ -11,7 +11,8 @@
         "laravel/passport": "^10.0",
         "laravel/socialite": "^5.1",
         "fruitcake/laravel-cors": "^2.0",
-        "jeroendesloovere/vcard": "^1.7"
+        "jeroendesloovere/vcard": "^1.7",
+        "firebase/php-jwt": "^6.4"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
