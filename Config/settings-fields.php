@@ -377,6 +377,21 @@ return [
       'entityId' => null
     ]
   ],
+  //Auth Type
+  'authType' => [
+    'name' => 'iprofile::authType',
+    'value' => 'withPassword',
+    'type' => 'select',
+    'groupName' => 'register',
+    'groupTitle' => 'iprofile::settings.settingGroups.auth',
+    'props' => [
+      'label' => 'iprofile::settings.authType',
+      'options' => [
+        ['label' => 'iprofile::cms.label.withPassword', 'value' => 'withPassword'],
+        ['label' => 'iprofile::cms.label.withEmail', 'value' => 'withEmail']
+      ]
+    ],
+  ],
   //auth Title
   'authTitle' => [
     'name' => 'iprofile::authTitle',
