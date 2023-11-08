@@ -44,13 +44,17 @@ return [
     "myProfile" => "Mi perfil | Mis perfiles",
     "userGroup" => "Grupo de usuario | Grupos de usuario",
     "registerAs" => "Registrarme como",
-    "incognitoProfile" => "Perfil incógnito"
+    "incognitoProfile" => "Perfil incógnito",
+    "withPassword" => "Con contraseña",
+    "withEmail" => "Solo con email"
   ],
   "form" => [
     "lastLogin" => "Ultima sesión",
     "defaultAddress" => "Dirección por defecto",
     "documentType" => "Tipo de documento",
-    "documentnumber" => "Numero de documento"
+    "documentnumber" => "Numero de documento",
+    "emailLogin" => "Continuar con Email",
+    "sendEmailToVerify" => "Hemos enviado un correo electrónico a <b>{email}</b> en donde encontrarás un enlace seguro para acceder. Por favor, verifica tu bandeja de entrada para acceder de manera segura."
   ],
   "message" => [
     "emailExist" => "El email ya está registrado",
