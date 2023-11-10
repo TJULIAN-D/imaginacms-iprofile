@@ -22,6 +22,7 @@ use Modules\User\Http\Controllers\AuthController;
 use Modules\User\Repositories\RoleRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Entities\Sentinel\User;
+use Modules\Isite\Entities\Tokenable as Token;
 use Modules\Setting\Contracts\Setting;
 use Lcobucci\JWT\Parser;
 use Validator;
@@ -589,7 +590,48 @@ class AuthProfileController extends AuthController
     }
 
   }
-  
 
+  /**
+   * GET LOGIN WITH EMAIL
+   *
+   * @param
+   * @return
+   */
+  public function getLoginWithEmail(Request $request, $token)
+  {
+    $data = $request->all();
+    $modelToken = Token::where('token', $token)->first();
+
+
+    // Returns a string if the URL has parameters or NULL if not
+
+
+    if(isset($modelToken) && isset($data["redirectTo"])) {
+      $urlRedirect = $data["redirectTo"];
+      $userId = $modelToken->entity_id;
+      $user = User::where('id', $userId)->first();
+
+      $validateToken = $user->validateToken($token);
+
+      if($validateToken ?? true) {
+        $login = \Auth::loginUsingId($userId);//Loged impersonator
+        $bearer = $login->createToken('Laravel Password Grant Client');
+
+        $redirectWithout = preg_replace('/#/', '', $urlRedirect, 1);
+        $query = parse_url($redirectWithout, PHP_URL_QUERY);
+
+        if ($query) {
+          $urlRedirect .= '&authbearer='.$bearer->accessToken;
+        } else {
+          $urlRedirect .= '?authbearer='.$bearer->accessToken;
+        }
+
+        return redirect($urlRedirect);
+      }
+    }
+
+    return abort(404);
+
+  }
 
 }

@@ -13,6 +13,11 @@ $router->get('auth/login', [
   'uses' => 'AuthProfileController@getLogin'
 ]);
 
+$router->get('auth/validate/email/{token}', [
+  'as' => 'auth.validate.email-token',
+  'uses' => 'AuthProfileController@getLoginWithEmail'
+]);
+
 #==================================================== Prefix account
 Route::group(['prefix' => LaravelLocalization::setLocale(),
   'middleware' => ['localize']], function (Router $router) use ($locale) {
