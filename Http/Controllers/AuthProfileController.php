@@ -602,31 +602,32 @@ class AuthProfileController extends AuthController
     $data = $request->all();
     $modelToken = Token::where('token', $token)->first();
 
-
     // Returns a string if the URL has parameters or NULL if not
-
-
-    if(isset($modelToken) && isset($data["redirectTo"])) {
+    if($modelToken && isset($data["redirectTo"])) {
       $urlRedirect = $data["redirectTo"];
-      $userId = $modelToken->entity_id;
-      $user = User::where('id', $userId)->first();
 
-      $validateToken = $user->validateToken($token);
+      if($modelToken->entity_type === 'Modules\User\Entities\Sentinel\User') {
+        $userId = $modelToken->entity_id;
+        $user = User::where('id', $userId)->first();
 
-      if($validateToken ?? true) {
-        $login = \Auth::loginUsingId($userId);//Loged impersonator
-        $bearer = $login->createToken('Laravel Password Grant Client');
+        $validateToken = $user->validateToken($token);
 
-        $redirectWithout = preg_replace('/#/', '', $urlRedirect, 1);
-        $query = parse_url($redirectWithout, PHP_URL_QUERY);
+        if($validateToken) {
+          $login = \Auth::loginUsingId($userId);//Loged impersonator
+          $bearer = $login->createToken('Laravel Password Grant Client');
 
-        if ($query) {
-          $urlRedirect .= '&authbearer='.$bearer->accessToken;
-        } else {
-          $urlRedirect .= '?authbearer='.$bearer->accessToken;
+          $redirectWithout = preg_replace('/#/', '', $urlRedirect, 1);
+          $query = parse_url($urlRedirect, PHP_URL_QUERY);
+          if(!$query) $query = parse_url($redirectWithout, PHP_URL_QUERY);
+
+          if ($query) {
+            $urlRedirect .= '&authbearer='.$bearer->accessToken;
+          } else {
+            $urlRedirect .= '?authbearer='.$bearer->accessToken;
+          }
+
+          return redirect($urlRedirect);
         }
-
-        return redirect($urlRedirect);
       }
     }
 
