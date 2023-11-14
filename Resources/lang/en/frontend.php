@@ -105,7 +105,13 @@ return [
     "password updated" => 'Password Updated!',
     "You already used this password" => "You already used this password",
     "You must change the password" => "You must change the password since it is expired"
-  ]
+  ],
 
+  'email' => [
+    'readyToProceed' => 'Ready to proceed!',
+    'loginLink' => 'Or you can copy the following link: <br/> :link',
+    'proceedToLogin' => 'Proceed to Login',
+    'clickLogin' => 'You can log in by clicking the button:'
+  ]
 
 ];

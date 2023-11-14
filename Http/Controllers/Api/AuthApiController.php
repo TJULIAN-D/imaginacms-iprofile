@@ -35,6 +35,7 @@ use Modules\Iprofile\Http\Controllers\Api\FieldApiController;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class AuthApiController extends BaseApiController
 {
@@ -634,5 +635,66 @@ class AuthApiController extends BaseApiController
     if (isset($user))
       return $user->createToken('Laravel Password Grant Client');
     else return false;
+  }
+
+  /**
+   * Access With Email Api Controller
+   * @param Request $request
+   * @return mixed
+   */
+  public function accessWithEmail(Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+      $data = $request->input('attributes') ?? [];
+
+      $validator = Validator::make($data,[
+        'email' => 'required|email'
+      ]);
+
+      if ($validator->fails()) {
+        throw new Exception("Incorrect email", 400);
+      }
+
+      $user = User::where('email', $data["email"])->first();
+
+      //Verify if exist user
+      if(!$user) {
+        $userData = [
+          "email" => $data["email"],
+          "password" => generatePassword()
+        ];
+
+        //Create user with email and possword
+        $user = $this->userRepository->createWithRoles($userData, [2], true);
+      }
+
+      //Generate token, to use 1 time
+      $userToken =  $user->generateToken(1, 1);
+      $url = route('auth.validate.email-token', ['token' => $userToken->token, 'redirectTo' => $data["redirectTo"]]);
+
+      //Import notification
+      $notification = app("Modules\Notification\Services\Inotification");
+      $notification->provider('email')
+          ->to($data["email"])
+          ->push([
+            "title" => trans("iprofile::frontend.email.readyToProceed"),
+            "message" => trans("iprofile::frontend.email.clickLogin"),
+            "buttonText" => trans("iprofile::frontend.email.proceedToLogin"),
+            "withButton" => true,
+            "link" => $url,
+            "extraMessage" => trans("iprofile::frontend.email.loginLink", ['link' => $url]),
+            "view" => "iprofile::emails.layouts.access-email"
+          ]);
+
+      \DB::commit();//Commit to DataBase
+    } catch (Exception $e) {
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+    }
+
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 }

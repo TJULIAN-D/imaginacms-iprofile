@@ -105,7 +105,13 @@ return [
     "password updated" => 'Contraseña actualizada!',
     "You already used this password" => "Ya utilizaste esta contraseña",
     "You must change the password" => "Debes cambiar la contraseña ya que se encuentra vencida"
-  ]
+  ],
 
+  'email' => [
+    'readyToProceed' => '¡Listo para continuar!',
+    'loginLink' => 'O puedes copiar el siguiente enlace: <br/> :link',
+    'proceedToLogin' => 'Inicia sesión ahora',
+    'clickLogin' => 'Puedes iniciar sesión haciendo clic en el botón:'
+  ]
 
 ];

@@ -77,6 +77,9 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
     'uses' => 'AuthApiController@getSocialAuthCallback'
   ]);
 
-
+  $router->post('access-with-email', [
+    'as' => $locale . 'api.iprofile.access-with-email',
+    'uses' => 'AuthApiController@accessWithEmail',
+  ]);
 
 });
