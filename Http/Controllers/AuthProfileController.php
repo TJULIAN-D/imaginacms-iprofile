@@ -626,6 +626,8 @@ class AuthProfileController extends AuthController
             $urlRedirect .= '?authbearer='.$bearer->accessToken;
           }
 
+          $urlRedirect .= '&expiresatbearer='.$bearer->token->expires_at;
+
           return redirect($urlRedirect);
         }
       }
