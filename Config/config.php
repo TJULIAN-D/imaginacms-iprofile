@@ -106,7 +106,7 @@ return [
       "quasarUrl" => '/ipanel/#/auth/login/',
       "icon" => "fa fa-user mr-2",
       "showInMenuWithoutSession" => true,
-      'dispatchModal' => "#userLoginModal"
+      //'dispatchModal' => "#userLoginModal"
     ],
     [
       "title" => "iprofile::frontend.button.register",
