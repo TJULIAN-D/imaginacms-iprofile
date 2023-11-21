@@ -57,6 +57,8 @@ class UserTransformer extends JsonResource
 
       'allPermissions' => $this->relationLoaded('roles') ? $this->permissionsApiController->getAll(['userId' => $this->id]) : [],
       'allSettings' => $this->relationLoaded('roles') ? $this->settingsApiController->getAll(['userId' => $this->id]) : [],
+      'files' => $this->files,
+      'mediaFiles' => $request->input('localTest') ? $this->mediaFiles() : null
     ];
 
     $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
