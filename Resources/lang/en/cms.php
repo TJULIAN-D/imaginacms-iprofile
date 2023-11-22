@@ -45,7 +45,8 @@ return [
     "registerAs" => "Register as",
     "incognitoProfile" => "Incognito profile",
     "withPassword" => "With password",
-    "withEmail" => "Only with email"
+    "withEmail" => "Only with email",
+    "profilePicture" => "Profile Picture"
   ],
   "form" => [
     "lastLogin" => "Last login",
