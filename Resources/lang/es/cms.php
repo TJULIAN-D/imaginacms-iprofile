@@ -46,7 +46,8 @@ return [
     "registerAs" => "Registrarme como",
     "incognitoProfile" => "Perfil incógnito",
     "withPassword" => "Con contraseña",
-    "withEmail" => "Solo con email"
+    "withEmail" => "Solo con email",
+    "profilePicture" => "Foto de Perfil"
   ],
   "form" => [
     "lastLogin" => "Ultima sesión",
