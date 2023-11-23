@@ -54,7 +54,8 @@ return [
     "documentType" => "Document type",
     "documentnumber" => "Document number",
     "emailLogin" => "Continue With Email",
-    "sendEmailToVerify" => "We have sent an email to <b>{email}</b> where you will find a secure link to access. Please check your inbox to access securely."
+    "sendEmailToVerify" => "We have sent an email to <b>{email}</b> where you will find a secure link to access. Please check your inbox to access securely.",
+    "introMessage" => "Enter your email, and we'll send you a link to connect quickly and securely"
   ],
   "message" => [
     "emailExist" => "Email already exist",
