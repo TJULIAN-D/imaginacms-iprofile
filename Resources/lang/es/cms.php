@@ -55,7 +55,8 @@ return [
     "documentType" => "Tipo de documento",
     "documentnumber" => "Numero de documento",
     "emailLogin" => "Continuar con Email",
-    "sendEmailToVerify" => "Hemos enviado un correo electrónico a <b>{email}</b> en donde encontrarás un enlace seguro para acceder. Por favor, verifica tu bandeja de entrada para acceder de manera segura."
+    "sendEmailToVerify" => "Hemos enviado un correo electrónico a <b>{email}</b> en donde encontrarás un enlace seguro para acceder. Por favor, verifica tu bandeja de entrada para acceder de manera segura.",
+    "introMessage" => "Ingresa tu email, te enviaremos un link para conectarte de forma rápida y segura"
   ],
   "message" => [
     "emailExist" => "El email ya está registrado",
