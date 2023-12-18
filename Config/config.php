@@ -145,5 +145,7 @@ return [
     'user' => "iprofile::cms.documentation.user",
     'departments' => "iprofile::cms.documentation.departments",
     'role' => "iprofile::cms.documentation.role",
-  ]
+  ],
+  /*Option that you can use withEmail | withPassword */
+  'authType' => 'withPassword'
 ];
