@@ -56,7 +56,11 @@ return [
     "documentnumber" => "Numero de documento",
     "emailLogin" => "Continuar con Email",
     "sendEmailToVerify" => "Hemos enviado un correo electrónico a <b>{email}</b> en donde encontrarás un enlace seguro para acceder. Por favor, verifica tu bandeja de entrada para acceder de manera segura.",
-    "introMessage" => "Ingresa tu email, te enviaremos un link para conectarte de forma rápida y segura"
+    "introMessage" => "Ingresa tu email, te enviaremos un link para conectarte de forma rápida y segura",
+    "checkYourEmail" => "Comprueba tu correo electronico",
+    "checkYourSpamFolder" => "Comprueba la carpeta de correo no deseado.",
+    "resendEmail" => "Volver a enviar correo electronico",
+    "notReceivedEmail" => "¿No has recibido el correo electronico?"
   ],
   "message" => [
     "emailExist" => "El email ya está registrado",
