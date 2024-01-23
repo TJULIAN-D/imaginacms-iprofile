@@ -13,8 +13,8 @@ class UserTransformer extends JsonResource
 {
   public function toArray($request)
   {
-    $this->permissionsApiController = new PermissionsApiController();
-    $this->settingsApiController = new SettingsApiController();
+    $this->permissionsApiController = app("Modules\Ihelpers\Http\Controllers\Api\PermissionsApiController");
+    $this->settingsApiController = app("Modules\Ihelpers\Http\Controllers\Api\SettingsApiController");
     $mainImage = $this->fields ? $this->fields->where('name', 'mainImage')->first() : null;
     $contacts = $this->fields ? $this->fields->where('name', 'contacts')->first() : null;
     $socialNetworks = $this->fields ? $this->fields->where('name', 'socialNetworks')->first() : null;
@@ -23,7 +23,7 @@ class UserTransformer extends JsonResource
     $settings = json_decode(json_encode(SettingTransformer::collection($this->settings ?? collect([]))));
     $settingsResponse = [];
     foreach ($settings as $setting) $settingsResponse[$setting->value->name ?? $setting->name] = $setting->value->value ?? $setting->value;
-
+    
     $data = [
       'id' => $this->when($this->id, $this->id),
       'firstName' => $this->when($this->first_name, $this->first_name),
