@@ -99,26 +99,9 @@ class FieldApiController extends BaseApiController
 
       //Validate Request
       $this->validateRequestApi(new CreateCustomFieldRequest((array)$data));
-  
-      $fieldsConfig=config()->get('asgard.iprofile.config.fields');
-      if (count($fieldsConfig)) {
-        foreach ($fieldsConfig as $index => $field) {
-          if($field == $data['name']){
-            
-            if ($data['name'] == 'mainImage') {
-              //Update Iprofile image
-              $data['value'] = saveImage($data['value'], "assets/iprofiles/" . $data['user_id'] . ".jpg");
-            }
-  
-            //Create item
-            $this->field->create($data);
-  
-          }
-          
-        }
-      }
-      
-      
+
+        //Create item
+        $this->field->create($data);
 
       //Response
       $response = ["data" => ""];
@@ -152,7 +135,7 @@ class FieldApiController extends BaseApiController
         $endFile = 'jpg';
         if(Str::startsWith($data['value'], 'data:image/png;'))
           $endFile = 'png';
-        
+
         //Update Iprofile image
         $data['value'] = saveImage($data['value'], "assets/iprofiles/" . $data['user_id'] . ".$endFile");
       }
