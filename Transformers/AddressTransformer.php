@@ -34,6 +34,8 @@ class AddressTransformer extends BaseApiTransformer
       'neighborhoodId' => $this->when($this->neighborhood_id, $this->neighborhood_id),
       'appSuit' => $this->when($this->app_suit, $this->app_suit),
       'type' => $this->when($this->type, $this->type),
+      'lat' => $this->when($this->lat, $this->lat),
+      'lng' => $this->when($this->lng, $this->lng),
       'user' => new UserTransformer($this->whenLoaded('user')),
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),

@@ -32,6 +32,9 @@ class Address extends Model
       'neighborhood_id',
       'type',
       'default',
+      'lat',
+      'lng',
+      'warehouse_id',
       'options'
     ];
   
@@ -64,6 +67,19 @@ class Address extends Model
   public function getOptionsAttribute($value)
   {
     return json_decode($value);
+  }
+
+   /**
+   * Relation with Icommerce Warehouse
+   */
+  public function warehouse()
+  {
+
+    if (is_module_enabled('Icommerce')) {
+      return $this->belongsTo("Modules\Icommerce\Entities\Warehouse");
+    }
+    return null;
+   
   }
   
 }
