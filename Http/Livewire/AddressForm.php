@@ -221,9 +221,10 @@ private function validateCity(){
   private function initAddress()
   {
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
+
     $options = [];
     foreach ($this->addressesExtraFields as $extraField) {
-      if ($extraField->active) {
+      if ($extraField->active ?? false) {
         if ($extraField->field == "documentType") {
           $options["documentNumber"] = "";
         }

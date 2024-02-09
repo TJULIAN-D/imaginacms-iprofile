@@ -181,6 +181,7 @@ class IprofileServiceProvider extends ServiceProvider
   private function registerComponentsLivewire()
   {
     Livewire::component('iprofile::address-form', \Modules\Iprofile\Http\Livewire\AddressForm::class);
+    Livewire::component('iprofile::address-list', \Modules\Iprofile\Http\Livewire\AddressList::class);
   }
 
 }

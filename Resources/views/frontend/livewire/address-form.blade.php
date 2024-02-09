@@ -180,7 +180,7 @@
               
               @foreach($addressesExtraFields as $extraField)
                 {{-- if is active--}}
-                @if($extraField->active)
+                @if($extraField->active ?? false)
                   
                   {{-- form group--}}
                   <div class="form-group">
