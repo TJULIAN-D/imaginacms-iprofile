@@ -549,4 +549,17 @@ return [
       ]
     ],
   ],
+  //Address Autocomplete
+  'addressAutocomplete' => [
+    "onlySuperAdmin" => true,
+    'name' => 'iprofile::addressAutocomplete',
+    'value' => "0",
+    'type' => 'checkbox',
+    'props' => [
+      'trueValue' => "1",
+      'falseValue' => "0",
+      'label' => 'iprofile::settings.addressAutocomplete'
+    ],
+  ],
+
 ];

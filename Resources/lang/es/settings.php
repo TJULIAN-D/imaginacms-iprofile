@@ -74,5 +74,6 @@ return [
     'label' => "Cerrar sesión por inactividad (minutos)",
     'helpText' => "Define el numero de minutos, para cerrar la sesión por inactividad. Si el valor es menor a 1, no se cerrara la sesión por inactividad"
   ],
-  'authType' => 'Tipo de inicio de sesión'
+  'authType' => 'Tipo de inicio de sesión',
+  'addressAutocomplete' => 'Campo Dirección con Autocompletado (Componente Address)'
 ];
