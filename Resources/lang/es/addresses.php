@@ -14,6 +14,7 @@ return [
   'button' => [
     'create address' => 'Crear una dirección',
     'add_address' => 'Agregar dirección',
+    'cancel' => 'Cancelar'
   ],
   'table' => [
   ],
