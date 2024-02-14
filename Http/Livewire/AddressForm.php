@@ -336,7 +336,8 @@ private function validateCity(){
 
     //Emit to update marker in map
     $this->dispatchBrowserEvent('google-update-marker-in-map',[
-      'itemPosition' => $params['newPosition']
+      'itemPosition' => $params['newPosition'],
+      'inputVarName' => $params['inputVarName']
     ]);
     
   }
