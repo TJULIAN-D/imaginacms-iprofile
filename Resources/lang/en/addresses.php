@@ -10,6 +10,7 @@ return [
     'create address' => 'Create an address',
     'edit address' => 'Edit an address',
     'myAddresses' => 'My Addresses',
+    'important' => 'Important,'
   ],
   'button' => [
     'create address' => 'Create an address',
@@ -47,7 +48,9 @@ return [
     'email' => 'Email'
   ],
   'messages' => [
-    "created" => "Address created successfully"
+    "created" => "Address created successfully",
+    "select address in searcher" => "Once you select the address with the search engine, a Marker will appear on the map.",
+    "not address in searcher" => "If your address does not appear in the search engine, you must search for it on the map and click on it so that the marker appears",
   ],
   'validation' => [
     "required" => "The field is required",
