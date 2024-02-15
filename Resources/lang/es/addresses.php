@@ -55,8 +55,8 @@ return [
   ],
   'messages' => [
     "created" => "Dirección creada exitosamente",
-    "select address in searcher" => "Una vez que selecciones la dirección con el buscador, aparecerá un Marcador en el mapa.",
-    "not address in searcher" => "Si tu direccíon, no aparece en el buscador, deberás buscarla en el mapa y hacer click sobre el mismo para que aparezca el marcador",
+    "select address in searcher" => "Una vez que selecciones la dirección con el buscador, aparecerá un punto rojo en el mapa.",
+    "not address in searcher" => "Si tu direccíon, no aparece en el buscador, deberás buscarla en el mapa y hacer click sobre el mismo para que aparezca el punto rojo (marcador)",
   ],
   'validation' => [
     "required" => "Valor requerido obligatoriamente",

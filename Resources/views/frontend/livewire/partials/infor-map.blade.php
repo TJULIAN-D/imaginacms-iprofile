@@ -1,4 +1,4 @@
-<div class="infor-map-address text-small my-1">
+<div class="infor-map-address-delivery text-small my-2">
     <strong>{{trans('iprofile::addresses.title.important')}}:</strong> 
     
     <ul class="mb-0">
@@ -7,3 +7,9 @@
     </ul>
     
 </div>
+
+<style>
+    .infor-map-address-delivery ul li{
+        line-height: 1.1;
+    }
+</style>
