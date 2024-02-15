@@ -63,8 +63,11 @@
 
                 {{-- ADDRESS WITH AUTOCOMPLETE --}}
                 @if($showAddressmap)
+                  @include('iprofile::frontend.livewire.partials.infor-map')
                   @include('iprofile::frontend.livewire.partials.autocomplete-google',['inputId' => 'paymentAddress1','inputVarName' => 'address_1' ,'insideModal' => $insideModal])
-                  <br>
+
+                  @php $trans = trans("iprofile::addresses.validation.marker.required") @endphp
+                  {!! $errors->first("address.country", trans("iprofile::addresses.validation.marker.required")) !!}
                   <x-isite::maps :usingLivewire="true" :allowMoveMarker="true" :showLocationName="false"/>
                 @endif
               

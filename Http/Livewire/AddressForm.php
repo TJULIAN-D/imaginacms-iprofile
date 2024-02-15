@@ -355,6 +355,7 @@ private function validateCity(){
     $this->address['lng'] = $params['newPosition']['lng'];
    
     //Save new address in variable
+    //\Log::info($this->log.'updateDataFromExternal|Input Value: '.$params['inputValue']);
     $this->address[$params['inputVarName']] = $params['inputValue'];
 
     //Search Required data in Ilocations

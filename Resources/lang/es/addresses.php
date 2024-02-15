@@ -10,6 +10,7 @@ return [
     'create address' => 'Crear nueva dirección',
     'edit address' => 'Editar una dirección',
     'myAddresses' => 'Mis Direcciones',
+    'important' => 'Importante'
   ],
   'button' => [
     'create address' => 'Crear una dirección',
@@ -53,7 +54,9 @@ return [
     'email' => 'Correo Electronico'
   ],
   'messages' => [
-    "created" => "Dirección creada exitosamente"
+    "created" => "Dirección creada exitosamente",
+    "select address in searcher" => "Una vez que selecciones la dirección con el buscador, aparecerá un Marcador en el mapa.",
+    "not address in searcher" => "Si tu direccíon, no aparece en el buscador, deberás buscarla en el mapa y hacer click sobre el mismo para que aparezca el marcador",
   ],
   'validation' => [
     "required" => "Valor requerido obligatoriamente",
@@ -78,5 +81,8 @@ return [
       'invalid_data' => 'Información inválida',
       'missing_fields' => 'Faltan campos obligatorios, llena y envía nuevamente',
     ],
+    'marker' => [
+      'required' => '<span class="help-block text-danger">El marcador de la ubicación en el mapa es obligatorio</span>'
+    ]
   ],
 ];
