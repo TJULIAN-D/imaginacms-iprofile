@@ -84,14 +84,17 @@ class AddressList extends Component
         $this->addressSelected = $this->addressRepository()->getItem($this->addressSelected);
         
       }
-      
+      /*
       if(is_null($this->addressSelected) && $this->addresses->isNotEmpty()){
   
         $this->addressSelected = $this->addresses->first();
       }
+  */
+      if(isset($this->addressSelected->id)){
   
-      if(isset($this->addressSelected->id))
         $this->addressSelectedId = $this->addressSelected->id;
+        $this->emit($this->emit, $this->addressSelectedId);
+      }
     
   }
 
