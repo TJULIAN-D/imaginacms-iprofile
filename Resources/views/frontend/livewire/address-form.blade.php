@@ -63,9 +63,7 @@
 
                 {{-- ADDRESS WITH AUTOCOMPLETE --}}
                 @if($showAddressmap)
-                  @include('iprofile::frontend.livewire.partials.autocomplete-google',['inputId' => 'paymentAddress1','inputVarName' => 'address_1' ,'insideModal' => $insideModal])
-                  <br>
-                  <x-isite::maps :usingLivewire="true" :allowMoveMarker="true" :showLocationName="false"/>
+                  @include('iprofile::frontend.livewire.partials.address-map')
                 @endif
               
               </div>
