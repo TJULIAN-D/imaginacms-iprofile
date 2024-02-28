@@ -5,7 +5,7 @@
             $userData = $user['data'];
         @endphp
         <div  class="account-menu dropdown d-inline-block" id="accMenuDrop">
-            <button class="btn dropdown-toggle" type="button" role="button"
+            <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false" aria-label="dropdown profile">
 
@@ -60,8 +60,8 @@
 
         </div>
     @else
-        <div class="account-menu dropdown d-inline-block" id="accMenuDrop">
-            <button class="btn dropdown-toggle" type="button" role="button"
+        <div class="account-menu dropdown d-inline-block " id="accMenuDrop">
+            <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false" aria-label="dropdown profile">
                 <div class="user d-inline-block">
@@ -129,6 +129,13 @@
 
 
     @section('scripts')
+        <style>
+        @if(!empty($styleUser))
+        #{{ $id }} #accMenuDrop > button {
+        {!!$styleUser!!}
+        }
+        @endif
+        </style>
         <script type="text/javascript">
           $("#accMenuDrop").hover(function(){
             $(this).addClass("show");
