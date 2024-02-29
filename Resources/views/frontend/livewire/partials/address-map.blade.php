@@ -13,4 +13,5 @@
     :usingLivewire="true" 
     :allowMoveMarker="true" 
     :showLocationName="false" 
-    zoom="13"/>
+    zoom="13"
+    inputVarName='address_1'/>
