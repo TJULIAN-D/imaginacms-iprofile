@@ -561,5 +561,17 @@ return [
       'label' => 'iprofile::settings.addressAutocomplete'
     ],
   ],
+  //Hide lastname
+  'hideLastNameInAddress' => [
+    "onlySuperAdmin" => true,
+    'name' => 'iprofile::hideLastNameInAddress',
+    'value' => "1",
+    'type' => 'checkbox',
+    'props' => [
+      'trueValue' => "1",
+      'falseValue' => "0",
+      'label' => 'iprofile::settings.hideLastNameInAddress'
+    ],
+  ],
 
 ];

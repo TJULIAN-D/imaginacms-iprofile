@@ -32,23 +32,29 @@
               
               <div class="form-group row pt-2">
                 <div class="col pr-1">
-                  <label for="payment_firstname">{{ trans('iprofile::addresses.form.firstName') }}
-                    <span class="text-danger">*</span> </label>
+                  <label for="payment_firstname">
+                    @if(!$hideLastName) {{trans('iprofile::addresses.form.firstName')}} @else {{trans('iprofile::addresses.form.receiver')}} @endif
+                    <span class="text-danger">*</span> 
+                  </label>
                   <input class="form-control" type="text"
                          id="paymentFirstname"
                          wire:model.defer="address.first_name">
                   {!! $errors->first("address.first_name", '<span class="help-block text-danger">:message</span>') !!}
                 
                 </div>
-                <div class="col pl-1">
-                  <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}
-                    <span class="text-danger">*</span>
-                  </label>
-                  <input class="form-control" type="text"
-                         id="paymentLastname"
-                         wire:model.defer="address.last_name">
-                  {!! $errors->first("address.last_name", '<span class="help-block text-danger">:message</span>') !!}
-                </div>
+
+                {{-- LAST NAME --}}
+                @if(!$hideLastName)
+                  <div class="col pl-1">
+                    <label for="payment_lastname">{{ trans('iprofile::addresses.form.lastName') }}
+                      <span class="text-danger">*</span>
+                    </label>
+                    <input class="form-control" type="text"
+                          id="paymentLastname"
+                          wire:model.defer="address.last_name">
+                    {!! $errors->first("address.last_name", '<span class="help-block text-danger">:message</span>') !!}
+                  </div>
+                @endif
               
               </div>
               

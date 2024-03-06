@@ -29,6 +29,7 @@ class AddressForm extends Component
   public $insideModal;
   public $showCancelBtn;
   public $userAddresses;
+  public $hideLastName;
 
   protected $addressesExtraFields;
   protected $rules;
@@ -52,6 +53,8 @@ class AddressForm extends Component
     $this->addressGuest = $addressGuest;
     $this->shopAsGuest = false;
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
+    $this->hideLastName = setting('iprofile::hideLastNameInAddress', null, true);
+
     $this->initUser();
     $this->initAddress();
     $this->initCountries();
@@ -62,6 +65,7 @@ class AddressForm extends Component
     $this->insideModal = $insideModal;
     $this->showCancelBtn = $showCancelBtn;
     $this->userAddresses = $userAddresses;
+   
 
   }
 
@@ -201,16 +205,22 @@ private function validateCity(){
       ];
     else
       $cityRule = ['address.city_id' => 'required|integer'];
+
+    //Validation LastName Optional
+    if(!$this->hideLastName){
+      $lastNameRule = ['address.last_name' => 'string|min:3'];
+    }else{
+      $lastNameRule = [];
+    }
     
     return array_merge([
       'address.first_name' => 'required|string|min:3',
-      'address.last_name' => 'required|string|min:3',
       'address.country' => 'required|string',
       'address.telephone' => 'required|min:5|max:10',
       'address.state' => 'required|string',
       'address.default' => 'boolean',
       'address.address_1' => 'required|string|min:10',
-      'address.type' => 'string'], $extraFieldRules, $cityRule);
+      'address.type' => 'string'], $extraFieldRules, $cityRule, $lastNameRule);
 
   }
 
@@ -253,9 +263,23 @@ private function validateCity(){
     }
     $options["extraInfo"] = "";
     $options["customCity"] = false;
+
+    //Validation User Logged | Get Basi Information
+    if(!is_null($this->user)){
+      //Don't show LastName
+      if($this->hideLastName){
+         $userFirstName = $this->user->present()->fullname;
+         $userLastName = "";
+      }else{
+        //Show lastname
+        $userFirstName = $this->user->first_name;
+        $userLastName = $this->user->last_name;
+      }
+    }
+
     $this->address = [
-      'first_name' => $this->addressGuest['first_name'] ?? "",
-      'last_name' => $this->addressGuest['last_name'] ?? "",
+      'first_name' => $this->addressGuest['first_name'] ?? $userFirstName ?? "",
+      'last_name' => $this->addressGuest['last_name'] ?? $userLastName ?? "",
       'address_1' => $this->addressGuest['address_1'] ?? "",
       'telephone' => $this->addressGuest['telephone'] ?? "",
       'country' => $this->addressGuest['country'] ?? "",
