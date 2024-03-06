@@ -23,6 +23,7 @@ return [
     "name" => "Nombre",
     "firstName" => "Nombre",
     "lastName" => "Apellido",
+    "receiver" => "Destinatario",
     "address1" => "Dirección",
     "address2" => "Dirección extra",
     "birthday" => "Fecha de Cumpleaños",

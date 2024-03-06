@@ -22,6 +22,7 @@ return [
     "name" => "Name",
     "firstName" => "First Name",
     "lastName" => "Last Name",
+    "receiver" => "Receiver",
     "address1" => "Address 1",
     "address2" => "Address 2",
     "telephone" => "Phone Number",
