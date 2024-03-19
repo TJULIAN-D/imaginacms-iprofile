@@ -252,6 +252,9 @@ class AuthApiController extends BaseApiController
 
       }
 
+      // Re-sync session with website
+      $this->auth->logUserIn($user);
+
       //Response
       $response = ["data" => [
         'userData' => $userData
