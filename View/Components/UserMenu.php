@@ -58,6 +58,15 @@ class UserMenu extends Component
 
       if (!empty($moduleLinksCfg)) {
         foreach ($moduleLinksCfg as &$moduleLink) {
+
+          //Check if show or not de Link
+          if(isset($moduleLink['activeBySettingName'])){
+            $checkSetting = setting($moduleLink['activeBySettingName']);
+            if(!$checkSetting){
+              break;
+            }
+          }
+
           if (
             ($onlyShowInTheDropdownHeader && !isset($moduleLink["onlyShowInTheMenuOfTheIndexProfilePage"]))
             ||
