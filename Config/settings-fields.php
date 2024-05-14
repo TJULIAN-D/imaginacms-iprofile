@@ -573,4 +573,30 @@ return [
     ],
   ],
 
+  //Microsoft Options
+  'microsoftAuthUrl' => [
+    'value' => "",
+    'name' => 'iprofile::microsoftAuthUrl',
+    'type' => 'input',
+    'groupName' => 'microsoft',
+    'groupTitle' => 'isite::cms.label.microsoft',
+    'props' => [
+      'label' => 'isite::common.settings.microsoftAuthUrl'
+    ]
+  ],
+  'microsoftScopeLogin' => [
+    'value' => [],
+    'name' => 'isite::microsoftScopeLogin',
+    'type' => 'select',
+    'groupName' => 'microsoft',
+    'groupTitle' => 'isite::cms.label.microsoft',
+    'props' => [
+      'label' => 'isite::common.settings.microsoftScopeLogin',
+      'useInput' => true,
+      'useChips' => true,
+      'multiple' => true,
+      'newValueMode' => 'add-unique',
+      'hideDropdownIcon' => true,
+    ],
+  ],
 ];
