@@ -137,7 +137,8 @@ return [
       'fileName' => "Users",
       'fields' => ['id', 'first_name', 'last_name', 'email', 'last_login', 'created_at', 'updated_at'],
       'headings' => ['id', 'Nombre', 'Apellido', 'Email', 'Fecha Ultima Sesión', 'Fecha de Creación', 'Fecha Ultima Actualización'],
-      'repositoryName' => "UserApiRepository"
+      'repositoryName' => "UserApiRepository",
+      'exportName' => 'UsersExport'
     ]
   ],
   /*Translate keys of each entity. Based on the permission string*/
