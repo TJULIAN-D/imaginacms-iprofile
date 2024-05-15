@@ -586,7 +586,7 @@ return [
   ],
   'microsoftScopeLogin' => [
     'value' => [],
-    'name' => 'isite::microsoftScopeLogin',
+    'name' => 'iprofile::microsoftScopeLogin',
     'type' => 'select',
     'groupName' => 'microsoft',
     'groupTitle' => 'isite::cms.label.microsoft',
