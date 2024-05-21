@@ -8,7 +8,6 @@ use Modules\Iprofile\Entities\Address;
 class AddressList extends Component
 {
 
-
   public $addresses;
   public $addressSelected;
   public $addressSelectedId;
@@ -35,12 +34,12 @@ class AddressList extends Component
     try {
       $this->validate($this->setRules(), $this->setMessages());
       $this->initCities();
-      
+
       //validate if the address doesnt have a custom City to get the city name from the DB
       $this->validateCity();
-      
+
       $this->emit($this->livewireEvent, $this->address);
-    }catch (\Illuminate\Validation\ValidationException $e) {
+    } catch (\Illuminate\Validation\ValidationException $e) {
       // Do your thing and use $validator here
       $validator = $e->validator;
 
@@ -54,10 +53,10 @@ class AddressList extends Component
   public function updated($name, $value)
   {
     $this->emit($this->emit, $this->addressSelectedId);
-    $this->addressSelected = $this->addresses->where("id",$this->addressSelectedId)->first();
+    $this->addressSelected = $this->addresses->where("id", $this->addressSelectedId)->first();
 
   }
-  
+
 
   /**
    *
@@ -67,35 +66,33 @@ class AddressList extends Component
     $this->user = \Auth::user();
   }
 
- 
-
 
   private function initAddress()
   {
-   
-    if(empty($this->addresses) && isset($this->user->id)){
-  
+
+    if (empty($this->addresses) && isset($this->user->id)) {
+
       $this->addresses = $this->user->addresses;
-      
+
     }
-    
-      if(is_int($this->addressSelected)){
-        
-        $this->addressSelected = $this->addressRepository()->getItem($this->addressSelected);
-        
-      }
-      /*
-      if(is_null($this->addressSelected) && $this->addresses->isNotEmpty()){
-  
-        $this->addressSelected = $this->addresses->first();
-      }
-  */
-      if(isset($this->addressSelected->id)){
-  
-        $this->addressSelectedId = $this->addressSelected->id;
-        $this->emit($this->emit, $this->addressSelectedId);
-      }
-    
+
+    if (is_int($this->addressSelected)) {
+
+      $this->addressSelected = $this->addressRepository()->getItem($this->addressSelected);
+
+    }
+    /*
+    if(is_null($this->addressSelected) && $this->addresses->isNotEmpty()){
+
+      $this->addressSelected = $this->addresses->first();
+    }
+*/
+    if (isset($this->addressSelected->id)) {
+
+      $this->addressSelectedId = $this->addressSelected->id;
+      $this->emit($this->emit, $this->addressSelectedId);
+    }
+
   }
 
 
