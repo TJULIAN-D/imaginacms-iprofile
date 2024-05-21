@@ -8,7 +8,6 @@ use Modules\Iprofile\Entities\Address;
 class AddressForm extends Component
 {
 
-
   public $embedded;
   public $route;
   public $type;
@@ -33,7 +32,7 @@ class AddressForm extends Component
 
   protected $addressesExtraFields;
   protected $rules;
-  protected $listeners = ['addressEmit','updateMarkerInMap','updateDataFromExternal'];
+  protected $listeners = ['addressEmit', 'updateMarkerInMap', 'updateDataFromExternal'];
 
   /**
    * Create a new component instance.
@@ -41,7 +40,7 @@ class AddressForm extends Component
    * @return void
    */
   public function mount($embedded = false, $route = false, $type = null, $openInModal = false,
-                        $withButtonSubmit = true, $livewireEvent = null, $addressGuest = [], $insideModal = false, $showCancelBtn = false,$userAddresses = null)
+                        $withButtonSubmit = true, $livewireEvent = null, $addressGuest = [], $insideModal = false, $showCancelBtn = false, $userAddresses = null)
   {
     $this->log = "Iprofile::Livewire|AddressForm|";
     $this->embedded = $embedded;
@@ -71,7 +70,7 @@ class AddressForm extends Component
 
   public function addressEmit()
   {
-    \Log::info($this->log.'addressEmit');
+    \Log::info($this->log . 'addressEmit');
 
     try {
       $this->validate($this->setRules(), $this->setMessages());
@@ -81,84 +80,85 @@ class AddressForm extends Component
       $this->validateCity();
 
       $this->emit($this->livewireEvent, $this->address);
-    }catch (\Illuminate\Validation\ValidationException $e) {
+    } catch (\Illuminate\Validation\ValidationException $e) {
       // Do your thing and use $validator here
       $validator = $e->validator;
 
-            $this->alert('warning', trans('iprofile::addresses.validation.alerts.invalid_data'), config('asgard.isite.config.livewireAlerts'));
+      $this->alert('warning', trans('iprofile::addresses.validation.alerts.invalid_data'), config('asgard.isite.config.livewireAlerts'));
 
-            // Once you're done, re-throw the exception
-            throw $e;
-        }
+      // Once you're done, re-throw the exception
+      throw $e;
     }
+  }
 
-    public function updated($name, $value)
-    {
-        switch ($name) {
-            case 'address.country':
-                if (! empty($value)) {
-                    $this->address['country_id'] = $this->countries->where('iso_2', $value)->first()->id;
+  public function updated($name, $value)
+  {
+    switch ($name) {
+      case 'address.country':
+        if (!empty($value)) {
+          $this->address['country_id'] = $this->countries->where('iso_2', $value)->first()->id;
 
-                    $this->initProvinces();
-                }
-                break;
-
-            case 'address.state':
-                if (! empty($value)) {
-                    $this->address['state_id'] = $this->provinces->where('iso_2', $value)->first()->id;
-                    $this->initCities();
-                }
-                break;
+          $this->initProvinces();
         }
-    }
+        break;
 
-    public function save()
-    {
-        try {
-            $this->validate($this->setRules(), $this->setMessages());
-            $this->address['user_id'] = \Auth::user()->id ?? null;
-
-            //validate if the address doesnt have a custom City to get the city name from the DB
-            $this->validateCity();
-
-            $address = $this->addressRepository()->create($this->address);
-            $this->emit('addressAdded', $address);
-            $this->initAddress();
-            $this->alert('success', trans('iprofile::addresses.messages.created'), config('asgard.isite.config.livewireAlerts'));
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Do your thing and use $validator here
-            $validator = $e->validator;
-
-            $this->alert('warning', trans('iprofile::addresses.validation.alerts.invalid_data'), config('asgard.isite.config.livewireAlerts'));
-
-            // Once you're done, re-throw the exception
-            throw $e;
+      case 'address.state':
+        if (!empty($value)) {
+          $this->address['state_id'] = $this->provinces->where('iso_2', $value)->first()->id;
+          $this->initCities();
         }
+        break;
     }
+  }
 
-private function validateCity(){
+  public function save()
+  {
+    try {
+      $this->validate($this->setRules(), $this->setMessages());
+      $this->address['user_id'] = \Auth::user()->id ?? null;
 
-  if(!$this->showAddressmap){
-    //validate if the address doesnt have a custom City to get the city name from the DB
-    if (! isset($this->address['options']['customCity']) || ! $this->address['options']['customCity']) {
+      //validate if the address doesnt have a custom City to get the city name from the DB
+      $this->validateCity();
+
+      $address = $this->addressRepository()->create($this->address);
+      $this->emit('addressAdded', $address);
+      $this->initAddress();
+      $this->alert('success', trans('iprofile::addresses.messages.created'), config('asgard.isite.config.livewireAlerts'));
+    } catch (\Illuminate\Validation\ValidationException $e) {
+      // Do your thing and use $validator here
+      $validator = $e->validator;
+
+      $this->alert('warning', trans('iprofile::addresses.validation.alerts.invalid_data'), config('asgard.isite.config.livewireAlerts'));
+
+      // Once you're done, re-throw the exception
+      throw $e;
+    }
+  }
+
+  private function validateCity()
+  {
+
+    if (!$this->showAddressmap) {
+      //validate if the address doesnt have a custom City to get the city name from the DB
+      if (!isset($this->address['options']['customCity']) || !$this->address['options']['customCity']) {
         $city = $this->cities->where('id', $this->address['city_id'])->first();
         $this->address['city'] = $city->name ?? '';
         $this->address['zip_code'] = $city->code ?? '';
-    } else {
+      } else {
         $this->address['city_id'] = null;
+      }
     }
   }
-}
 
-    private function initUser()
-    {
-        $this->user = \Auth::user();
-    }
+  private function initUser()
+  {
+    $this->user = \Auth::user();
+  }
 
-    public function hydrate()
-    {
-        $this->rules = $this->setRules();
-    }
+  public function hydrate()
+  {
+    $this->rules = $this->setRules();
+  }
 
   /**
    *
@@ -167,7 +167,7 @@ private function validateCity(){
   {
     $this->addressesExtraFields = json_decode(setting('iprofile::userAddressesExtraFields', null, "[]"));
     $extraFieldRules = [];
-    if(is_array($this->addressesExtraFields)){
+    if (is_array($this->addressesExtraFields)) {
       foreach ($this->addressesExtraFields as $extraField) {
         $rule = "";
         switch ($extraField->type) {
@@ -196,7 +196,7 @@ private function validateCity(){
     }
 
     //custom validation for City: could be city from DB or custom city from the user
-    if(isset($this->address["options"]["customCity"]) && $this->address["options"]["customCity"])
+    if (isset($this->address["options"]["customCity"]) && $this->address["options"]["customCity"])
       $cityRule = [
         'address.city' => 'required|string',
         'address.zip_code' => 'required|string',
@@ -205,9 +205,9 @@ private function validateCity(){
       $cityRule = ['address.city_id' => 'required|integer'];
 
     //Validation LastName Optional
-    if(!$this->hideLastName){
+    if (!$this->hideLastName) {
       $lastNameRule = ['address.last_name' => 'string|min:3'];
-    }else{
+    } else {
       $lastNameRule = [];
     }
 
@@ -222,29 +222,29 @@ private function validateCity(){
 
   }
 
-    private function setMessages()
-    {
-        return [
-            'address.options.documentNumber.min' => trans('iprofile::addresses.validation.documentNumber.min'),
-            'address.options.documentNumber.max' => trans('iprofile::addresses.validation.documentNumber.max'),
-            'address.first_name.min' => trans('iprofile::addresses.validation.first_name.min'),
-            'address.last_name.min' => trans('iprofile::addresses.validation.last_name.min'),
-            'address.address_1.min' => trans('iprofile::addresses.validation.address_1.min'),
-            'address.telephone.min' => trans('iprofile::addresses.validation.telephone.min'),
-            'address.telephone.max' => trans('iprofile::addresses.validation.telephone.max'),
-            'address.first_name.required' => trans('iprofile::addresses.validation.required'),
-            'address.last_name.required' => trans('iprofile::addresses.validation.required'),
-            'address.address_1.required' => trans('iprofile::addresses.validation.required'),
-            'address.country.required' => trans('iprofile::addresses.validation.required'),
-            'address.city_id.required' => trans('iprofile::addresses.validation.required'),
-            'address.city.required' => trans('iprofile::addresses.validation.required'),
-            'address.zip_code.required' => trans('iprofile::addresses.validation.required'),
-            'address.state.required' => trans('iprofile::addresses.validation.required'),
-            'address.telephone.required' => trans('iprofile::addresses.validation.required'),
-            'address.options.documentNumber.required' => trans('iprofile::addresses.validation.required'),
-            'address.options.documentType.required' => trans('iprofile::addresses.validation.required'),
-        ];
-    }
+  private function setMessages()
+  {
+    return [
+      'address.options.documentNumber.min' => trans('iprofile::addresses.validation.documentNumber.min'),
+      'address.options.documentNumber.max' => trans('iprofile::addresses.validation.documentNumber.max'),
+      'address.first_name.min' => trans('iprofile::addresses.validation.first_name.min'),
+      'address.last_name.min' => trans('iprofile::addresses.validation.last_name.min'),
+      'address.address_1.min' => trans('iprofile::addresses.validation.address_1.min'),
+      'address.telephone.min' => trans('iprofile::addresses.validation.telephone.min'),
+      'address.telephone.max' => trans('iprofile::addresses.validation.telephone.max'),
+      'address.first_name.required' => trans('iprofile::addresses.validation.required'),
+      'address.last_name.required' => trans('iprofile::addresses.validation.required'),
+      'address.address_1.required' => trans('iprofile::addresses.validation.required'),
+      'address.country.required' => trans('iprofile::addresses.validation.required'),
+      'address.city_id.required' => trans('iprofile::addresses.validation.required'),
+      'address.city.required' => trans('iprofile::addresses.validation.required'),
+      'address.zip_code.required' => trans('iprofile::addresses.validation.required'),
+      'address.state.required' => trans('iprofile::addresses.validation.required'),
+      'address.telephone.required' => trans('iprofile::addresses.validation.required'),
+      'address.options.documentNumber.required' => trans('iprofile::addresses.validation.required'),
+      'address.options.documentType.required' => trans('iprofile::addresses.validation.required'),
+    ];
+  }
 
   private function initAddress()
   {
@@ -262,12 +262,12 @@ private function validateCity(){
     $options["customCity"] = false;
 
     //Validation User Logged | Get Basi Information
-    if(!is_null($this->user)){
+    if (!is_null($this->user)) {
       //Don't show LastName
-      if($this->hideLastName){
-         $userFirstName = $this->user->present()->fullname;
-         $userLastName = "";
-      }else{
+      if ($this->hideLastName) {
+        $userFirstName = $this->user->present()->fullname;
+        $userLastName = "";
+      } else {
         //Show lastname
         $userFirstName = $this->user->first_name;
         $userLastName = $this->user->last_name;
@@ -293,57 +293,57 @@ private function validateCity(){
     ];
   }
 
-    private function initCountries()
-    {
-        $params = [
-            'filter' => ['order' => ['way' => 'asc', 'field' => 'name']],
-        ];
-        $this->countries = $this->countryRepository()->getItemsBy(json_decode(json_encode($params)));
-        if ($this->countries->count() == 1) {
-            $this->address['country'] = $this->countries->first()->iso_2;
-            $this->address['country_id'] = $this->countries->first()->id;
-        }
+  private function initCountries()
+  {
+    $params = [
+      'filter' => ['order' => ['way' => 'asc', 'field' => 'name']],
+    ];
+    $this->countries = $this->countryRepository()->getItemsBy(json_decode(json_encode($params)));
+    if ($this->countries->count() == 1) {
+      $this->address['country'] = $this->countries->first()->iso_2;
+      $this->address['country_id'] = $this->countries->first()->id;
     }
+  }
 
-    private function initProvinces()
-    {
-        if (isset($this->address['country_id'])) {
-            $params = ['filter' => ['countryId' => $this->address['country_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
-            $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
-        } else {
-            $this->provinces = collect([]);
-        }
+  private function initProvinces()
+  {
+    if (isset($this->address['country_id'])) {
+      $params = ['filter' => ['countryId' => $this->address['country_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
+      $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
+    } else {
+      $this->provinces = collect([]);
     }
+  }
 
-    private function initCities()
-    {
-        if (isset($this->address['state_id'])) {
-            $params = ['filter' => ['provinceId' => $this->address['state_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
-            $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
-        } else {
-            $this->cities = collect([]);
-        }
+  private function initCities()
+  {
+    if (isset($this->address['state_id'])) {
+      $params = ['filter' => ['provinceId' => $this->address['state_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
+      $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
+    } else {
+      $this->cities = collect([]);
     }
+  }
 
-    private function countryRepository()
-    {
-        return app('Modules\Ilocations\Repositories\CountryRepository');
-    }
+  private function countryRepository()
+  {
+    return app('Modules\Ilocations\Repositories\CountryRepository');
+  }
 
-    private function provinceRepository()
-    {
-        return app('Modules\Ilocations\Repositories\ProvinceRepository');
-    }
+  private function provinceRepository()
+  {
+    return app('Modules\Ilocations\Repositories\ProvinceRepository');
+  }
 
-    private function cityRepository()
-    {
-        return app('Modules\Ilocations\Repositories\CityRepository');
-    }
+  private function cityRepository()
+  {
+    return app('Modules\Ilocations\Repositories\CityRepository');
+  }
 
-    private function addressRepository()
-    {
-        return app('Modules\Iprofile\Repositories\AddressRepository');
-    }
+  private function addressRepository()
+  {
+    return app('Modules\Iprofile\Repositories\AddressRepository');
+  }
 
   /**
    *  Listener | Update Marker in Map
@@ -356,7 +356,7 @@ private function validateCity(){
     $this->updateDataFromExternal($params);
 
     //Emit to update marker in map
-    $this->dispatchBrowserEvent('google-update-marker-in-map',[
+    $this->dispatchBrowserEvent('google-update-marker-in-map', [
       'itemPosition' => $params['newPosition'],
       'inputVarName' => $params['inputVarName']
     ]);
@@ -408,33 +408,33 @@ private function validateCity(){
     $searchParams['include'] = [];
     $criteria = $addresData['country'];
 
-    $country = $this->countryRepository()->getItem($criteria,json_decode(json_encode($searchParams)));
-    if(!is_null($country)){
-      $country = ['id' => $country->id,'name' => $country->name];
-    }else{
+    $country = $this->countryRepository()->getItem($criteria, json_decode(json_encode($searchParams)));
+    if (!is_null($country)) {
+      $country = ['id' => $country->id, 'name' => $country->name];
+    } else {
       $country = ['name' => $addresData['country']];
     }
 
     //Search Province
     $searchParams['filter']['search'] = $addresData['state'];
     $provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($searchParams)));
-    if(count($provinces)>0){
-      $province = ['id' => $provinces[0]->id,'name' => $provinces[0]->name];
-    }else{
+    if (count($provinces) > 0) {
+      $province = ['id' => $provinces[0]->id, 'name' => $provinces[0]->name];
+    } else {
       $province = ['name' => $addresData['state']];
     }
 
     //Search City
     $searchParams['filter']['search'] = $addresData['city'];
     $cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($searchParams)));
-    if(count($cities)>0){
-      $city = ['id' => $cities[0]->id,'name' => $cities[0]->name];
-    }else{
+    if (count($cities) > 0) {
+      $city = ['id' => $cities[0]->id, 'name' => $cities[0]->name];
+    } else {
       $city = ['name' => $addresData['city']];
     }
 
     //Final Result
-    $result = ['country' => $country, 'province' => $province,'city' => $city];
+    $result = ['country' => $country, 'province' => $province, 'city' => $city];
 
 
     return $result;
