@@ -161,7 +161,7 @@ class UserApiController extends BaseApiController
             $adminNeedsToActivateNewUsers = $this->settingAsgard->get('iprofile::adminNeedsToActivateNewUsers');
 
             $userRepository = app('Modules\Iprofile\Repositories\UserApiRepository');
-            $user = $userRepository->getItemsBy()->where('email', $data->email)->first();
+            $user = $userRepository->getItem($data->email, json_decode(json_encode(["filter" => ["field" => "email"]])));
 
             if (isset($user) && $user->is_guest) {
                 $data->is_guest = 0;
