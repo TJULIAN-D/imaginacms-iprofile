@@ -154,7 +154,7 @@ class UserApiController extends BaseApiController
       $adminNeedsToActivateNewUsers = $this->settingAsgard->get('iprofile::adminNeedsToActivateNewUsers');
 
       $userRepository = app('Modules\Iprofile\Repositories\UserApiRepository');
-      $user = $userRepository->getItemsBy()->where('email', $data->email)->first();
+      $user = $userRepository->getItem($data->email, json_decode(json_encode(["filter" => ["field" => "email"]])));
 
       if(isset($user) && $user->is_guest) {
         $data->is_guest = 0;
@@ -248,7 +248,7 @@ class UserApiController extends BaseApiController
 
       //$this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
       $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
-     
+
       if ($checkEmail) { //Create user required validate email
         $user = app(UserRegistration::class)->register($data);
       } else { //Create user activated
@@ -277,7 +277,7 @@ class UserApiController extends BaseApiController
             $this->field->create(new Request(['attributes' => (array)$field]))
           );
         }
-   
+
       //Create Addresses
       if (isset($data["addresses"]))
         foreach ($data["addresses"] as $address) {
@@ -498,7 +498,7 @@ class UserApiController extends BaseApiController
 
       //Validate Request
       $this->validateRequestApi(new UpdatePasswordRequest((array)$params));
-      
+
       //Try to login and Get Token
       $token = $this->validateResponseApi($authApiController->authAttempt($params));
       $requestLogout->headers->set('Authorization', $token->bearer);//Add token to headers
@@ -701,7 +701,7 @@ class UserApiController extends BaseApiController
 
       //Default description
       $description = trans("iprofile::frontend.messages.You must change the password");
-     
+
       // Get setting days
       $settingDays = setting("iprofile::passwordExpiredTime", null, 0);
 
@@ -713,8 +713,8 @@ class UserApiController extends BaseApiController
 
         // User has password history
         if(!empty($lastPasswordHistory)){
-          
-          
+
+
           $datePassword = $lastPasswordHistory->created_at->format("Y-m-d");
           $date = Carbon::parse($datePassword);
 
@@ -725,7 +725,7 @@ class UserApiController extends BaseApiController
 
           if($diff>=$settingDays)
             $shouldChangePassword = true;
-          
+
 
         }else{
 
@@ -746,7 +746,7 @@ class UserApiController extends BaseApiController
 
         // Get Workspace User
         $workspace = $this->userService->getUserWorkspace($user);
-        
+
         $response['data']["messages"] = [
           [
             "mode" => "modal",
@@ -763,8 +763,8 @@ class UserApiController extends BaseApiController
           ]
         ];
       }
-      
-      
+
+
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
