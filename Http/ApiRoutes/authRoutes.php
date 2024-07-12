@@ -38,6 +38,7 @@ Route::prefix('/auth')->group(function (Router $router) {
     $router->get('logout', [
         'as' => $locale.'api.iprofile.logout',
         'uses' => 'AuthApiController@logout',
+        'middleware' => ['auth:api'],
     ]);
 
     /** @var Router $router */

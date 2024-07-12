@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Lcobucci\JWT\Parser;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\User\Entities\Sentinel\User;
@@ -555,18 +554,11 @@ class AuthApiController extends BaseApiController
         try {
             $bearerToken = $request->bearerToken(); //Get from request
             if ($bearerToken) {
-                //Parse Bearer Token
-                $parsedJwt = (new Parser())->parse($bearerToken);
-                //Decode Bearer
-                if ($parsedJwt->hasHeader('jti')) {
-                    $tokenId = $parsedJwt->getHeader('jti');
-                } elseif ($parsedJwt->hasClaim('jti')) {
-                    $tokenId = $parsedJwt->getClaim('jti');
-                }
+                $this->user = \Auth::user() ?? null;
+                $token = $this->user->token() ?? null;
 
-                //Find data Token
-                $token = \DB::table('oauth_access_tokens')->where('id', $tokenId)->first();
-                $success = true; //Default state
+                //Default state
+                $success = true;
 
                 //Validate if exist token
                 if (! isset($token)) {
