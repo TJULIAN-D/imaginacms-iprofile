@@ -574,6 +574,17 @@ return [
   ],
 
   //Microsoft Options
+  //Microsoft APP ID
+  'microsoftClientId' => [
+    'value' => "",
+    'name' => 'iprofile::microsoftClientId',
+    'type' => 'input',
+    'groupName' => 'microsoft',
+    'groupTitle' => 'isite::cms.label.microsoft',
+    'props' => [
+      'label' => 'isite::common.settings.microsoftClientId'
+    ]
+  ],
   'microsoftAuthUrl' => [
     'value' => "",
     'name' => 'iprofile::microsoftAuthUrl',
