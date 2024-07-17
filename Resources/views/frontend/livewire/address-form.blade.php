@@ -27,7 +27,7 @@
             <form class="needs-validation" novalidate wire:submit.prevent="save">
               
               @if(!empty($type))
-                <input wire:model.defer="address.type" type="hidden" value="{{$type}}">
+                <input wire:model="address.type" type="hidden" value="{{$type}}">
               @endif
               
               <div class="form-group row pt-2">
@@ -323,7 +323,7 @@
 
 
                 @if($showCancelBtn && $userAddresses->count()>0)
-                  <button onClick="window.livewire.emit('cancelledNewAddress')"
+                  <button onClick="window.livewire.dispatch('cancelledNewAddress')"
                   class="btn btn-primary" name="button"> {{trans('iprofile::addresses.button.cancel')}}
                   </button>
                 @endif

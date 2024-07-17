@@ -72,7 +72,7 @@
         var dataToSend = {inputValue: inputValue, inputVarName: inputVarName, newPosition: newPositionFromPlace, addressData:addressData};
 
         //Emit to send data
-        window.livewire.emit('updateMarkerInMap',dataToSend);
+        window.livewire.dispatch('updateMarkerInMap',dataToSend);
 
        
     });
