@@ -4,10 +4,15 @@ namespace Modules\Iprofile\Http\Livewire;
 
 use Livewire\Component;
 use Modules\Iprofile\Entities\Address;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class AddressList extends Component
 {
+  use LivewireAlert;
 
+  /*
+  * Attributes From Config
+  */
   public $addresses;
   public $addressSelected;
   public $addressSelectedId;
@@ -38,7 +43,7 @@ class AddressList extends Component
       //validate if the address doesnt have a custom City to get the city name from the DB
       $this->validateCity();
 
-      $this->emit($this->livewireEvent, $this->address);
+      $this->dispatch($this->livewireEvent, $this->address);
     } catch (\Illuminate\Validation\ValidationException $e) {
       // Do your thing and use $validator here
       $validator = $e->validator;
@@ -52,7 +57,7 @@ class AddressList extends Component
 
   public function updated($name, $value)
   {
-    $this->emit($this->emit, $this->addressSelectedId);
+    $this->dispatch($this->emit, $this->addressSelectedId);
     $this->addressSelected = $this->addresses->where("id", $this->addressSelectedId)->first();
 
   }
@@ -90,7 +95,7 @@ class AddressList extends Component
     if (isset($this->addressSelected->id)) {
 
       $this->addressSelectedId = $this->addressSelected->id;
-      $this->emit($this->emit, $this->addressSelectedId);
+      $this->dispatch($this->emit, $this->addressSelectedId);
     }
 
   }
