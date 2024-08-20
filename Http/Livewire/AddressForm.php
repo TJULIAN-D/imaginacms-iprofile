@@ -4,15 +4,10 @@ namespace Modules\Iprofile\Http\Livewire;
 
 use Livewire\Component;
 use Modules\Iprofile\Entities\Address;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class AddressForm extends Component
 {
 
-  use LivewireAlert;
-  /*
-  * Attributes From Config
-  */
   public $embedded;
   public $route;
   public $type;
@@ -84,7 +79,7 @@ class AddressForm extends Component
       //validate if the address doesnt have a custom City to get the city name from the DB
       $this->validateCity();
 
-      $this->dispatch($this->livewireEvent, $this->address);
+      $this->emit($this->livewireEvent, $this->address);
     } catch (\Illuminate\Validation\ValidationException $e) {
       // Do your thing and use $validator here
       $validator = $e->validator;
@@ -126,7 +121,7 @@ class AddressForm extends Component
       $this->validateCity();
 
       $address = $this->addressRepository()->create($this->address);
-      $this->dispatch('addressAdded', $address);
+      $this->emit('addressAdded', $address);
       $this->initAddress();
       $this->alert('success', trans('iprofile::addresses.messages.created'), config('asgard.isite.config.livewireAlerts'));
     } catch (\Illuminate\Validation\ValidationException $e) {
