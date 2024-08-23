@@ -2,15 +2,29 @@
 
 namespace Modules\Iprofile\Entities;
 
-use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\User\Entities\Sentinel\User;
 
-class Setting extends Model
+class Setting extends CrudModel
 {
 
   protected $table = 'iprofile__settings';
-
+  public $transformer = 'Modules\Iprofile\Transformers\SettingTransformer';
+  public $repository = 'Modules\Iprofile\Repositories\SettingRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iprofile\Http\Requests\CreateSettingRequest',
+      'update' => 'Modules\Iprofile\Http\Requests\UpdateSettingRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
   protected $fillable = [
     'related_id',
     'entity_name',
