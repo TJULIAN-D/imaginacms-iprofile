@@ -2,98 +2,76 @@
 
 namespace Modules\Iprofile\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-use Modules\Iprofile\Http\Requests\CreateRoleApiRequest;
-use Modules\Iprofile\Http\Requests\UpdateRoleApiRequest;
-use Modules\Iprofile\Repositories\RoleApiRepository;
-use Modules\Iprofile\Transformers\RoleTransformer;
+use Modules\Core\Icrud\Controllers\BaseCrudController;
+
+//Model
+use Modules\Core\Icrud\Transformers\CrudResource;
+use Modules\Iprofile\Entities\Role;
+use Modules\Iprofile\Repositories\RoleRepository;
 use Modules\Iprofile\Entities\Setting;
 
-class RoleApiController extends BaseApiController
+class RoleApiController extends BaseCrudController
 {
+  public $model;
+  public $modelRepository;
 
-  private $role;
-  private $setting;
-  private $profileSetting;
-
-  public function __construct(
-    RoleApiRepository $role,
-    SettingApiController $setting,
-    Setting $profileSetting
-  )
+  public function __construct(Role $model, RoleRepository $modelRepository)
   {
-    $this->role = $role;
-    $this->setting = $setting;
-    $this->profileSetting = $profileSetting;
+    $this->model = $model;
+    $this->modelRepository = $modelRepository;
   }
 
   /**
-   * GET ITEMS
+   * Controller to create model
    *
+   * @param Request $request
    * @return mixed
    */
-  public function index(Request $request)
+  public function create(Request $request)
   {
+    \DB::beginTransaction();
     try {
-      //Get Parameters from URL.
+      //Get model data
+      $modelData = $request->input('attributes') ?? [];
+      //Get Parameters from request
       $params = $this->getParamsRequest($request);
 
-      //Request to Repository
-      $roles = $this->role->getItemsBy($params);
+      //Validate Request
+      if (isset($this->model->requestValidation['create'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['create']($modelData));
+      }
+
+      //Create model
+      $model = $this->modelRepository->create($modelData);
+
+      //Create Settings
+      if (isset($modelData["settings"]) &&
+        (isset($params->permissions["profile.settings.create"]) && $params->permissions["profile.settings.create"])) {
+        foreach ($modelData["settings"] as $settingName => $setting) {
+          Setting::create([
+            'related_id' => $model->id,
+            'entity_name' => 'role',
+            'name' => $settingName,
+            'value' => $setting
+          ]);
+        }
+      }
 
       //Response
-      $response = [
-        "data" => RoleTransformer::collection($roles)
-      ];
-
-      //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($roles)] : false;
+      $response = ["data" => CrudResource::transformData($model)];
+      \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
+      \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
-
     //Return response
-    return response()->json($response, $status ?? 200);
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 
   /**
-   * GET A ITEM
-   *
-   * @param $criteria
-   * @return mixed
-   */
-  public function show($criteria, Request $request)
-  {
-    try {
-      //Get Parameters from URL.
-      $params = $this->getParamsRequest($request);
-
-      //Request to Repository
-      $role = $this->role->getItem($criteria, $params);
-
-      //Break if no found item
-      if (!$role) throw new \Exception('Item not found', 404);
-
-      //Response
-      $response = ["data" => new RoleTransformer($role)];
-
-      //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($role)] : false;
-    } catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-
-    //Return response
-    return response()->json($response, $status ?? 200);
-  }
-
-  /**
-   * UPDATE ITEM
+   * Controller to update model by criteria
    *
    * @param $criteria
    * @param Request $request
@@ -103,116 +81,49 @@ class RoleApiController extends BaseApiController
   {
     \DB::beginTransaction(); //DB Transaction
     try {
-      //Validate Permission
-      $this->validatePermission($request, 'profile.role.edit');
-
-      //Get data
-      $data = $request->input('attributes');
-
-      //Validate Request
-      $this->validateRequestApi(new UpdateRoleApiRequest((array)$data));
-
+      //Get model data
+      $modelData = $request->input('attributes') ?? [];
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
 
-      //Request to Repository
-      $role = $this->role->updateBy($criteria, $data, $params);
+      //auto-insert the criteria in the data to update
+      isset($params->filter->field) ? $field = $params->filter->field : $field = "id";
+      $data[$field] = $criteria;
+
+      //Validate Request
+      if (isset($this->model->requestValidation['update'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['update']($modelData));
+      }
+
+      //Update model
+      $model = $this->modelRepository->updateBy($criteria, $modelData, $params);
 
       //Create or Update Settings
-      if (isset($data["settings"]) && (isset($params->permissions["profile.settings.edit"]) && $params->permissions["profile.settings.edit"]))
-        foreach ($data["settings"] as $settingName => $setting) {
-          $this->profileSetting->updateOrCreate(
-            ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName],
-            ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName, 'value' => $setting]
+      if (isset($modelData["settings"]) &&
+        (isset($params->permissions["profile.settings.edit"]) && $params->permissions["profile.settings.edit"])
+      ) {
+        foreach ($modelData["settings"] as $settingName => $setting) {
+          Setting::updateOrCreate(
+            ['related_id' => $model->id, 'entity_name' => 'role', 'name' => $settingName],
+            ['related_id' => $model->id, 'entity_name' => 'role', 'name' => $settingName, 'value' => $setting]
           );
         }
+      }
+
+      //Throw exception if no found item
+      if (!$model) throw new Exception('Item not found', 204);
 
       //Response
-      $response = ['data' => ''];
+      $response = ["data" => CrudResource::transformData($model)];
       \DB::commit();//Commit to DataBase
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
 
     //Return response
-    return response()->json($response, $status ?? 200);
-  }
-
-  /**
-   * CREATE A ITEM
-   *
-   * @param Request $request
-   * @return mixed
-   */
-  public function create(Request $request)
-  {
-    \DB::beginTransaction();
-    try {
-      //Validate Permission
-      $this->validatePermission($request, 'profile.role.create');
-
-      //Get data
-      $data = $request->input('attributes');
-
-      //Validate Request
-      $this->validateRequestApi(new CreateRoleApiRequest((array)$data));
-
-      //Create item
-      $role = $this->role->create($data);
-
-      //Create or Update Settings
-      if (isset($data["settings"]) && (isset($params->permissions["profile.settings.create"]) && $params->permissions["profile.settings.create"]))
-        foreach ($data["settings"] as $settingName => $setting) {
-          $this->validateResponseApi(
-            $this->setting->create(new Request(['attributes' =>
-              ['related_id' => $role->id, 'entity_name' => 'role', 'name' => $settingName, 'value' => $setting]
-            ]))
-          );
-        }
-
-      //Response
-      $response = ["data" => ""];
-      \DB::commit(); //Commit to Data Base
-    } catch (\Exception $e) {
-      \DB::rollback();//Rollback to Data Base
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    //Return response
-    return response()->json($response, $status ?? 200);
-  }
-
-  /**
-   * DELETE A ITEM
-   *
-   * @param $criteria
-   * @return mixed
-   */
-  public function delete($criteria, Request $request)
-  {
-    \DB::beginTransaction();
-    try {
-      //Validate Permission
-      $this->validatePermission($request, 'profile.role.destroy');
-
-      //Get params
-      $params = $this->getParamsRequest($request);
-
-      //call Method delete
-      $this->role->deleteBy($criteria, $params);
-
-      //Response
-      $response = ["data" => ""];
-      \DB::commit();//Commit to Data Base
-    } catch (\Exception $e) {
-      \DB::rollback();//Rollback to Data Base
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-
-    //Return response
-    return response()->json($response, $status ?? 200);
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 }
