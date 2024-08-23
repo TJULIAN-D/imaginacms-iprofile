@@ -44,6 +44,7 @@ class IprofileServiceProvider extends ServiceProvider
   {
     $this->registerBindings();
     $this->app['events']->listen(BuildingSidebar::class, RegisterIprofileSidebar::class);
+
     $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
       $event->load('fields', Arr::dot(trans('iprofile::fields')));
       $event->load('addresses', Arr::dot(trans('iprofile::addresses')));
@@ -51,6 +52,8 @@ class IprofileServiceProvider extends ServiceProvider
       $event->load('settings', Arr::dot(trans('iprofile::settings')));
       $event->load('userdepartments', Arr::dot(trans('iprofile::userdepartments')));
     });
+
+
   }
 
   public function boot()
@@ -103,9 +106,11 @@ class IprofileServiceProvider extends ServiceProvider
       'Modules\Iprofile\Repositories\AddressRepository',
       function () {
         $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentAddressRepository(new \Modules\Iprofile\Entities\Address());
+
         if (!config('app.cache')) {
           return $repository;
         }
+
         return new \Modules\Iprofile\Repositories\Cache\CacheAddressDecorator($repository);
       }
     );
@@ -113,19 +118,24 @@ class IprofileServiceProvider extends ServiceProvider
       'Modules\Iprofile\Repositories\DepartmentRepository',
       function () {
         $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentDepartmentRepository(new \Modules\Iprofile\Entities\Department());
+
         if (!config('app.cache')) {
           return $repository;
         }
+
         return new \Modules\Iprofile\Repositories\Cache\CacheDepartmentDecorator($repository);
       }
     );
+
     $this->app->bind(
       'Modules\Iprofile\Repositories\SettingRepository',
       function () {
         $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentSettingRepository(new \Modules\Iprofile\Entities\Setting());
+
         if (!config('app.cache')) {
           return $repository;
         }
+
         return new \Modules\Iprofile\Repositories\Cache\CacheSettingDecorator($repository);
       }
     );
@@ -140,13 +150,15 @@ class IprofileServiceProvider extends ServiceProvider
       }
     );
     $this->app->bind(
-      'Modules\Iprofile\Repositories\RoleApiRepository',
+      'Modules\Iprofile\Repositories\RoleRepository',
       function () {
-        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiRepository(new \Modules\Iprofile\Entities\Role());
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleRepository(new \Modules\Iprofile\Entities\Role());
+
         if (!config('app.cache')) {
           return $repository;
         }
-        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiDecorator($repository);
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheRoleDecorator($repository);
       }
     );
     $this->app->bind(
@@ -159,6 +171,32 @@ class IprofileServiceProvider extends ServiceProvider
         return new \Modules\Iprofile\Repositories\Cache\CacheUserApiDecorator($repository);
       }
     );
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\ProviderAccountRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentProviderAccountRepository(new \Modules\Iprofile\Entities\ProviderAccount());
+
+        if (!config('app.cache')) {
+          return $repository;
+        }
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheProviderAccountDecorator($repository);
+      }
+    );
+
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\UserPasswordHistoryRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentUserPasswordHistoryRepository(new \Modules\Iprofile\Entities\UserPasswordHistory());
+
+        if (!config('app.cache')) {
+          return $repository;
+        }
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheUserPasswordHistoryDecorator($repository);
+      }
+    );
+    // add bindings
   }
 
   private function registerMiddleware()
@@ -184,5 +222,6 @@ class IprofileServiceProvider extends ServiceProvider
     Livewire::component('iprofile::address-form', \Modules\Iprofile\Http\Livewire\AddressForm::class);
     Livewire::component('iprofile::address-list', \Modules\Iprofile\Http\Livewire\AddressList::class);
   }
+
 
 }
