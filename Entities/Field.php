@@ -2,16 +2,29 @@
 
 namespace Modules\Iprofile\Entities;
 
-use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\User\Entities\Sentinel\User;
 use Modules\Media\ValueObjects\MediaPath;
 
-class Field extends Model
+class Field extends CrudModel
 {
-
   protected $table = 'iprofile__fields';
-
+  public $transformer = 'Modules\Iprofile\Transformers\FieldTransformer';
+  public $repository = 'Modules\Iprofile\Repositories\FieldRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iprofile\Http\Requests\CreateFieldRequest',
+      'update' => 'Modules\Iprofile\Http\Requests\UpdateFieldRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
   protected $fillable = [
     'user_id',
     'value',
