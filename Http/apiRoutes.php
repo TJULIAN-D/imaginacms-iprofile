@@ -47,7 +47,7 @@ $router->group(['prefix' =>'/profile/v1'], function (Router $router) {
     ]);
     $router->apiCrud([
       'module' => 'iprofile',
-      'prefix' => 'provideraccounts',
+      'prefix' => 'provider-accounts',
       'controller' => 'ProviderAccountApiController',
       //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
       // 'customRoutes' => [ // Include custom routes if needed
