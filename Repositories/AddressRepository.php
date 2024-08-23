@@ -2,17 +2,8 @@
 
 namespace Modules\Iprofile\Repositories;
 
-use Modules\Core\Repositories\BaseRepository;
+use Modules\Core\Icrud\Repositories\BaseCrudRepository;
 
-interface AddressRepository extends BaseRepository
+interface AddressRepository extends BaseCrudRepository
 {
-  public function getItemsBy($params);
-  
-  public function getItem($criteria, $params = false);
-  
-  public function create($data);
-  
-  public function updateBy($criteria, $data, $params = false);
-  
-  public function deleteBy($criteria, $params = false);
 }
