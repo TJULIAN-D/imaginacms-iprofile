@@ -23,11 +23,11 @@ class UserTransformer extends JsonResource
     $settings = json_decode(json_encode(SettingTransformer::collection($this->settings ?? collect([]))));
     $settingsResponse = [];
     foreach ($settings as $setting) $settingsResponse[$setting->value->name ?? $setting->name] = $setting->value->value ?? $setting->value;
-    
+
     $data = [
       'id' => $this->when($this->id, $this->id),
-      'firstName' => $this->when($this->first_name, $this->first_name),
-      'lastName' => $this->when($this->last_name, $this->last_name),
+      'firstName' => $this->first_name,
+      'lastName' => $this->last_name,
       'fullName' => trim($this->present()->fullname),
       'isActivated' => $this->isActivated() ? "1" : "0",
       'email' => $this->when($this->email, $this->email),

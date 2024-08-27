@@ -7,7 +7,6 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
   require('ApiRoutes/authRoutes.php');
   //======  USERS
   require('ApiRoutes/userRoutes.php');
-
   //======  APP
   require('ApiRoutes/appRoutes.php');
 
@@ -15,6 +14,7 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'addresses',
     'controller' => 'AddressApiController',
+    'permission' => 'profile.addresses'
     //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
@@ -29,6 +29,7 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'departments',
     'controller' => 'DepartmentApiController',
+    'permission' => 'profile.departments'
     //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
@@ -43,6 +44,7 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'fields',
     'controller' => 'FieldApiController',
+    'permission' => 'profile.fields'
     //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
@@ -71,6 +73,7 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'roles',
     'controller' => 'RoleApiController',
+    'permission' => 'profile.role'
     //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
@@ -85,6 +88,7 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'settings',
     'controller' => 'SettingApiController',
+    'permission' => 'profile.settings'
     //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
