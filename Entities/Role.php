@@ -21,7 +21,7 @@ class Role extends EloquentRole
   }
 
   public $transformer = 'Modules\Iprofile\Transformers\RoleTransformer';
-  public $repository = 'Modules\Iprofile\Repositories\RoleRepository';
+  public $repository = 'Modules\Iprofile\Repositories\RoleApiRepository';
   public $requestValidation = [
       'create' => 'Modules\Iprofile\Http\Requests\CreateRoleRequest',
       'update' => 'Modules\Iprofile\Http\Requests\UpdateRoleRequest',

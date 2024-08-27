@@ -150,15 +150,15 @@ class IprofileServiceProvider extends ServiceProvider
       }
     );
     $this->app->bind(
-      'Modules\Iprofile\Repositories\RoleRepository',
+      'Modules\Iprofile\Repositories\RoleApiRepository',
       function () {
-        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleRepository(new \Modules\Iprofile\Entities\Role());
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiApiRepository(new \Modules\Iprofile\Entities\Role());
 
         if (!config('app.cache')) {
           return $repository;
         }
 
-        return new \Modules\Iprofile\Repositories\Cache\CacheRoleDecorator($repository);
+        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiApiDecorator($repository);
       }
     );
     $this->app->bind(

@@ -7,15 +7,16 @@ use Modules\Core\Icrud\Controllers\BaseCrudController;
 //Model
 use Modules\Core\Icrud\Transformers\CrudResource;
 use Modules\Iprofile\Entities\Role;
-use Modules\Iprofile\Repositories\RoleRepository;
+use Modules\Iprofile\Repositories\RoleApiRepository;
 use Modules\Iprofile\Entities\Setting;
+use Illuminate\Http\Request;
 
 class RoleApiController extends BaseCrudController
 {
   public $model;
   public $modelRepository;
 
-  public function __construct(Role $model, RoleRepository $modelRepository)
+  public function __construct(Role $model, RoleApiRepository $modelRepository)
   {
     $this->model = $model;
     $this->modelRepository = $modelRepository;

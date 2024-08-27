@@ -2,12 +2,12 @@
 
 namespace Modules\Iprofile\Repositories\Eloquent;
 
-use Modules\Iprofile\Repositories\RoleRepository;
+use Modules\Iprofile\Repositories\RoleApiRepository;
 use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Iprofile\Entities\Setting;
 
-class EloquentRoleRepository extends EloquentCrudRepository implements RoleRepository
+class EloquentRoleApiApiRepository extends EloquentCrudRepository implements RoleApiRepository
 {
   /**
    * Filter names to replace
