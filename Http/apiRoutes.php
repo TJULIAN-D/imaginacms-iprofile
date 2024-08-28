@@ -29,8 +29,8 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'departments',
     'controller' => 'DepartmentApiController',
-    'permission' => 'profile.departments'
-    //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
+    'permission' => 'profile.departments',
+    'middleware' => ['index' => [], 'show' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
     //    'method' => 'post', // get,post,put....
@@ -73,8 +73,8 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
     'module' => 'iprofile',
     'prefix' => 'roles',
     'controller' => 'RoleApiController',
-    'permission' => 'profile.role'
-    //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
+    'permission' => 'profile.role',
+    'middleware' => ['index' => [], 'show' => []],
     // 'customRoutes' => [ // Include custom routes if needed
     //  [
     //    'method' => 'post', // get,post,put....
