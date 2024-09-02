@@ -47,7 +47,9 @@ return [
     "incognitoProfile" => "Perfil incógnito",
     "withPassword" => "Con contraseña",
     "withEmail" => "Solo con email",
-    "profilePicture" => "Foto de Perfil"
+    "profilePicture" => "Foto de Perfil",
+    "available" => "Disponible",
+    "away" => "Fuera"
   ],
   "form" => [
     "lastLogin" => "Ultima sesión",
