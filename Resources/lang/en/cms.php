@@ -46,7 +46,9 @@ return [
     "incognitoProfile" => "Incognito profile",
     "withPassword" => "With password",
     "withEmail" => "Only with email",
-    "profilePicture" => "Profile Picture"
+    "profilePicture" => "Profile Picture",
+    "available" => "Available",
+    "away" => "Away"
   ],
   "form" => [
     "lastLogin" => "Last login",
