@@ -221,6 +221,7 @@ class IprofileServiceProvider extends ServiceProvider
   {
     Livewire::component('iprofile::address-form', \Modules\Iprofile\Http\Livewire\AddressForm::class);
     Livewire::component('iprofile::address-list', \Modules\Iprofile\Http\Livewire\AddressList::class);
+    Livewire::component('iprofile::user-menu', \Modules\Iprofile\Http\Livewire\UserMenu::class);
   }
 
 
