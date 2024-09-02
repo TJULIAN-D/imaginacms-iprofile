@@ -142,11 +142,13 @@ class IprofileServiceProvider extends ServiceProvider
     $this->app->bind(
       'Modules\Iprofile\Repositories\RoleApiRepository',
       function () {
-        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiRepository(new \Modules\Iprofile\Entities\Role());
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiApiRepository(new \Modules\Iprofile\Entities\Role());
+
         if (!config('app.cache')) {
           return $repository;
         }
-        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiDecorator($repository);
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiApiDecorator($repository);
       }
     );
     $this->app->bind(
@@ -159,6 +161,32 @@ class IprofileServiceProvider extends ServiceProvider
         return new \Modules\Iprofile\Repositories\Cache\CacheUserApiDecorator($repository);
       }
     );
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\ProviderAccountRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentProviderAccountRepository(new \Modules\Iprofile\Entities\ProviderAccount());
+
+        if (!config('app.cache')) {
+          return $repository;
+        }
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheProviderAccountDecorator($repository);
+      }
+    );
+
+    $this->app->bind(
+      'Modules\Iprofile\Repositories\UserPasswordHistoryRepository',
+      function () {
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentUserPasswordHistoryRepository(new \Modules\Iprofile\Entities\UserPasswordHistory());
+
+        if (!config('app.cache')) {
+          return $repository;
+        }
+
+        return new \Modules\Iprofile\Repositories\Cache\CacheUserPasswordHistoryDecorator($repository);
+      }
+    );
+    // add bindings
   }
 
   private function registerMiddleware()
@@ -183,6 +211,7 @@ class IprofileServiceProvider extends ServiceProvider
   {
     Livewire::component('iprofile::address-form', \Modules\Iprofile\Http\Livewire\AddressForm::class);
     Livewire::component('iprofile::address-list', \Modules\Iprofile\Http\Livewire\AddressList::class);
+    Livewire::component('iprofile::user-menu', \Modules\Iprofile\Http\Livewire\UserMenu::class);
   }
 
 }
