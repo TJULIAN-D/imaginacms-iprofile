@@ -30,4 +30,8 @@ class UpdateSettingRequest extends BaseFormRequest
     {
         return [];
     }
+
+    public function getValidator(){
+        return $this->getValidatorInstance();
+    }
 }

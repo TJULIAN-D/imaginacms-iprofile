@@ -2,19 +2,8 @@
 
 namespace Modules\Iprofile\Repositories;
 
-use Modules\Core\Repositories\BaseRepository;
+use Modules\Core\Icrud\Repositories\BaseCrudRepository;
 
-interface RoleApiRepository extends BaseRepository
+interface RoleApiRepository extends BaseCrudRepository
 {
-  
-  public function getItemsBy($params  = false);
-  
-  public function getItem($criteria, $params = false);
-  
-  public function create($data);
-  
-  public function updateBy($criteria, $data, $params = false);
-  
-  public function deleteBy($criteria, $params = false);
-  
 }

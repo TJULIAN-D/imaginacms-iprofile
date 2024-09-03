@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 use Modules\Iprofile\Repositories\UserApiRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Modules\User\Services\UserRegistration;
+use Modules\User\Repositories\UserRepository;
 
 class EloquentUserApiRepository extends EloquentBaseRepository implements UserApiRepository
 {
@@ -217,15 +219,12 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
     return $query->where($field ?? 'id', $criteria)->first();
   }
 
-  public function create($data)
+  public function create($data, $checkEmail = false)
   {
-    $model = $this->model->find($data);
-
-    if ($model) {
-      // sync tables
-      $model->departments()->sync(Arr::get($data, 'departments', []));
-
-
+    if ($checkEmail) { //Create user required validate email
+      $model = app(UserRegistration::class)->register($data);
+    } else { //Create user activated
+      $model = app(UserRepository::class)->createWithRoles($data, $data["roles"], $data["is_activated"]);
     }
 
     return $model;
@@ -233,32 +232,7 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
 
   public function updateBy($criteria, $data, $params = false)
   {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-
-      //Update by field
-      if (isset($filter->field))
-        $field = $filter->field;
-    }
-
-    /*== REQUEST ==*/
-    $model = $query->where($field ?? 'id', $criteria)->first();
-
-
-    if ($model) {
-      $oldData = $model->toArray();
-      $model->update((array)$data);
-      $newData = $model->toArray();
-      // sync tables
-      $model->departments()->sync(Arr::get($data, 'departments', []));
-
-    }
-
-    return $model;
+    return app(UserRepository::class)->updateAndSyncRoles($criteria, $data, []);
   }
 
 

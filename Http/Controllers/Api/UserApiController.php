@@ -249,11 +249,7 @@ class UserApiController extends BaseApiController
       //$this->validateRequestApi(new RegisterRequest ($data));//Validate Request User
       $this->validateRequestApi(new CreateUserApiRequest($data));//Validate custom Request user
 
-      if ($checkEmail) { //Create user required validate email
-        $user = app(UserRegistration::class)->register($data);
-      } else { //Create user activated
-        $user = $this->userRepository->createWithRoles($data, $data["roles"], $data["is_activated"]);
-      }
+      $user = $this->user->create($data, $checkEmail);
 
       if ($checkAdminActivate) {
         $this->update($user->id, new Request(
@@ -361,7 +357,7 @@ class UserApiController extends BaseApiController
 
         // actually user roles
         $userRolesIds = $user->roles()->get()->pluck('id')->toArray();
-        $this->userRepository->updateAndSyncRoles($data["id"], $data, []);
+        $this->user->updateBy($data["id"], $data);
         $user = $this->user->findByAttributes(["id" => $data["id"]]);
 
         // saving old passrond

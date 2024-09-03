@@ -3,12 +3,12 @@
 return [
   'profile.api' => [
     'login' => 'profile::profiles.api.login',
-  ],
+    ],
 
   'profile.access' => [
     'iadmin' => 'profile::profiles.api.login.iadmin',
     'ipanel' => 'profile::profiles.api.login.iadmin',
-  ],
+    ],
 
   'profile.user' => [
     'manage' => 'profile::user.manage resource',
@@ -20,11 +20,11 @@ return [
     'department' => 'profile::user.department resource',
     'impersonate' => 'profile::user.impersonate resource',
     'directory' => 'profile::user.directory resource',
-  ],
+    ],
 
   'profile.permissions' => [
     'manage' => 'profile::permissions.manage resource',
-  ],
+    ],
 
   'profile.fields' => [
     'manage' => 'profile::fields.manage resource',
@@ -73,4 +73,5 @@ return [
     'edit' => 'profile::roleapis.edit resource',
     'destroy' => 'profile::roleapis.destroy resource',
   ]
+  // append
 ];
