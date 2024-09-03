@@ -152,13 +152,13 @@ class IprofileServiceProvider extends ServiceProvider
     $this->app->bind(
       'Modules\Iprofile\Repositories\RoleApiRepository',
       function () {
-        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiApiRepository(new \Modules\Iprofile\Entities\Role());
+        $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentRoleApiRepository(new \Modules\Iprofile\Entities\Role());
 
         if (!config('app.cache')) {
           return $repository;
         }
 
-        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiApiDecorator($repository);
+        return new \Modules\Iprofile\Repositories\Cache\CacheRoleApiDecorator($repository);
       }
     );
     $this->app->bind(
