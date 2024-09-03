@@ -7,7 +7,7 @@ use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Iprofile\Entities\Setting;
 
-class EloquentRoleApiApiRepository extends EloquentCrudRepository implements RoleApiRepository
+class EloquentRoleApiRepository extends EloquentCrudRepository implements RoleApiRepository
 {
   /**
    * Filter names to replace
