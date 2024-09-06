@@ -4,9 +4,11 @@ namespace Modules\Iprofile\Http\Livewire;
 
 use Livewire\Component;
 use Modules\Iprofile\Entities\Address;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class AddressForm extends Component
 {
+  use LivewireAlert;
 
   public $embedded;
   public $route;

@@ -4,9 +4,11 @@ namespace Modules\Iprofile\Http\Livewire;
 
 use Livewire\Component;
 use Modules\Iprofile\Entities\Address;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class AddressList extends Component
 {
+  use LivewireAlert;
 
   public $addresses;
   public $addressSelected;
