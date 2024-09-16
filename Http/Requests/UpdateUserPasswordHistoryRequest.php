@@ -4,7 +4,7 @@ namespace Modules\Iprofile\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 
-class CreateRoleApiRequest extends BaseFormRequest
+class UpdateUserPasswordHistoryRequest extends BaseFormRequest
 {
     public function rules()
     {
@@ -29,5 +29,9 @@ class CreateRoleApiRequest extends BaseFormRequest
     public function translationMessages()
     {
         return [];
+    }
+
+    public function getValidator(){
+        return $this->getValidatorInstance();
     }
 }

@@ -2,185 +2,88 @@
 
 namespace Modules\Iprofile\Repositories\Eloquent;
 
-use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Iprofile\Repositories\DepartmentRepository;
+use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 
-class EloquentDepartmentRepository extends EloquentBaseRepository implements DepartmentRepository
+class EloquentDepartmentRepository extends EloquentCrudRepository implements DepartmentRepository
 {
-    public function getItemsBy($params = false)
+    /**
+     * Filter names to replace
+     * @var array
+     */
+    protected $replaceFilters = [];
+
+    /**
+     * Relation names to replace
+     * @var array
+     */
+    protected $replaceSyncModelRelations = [];
+
+    /**
+     * Attribute to define default relations
+     * all apply to index and show
+     * index apply in the getItemsBy
+     * show apply in the getItem
+     * @var array
+     */
+    protected $with = [/*all => [] ,index => [],show => []*/];
+
+    /**
+     * Filter query
+     *
+     * @param $query
+     * @param $filter
+     * @param $params
+     * @return mixed
+     */
+    public function filterQuery($query, $filter, $params)
     {
-        /*== initialize query ==*/
-        $query = $this->model->query();
 
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
-            $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = []; //Default relationships
-            if (isset($params->include)) {//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            }
-            $query->with($includeDefault); //Add Relationships to query
+        /**
+         * Note: Add filter name to replaceFilters attribute before replace it
+         *
+         * Example filter Query
+         * if (isset($filter->status)) $query->where('status', $filter->status);
+         *
+         */
+
+        //add filter by search
+        if (isset($filter->search)) {
+            //find search in columns
+            $query->where(function ($query) use ($filter) {
+                $query->where('id', 'like', '%' . $filter->search . '%')
+                    ->orWhere('title', 'like', '%' . $filter->search . '%')
+                    ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+                    ->orWhere('created_at', 'like', '%' . $filter->search . '%');
+            });
         }
 
-        /*=== SETTINGS ===*/
-        if (isset($params->settings)) {
-            if (isset($params->settings['assignedDepartments']) && ! empty($params->settings['assignedDepartments'])) {
-                $assignedDepartments = $params->settings['assignedDepartments'];
-                $query->whereIn('id', $assignedDepartments)
-                  ->orWhereIn('parent_id', $assignedDepartments);
-            }
-        }
-
-        /*== FILTERS ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter; //Short filter
-
-            //add filter by search
-            if (isset($filter->search)) {
-                //find search in columns
-                $query->where(function ($query) use ($filter) {
-                    $query->where('id', 'like', '%'.$filter->search.'%')
-                      ->orWhere('title', 'like', '%'.$filter->search.'%')
-                      ->orWhere('updated_at', 'like', '%'.$filter->search.'%')
-                      ->orWhere('created_at', 'like', '%'.$filter->search.'%');
-                });
-            }
-
-            //Filter by date
-            if (isset($filter->date)) {
-                $date = $filter->date; //Short filter date
-                $date->field = $date->field ?? 'created_at';
-                if (isset($date->from)) {//From a date
-                    $query->whereDate($date->field, '>=', $date->from);
-                }
-                if (isset($date->to)) {//to a date
-                    $query->whereDate($date->field, '<=', $date->to);
-                }
-            }
-
-            //Filter by parent
-            if (isset($filter->parentId)) {
-                $query->where('parent_id', $filter->parentId);
-            }
-
-            //Filter by Internal
-            if (isset($filter->is_internal)) {
-                $query->where('isInternal', $filter->is_internal);
-            }
-
-            //Order by
-            if (isset($filter->order)) {
-                $orderByField = $filter->order->field ?? 'created_at'; //Default field
-                $orderWay = $filter->order->way ?? 'desc'; //Default way
-                $query->orderBy($orderByField, $orderWay); //Add order to query
-            }
-        }
-
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-        /*== REQUEST ==*/
-        if (isset($params->page) && $params->page) {
-            return $query->paginate($params->take);
-        } else {
-            $params->take ? $query->take($params->take) : false; //Take
-
-            return $query->get();
-        }
+        //Response
+        return $query;
     }
 
-    public function getItem($criteria, $params = false)
+    /**
+     * Method to sync Model Relations
+     *
+     * @param $model ,$data
+     * @return $model
+     */
+    public function syncModelRelations($model, $data)
     {
-        //Initialize query
-        $query = $this->model->query();
+        //Get model relations data from attribute of model
+        $modelRelationsData = ($model->modelRelations ?? []);
 
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
-            $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = []; //Default relationships
-            if (isset($params->include)) {//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            }
-            $query->with($includeDefault); //Add Relationships to query
-        }
+        /**
+         * Note: Add relation name to replaceSyncModelRelations attribute before replace it
+         *
+         * Example to sync relations
+         * if (array_key_exists(<relationName>, $data)){
+         *    $model->setRelation(<relationName>, $model-><relationName>()->sync($data[<relationName>]));
+         * }
+         *
+         */
 
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            if (isset($filter->field)) {//Filter by specific field
-                $field = $filter->field;
-            }
-        }
-
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-        /*== REQUEST ==*/
-        return $query->where($field ?? 'id', $criteria)->first();
-    }
-
-    public function create($data)
-    {
-        $department = $this->model->create($data);
-        $newData = $department->toArray();
-
-        return $department;
-    }
-
-    public function updateBy($criteria, $data, $params = false)
-    {
-        /*== initialize query ==*/
-        $query = $this->model->query();
-
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            //Update by field
-            if (isset($filter->field)) {
-                $field = $filter->field;
-            }
-        }
-
-        /*== REQUEST ==*/
-        $model = $query->where($field ?? 'id', $criteria)->first();
-
-        if ($model) {
-            $oldData = $model->toArray();
-            $model->update($data);
-            $newData = $model->toArray();
-        }
-
+        //Response
         return $model;
-    }
-
-    public function deleteBy($criteria, $params = false)
-    {
-        /*== initialize query ==*/
-        $query = $this->model->query();
-
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            if (isset($filter->field)) {//Where field
-                $field = $filter->field;
-            }
-        }
-
-        /*== REQUEST ==*/
-        $model = $query->where($field ?? 'id', $criteria)->first();
-
-        if ($model) {
-            $oldData = $model->toArray();
-            $model->delete();
-        }
     }
 }

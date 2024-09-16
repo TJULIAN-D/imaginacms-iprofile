@@ -4,7 +4,7 @@ namespace Modules\Iprofile\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 
-class UpdateRoleApiRequest extends BaseFormRequest
+class CreateRoleRequest extends BaseFormRequest
 {
     public function rules()
     {
@@ -30,4 +30,9 @@ class UpdateRoleApiRequest extends BaseFormRequest
     {
         return [];
     }
+
+    public function getValidator(){
+        return $this->getValidatorInstance();
+    }
+
 }

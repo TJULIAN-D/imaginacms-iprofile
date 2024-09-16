@@ -2,27 +2,42 @@
 
 namespace Modules\Iprofile\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Modules\User\Entities\Sentinel\User;
+use Modules\Core\Icrud\Entities\CrudModel;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\User\Entities\Sentinel\User;
 
-class Department extends Model
+class Department extends CrudModel
 {
     use BelongsToTenant;
 
     protected $table = 'iprofile__departments';
-
+    public $transformer = 'Modules\Iprofile\Transformers\DepartmentTransformer';
+    public $repository = 'Modules\Iprofile\Repositories\DepartmentRepository';
+    public $requestValidation = [
+        'create' => 'Modules\Iprofile\Http\Requests\CreateDepartmentRequest',
+        'update' => 'Modules\Iprofile\Http\Requests\UpdateDepartmentRequest',
+    ];
+    //Instance external/internal events to dispatch with extraData
+    public $dispatchesEventsWithBindings = [
+        //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+        'created' => [],
+        'creating' => [],
+        'updated' => [],
+        'updating' => [],
+        'deleting' => [],
+        'deleted' => []
+    ];
     protected $fillable = [
         'title',
         'parent_id',
         'is_internal',
-        'options',
+        'options'
     ];
 
     protected $fakeColumns = ['options'];
 
     protected $casts = [
-        'options' => 'array',
+        'options' => 'array'
     ];
 
     public function users()
