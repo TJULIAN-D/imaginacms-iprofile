@@ -2,178 +2,77 @@
 
 namespace Modules\Iprofile\Repositories\Eloquent;
 
-use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Iprofile\Repositories\AddressRepository;
+use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 
-class EloquentAddressRepository extends EloquentBaseRepository implements AddressRepository
+class EloquentAddressRepository extends EloquentCrudRepository implements AddressRepository
 {
-    public function getItemsBy($params = false)
+    /**
+     * Filter names to replace
+     * @var array
+     */
+    protected $replaceFilters = [];
+
+    /**
+     * Relation names to replace
+     * @var array
+     */
+    protected $replaceSyncModelRelations = [];
+
+    /**
+     * Attribute to define default relations
+     * all apply to index and show
+     * index apply in the getItemsBy
+     * show apply in the getItem
+     * @var array
+     */
+    protected $with = [/*all => [] ,index => [],show => []*/];
+
+    /**
+     * Filter query
+     *
+     * @param $query
+     * @param $filter
+     * @param $params
+     * @return mixed
+     */
+    public function filterQuery($query, $filter, $params)
     {
-        /*== initialize query ==*/
-        $query = $this->model->query();
 
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
-            $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = []; //Default relationships
-            if (isset($params->include)) {//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            }
-            $query->with($includeDefault); //Add Relationships to query
-        }
+        /**
+         * Note: Add filter name to replaceFilters attribute before replace it
+         *
+         * Example filter Query
+         * if (isset($filter->status)) $query->where('status', $filter->status);
+         *
+         */
 
-        /*== FILTERS ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter; //Short filter
-
-            //Filter by date
-            if (isset($filter->date)) {
-                $date = $filter->date; //Short filter date
-                $date->field = $date->field ?? 'created_at';
-                if (isset($date->from)) {//From a date
-                    $query->whereDate($date->field, '>=', $date->from);
-                }
-                if (isset($date->to)) {//to a date
-                    $query->whereDate($date->field, '<=', $date->to);
-                }
-            }
-
-            //By User ID
-            if (isset($filter->userId)) {
-                $query->where('user_id', $filter->userId);
-            }
-
-            //Order by
-            if (isset($filter->order)) {
-                $orderByField = $filter->order->field ?? 'created_at'; //Default field
-                $orderWay = $filter->order->way ?? 'desc'; //Default way
-                $query->orderBy($orderByField, $orderWay); //Add order to query
-            }
-        }
-
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-    /*== REQUEST ==*/
-    if (isset($params->page) && $params->page) {
-      return $query->paginate($params->take);
-    } else {
-      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
-      return $query->get();
-    }
-  }
-
-    public function getItem($criteria, $params = false)
-    {
-        //Initialize query
-        $query = $this->model->query();
-
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
-            $query->with([]);
-        } else {//Especific relationships
-            $includeDefault = []; //Default relationships
-            if (isset($params->include)) {//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            }
-            $query->with($includeDefault); //Add Relationships to query
-        }
-
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            if (isset($filter->field)) {//Filter by specific field
-                $field = $filter->field;
-            }
-        }
-
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-        /*== REQUEST ==*/
-        return $query->where($field ?? 'id', $criteria)->first();
+        //Response
+        return $query;
     }
 
-    public function create($data)
+    /**
+     * Method to sync Model Relations
+     *
+     * @param $model ,$data
+     * @return $model
+     */
+    public function syncModelRelations($model, $data)
     {
-        $defaultAddress = $this->findByAttributes(['user_id' => $data['user_id'], 'default' => true, 'type' => $data['type'] ?? null]);
+        //Get model relations data from attribute of model
+        $modelRelationsData = ($model->modelRelations ?? []);
 
-        if (! $defaultAddress) {
-            $data['default'] = true;
-        } else {
-            if (isset($data['default']) && $data['default']) {
-                $defaultAddress->default = false;
-                $defaultAddress->save();
-            }
-        }
-        $address = $this->model->create($data);
+        /**
+         * Note: Add relation name to replaceSyncModelRelations attribute before replace it
+         *
+         * Example to sync relations
+         * if (array_key_exists(<relationName>, $data)){
+         *    $model->setRelation(<relationName>, $model-><relationName>()->sync($data[<relationName>]));
+         * }
+         *
+         */
 
-        $newData = $address->toArray();
-
-        return $address;
-    }
-
-    public function updateBy($criteria, $data, $params = false)
-    {
-        /*== initialize query ==*/
-        $query = $this->model->query();
-
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            //Update by field
-            if (isset($filter->field)) {
-                $field = $filter->field;
-            }
-        }
-
-        /*== REQUEST ==*/
-        $model = $query->where($field ?? 'id', $criteria)->first();
-
-        if ($model) {
-            if (isset($data['default']) && $data['default']) {
-                $defaultAddress = $this->findByAttributes(['user_id' => $data['user_id'], 'default' => true, 'type' => $data['type'] ?? null]);
-                if ($defaultAddress) {
-                    $defaultAddress->default = false;
-                    $defaultAddress->save();
-                }
-            }
-
-            $model->update((array) $data);
-        } else {
-            return false;
-        }
-
+        //Response
         return $model;
-    }
-
-    public function deleteBy($criteria, $params = false)
-    {
-        /*== initialize query ==*/
-        $query = $this->model->query();
-
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
-
-            if (isset($filter->field)) {//Where field
-                $field = $filter->field;
-            }
-        }
-
-        /*== REQUEST ==*/
-        $model = $query->where($field ?? 'id', $criteria)->first();
-
-        if ($model) {
-            $oldData = $model->toArray();
-            $model->delete();
-        }
     }
 }
