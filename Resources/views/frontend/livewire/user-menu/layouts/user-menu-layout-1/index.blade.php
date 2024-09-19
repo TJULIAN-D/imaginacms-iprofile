@@ -131,9 +131,9 @@
     @section('scripts')
         <style>
             @if(!empty($styleUser))
-#{{ $id }} #accMenuDrop > button {
-            {!!$styleUser!!}
-}
+                #{{ $ident }} #accMenuDrop > button {
+                    {!!$styleUser!!}
+                }
             @endif
         </style>
         <script type="text/javascript">
