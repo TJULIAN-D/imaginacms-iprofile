@@ -298,7 +298,7 @@ class UserApiController extends BaseApiController
             if(isset($requestSetting->fromAdmin))
                 $data['fromAdmin'] = $requestSetting->fromAdmin;
 
-            $response = ["data" => "User Created"];
+            $response = ["data" => new UserTransformer($user)];
 
             //dispatch Event
             event(new UserCreatedEvent($user,$data));
