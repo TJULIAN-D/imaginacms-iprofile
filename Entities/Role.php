@@ -7,11 +7,9 @@ use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Modules\Iforms\Support\Traits\Formeable;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
-use Astrotomic\Translatable\Translatable;
-
 class Role extends EloquentRole
 {
-    use Formeable, BelongsToTenant, hasEventsWithBindings, Translatable;
+    use Formeable, BelongsToTenant, hasEventsWithBindings;
 
     public function __construct(array $attributes = [])
     {
@@ -36,9 +34,7 @@ class Role extends EloquentRole
         'deleting' => [],
         'deleted' => []
     ];
-    public $translatedAttributes = [
-        'title'
-    ];
+
     protected $fillable = [
         'slug',
         'name',
