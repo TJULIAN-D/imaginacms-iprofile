@@ -7,12 +7,12 @@ if (!function_exists('createOrUpdateRole')) {
 
         // Search Role
         $params = ["filter" => ["field" => "slug"],"include" => [],"fields" => []];
-        $existRole = $profileRoleRepository->getItem($role['slug'], json_decode(json_encode($params)));
+        $userRole = $profileRoleRepository->getItem($role['slug'], json_decode(json_encode($params)));
         //Create / Update
-        if (!isset($existRole->id))
+        if (!isset($userRole->id))
             $result = $profileRoleRepository->create($role);
         else
-            $result = $profileRoleRepository->updateBy($existRole->id,$role);
+            $result = $profileRoleRepository->updateBy($userRole->id,$role);
         
         return $result;
     }
