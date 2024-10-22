@@ -52,7 +52,7 @@
     @endif
   </div>
 @else
-  <div id="{{$address->type}}AddressResume" class="card p-2" style="font-size: 12px">
+  <div id="addressResume" class="card p-2" style="font-size: 12px">
     No valid address
   </div>
 @endif

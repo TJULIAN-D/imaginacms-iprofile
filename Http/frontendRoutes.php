@@ -7,9 +7,14 @@ $locale = LaravelLocalization::setLocale() ?: App::getLocale();
 //==================================================== Overwrite Default Asgard Login
 
 $router->get('auth/login', [
-    'middleware' => 'auth.guest',
-    'as' => 'login',
-    'uses' => 'AuthProfileController@getLogin',
+  'middleware' => 'auth.guest',
+  'as' => 'login',
+  'uses' => 'AuthProfileController@getLogin'
+]);
+
+$router->get('auth/validate/email/{token}', [
+  'as' => 'auth.validate.email-token',
+  'uses' => 'AuthProfileController@getLoginWithEmail'
 ]);
 
 //==================================================== Prefix account
