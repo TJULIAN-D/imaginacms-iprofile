@@ -39,7 +39,7 @@ class RoleTransformer extends CrudResource
         return [
             'permissions' => $this->permissions ?? (object)[],
             //'settings' => (object)$settingsResponse,
-            'form' => isset($form->id) ? new FormTransformer($form) : null,
+            //'form' => isset($form->id) ? new FormTransformer($form) : null,
             'formId' => $form->id ?? null,
         ];
     }
