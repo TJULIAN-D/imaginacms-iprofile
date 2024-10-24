@@ -130,11 +130,11 @@
 
     @section('scripts')
         <style>
-            @if(!empty($styleUser))
-                #{{ $ident }} #accMenuDrop > button {
-                    {!!$styleUser!!}
-                }
-            @endif
+        @if(!empty($styleUser))
+        #{{ $id }} #accMenuDrop > button {
+        {!!$styleUser!!}
+        }
+        @endif
         </style>
         <script type="text/javascript">
             $("#accMenuDrop").hover(function(){

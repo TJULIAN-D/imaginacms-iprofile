@@ -73,4 +73,7 @@ return [
         'label' => 'Logout due to inactivity (minutes)',
         'helpText' => 'Define the number of minutes, to close the session due to inactivity. If the value is less than 1, the session will not be closed due to inactivity',
     ],
+  'authType' => 'Login type',
+  'addressAutocomplete' => 'Field Address with Autocompleted (Address Component)',
+  'hideLastNameInAddress' => 'Hide Lastname in address form (Address Component)'
 ];
