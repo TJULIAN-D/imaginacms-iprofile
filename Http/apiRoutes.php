@@ -113,7 +113,39 @@ $router->group(['prefix' => '/profile/v1'], function (Router $router) {
         //  ]
         // ]
     ]);
+    $router->apiCrud([
+      'module' => 'iprofile',
+      'prefix' => 'information',
+      'controller' => 'InformationApiController',
+      'permission' => 'profile.information',
+      //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
+      // 'customRoutes' => [ // Include custom routes if needed
+      //  [
+      //    'method' => 'post', // get,post,put....
+      //    'path' => '/some-path', // Route Path
+      //    'uses' => 'ControllerMethodName', //Name of the controller method to use
+      //    'middleware' => [] // if not set up middleware, auth:api will be the default
+      //  ]
+      // ]
+    ]);
+    $router->apiCrud([
+      'module' => 'iprofile',
+      'prefix' => 'skills',
+      'controller' => 'SkillApiController',
+      'permission' => 'profile.skills',
+      //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []],
+      // 'customRoutes' => [ // Include custom routes if needed
+      //  [
+      //    'method' => 'post', // get,post,put....
+      //    'path' => '/some-path', // Route Path
+      //    'uses' => 'ControllerMethodName', //Name of the controller method to use
+      //    'middleware' => [] // if not set up middleware, auth:api will be the default
+      //  ]
+      // ]
+    ]);
 // append
+
+
 
 
 });

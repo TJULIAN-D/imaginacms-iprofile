@@ -58,8 +58,20 @@ class UserTransformer extends JsonResource
             'allPermissions' => $this->relationLoaded('roles') ? $this->permissionsApiController->getAll(['userId' => $this->id]) : [],
             'allSettings' => $this->relationLoaded('roles') ? $this->settingsApiController->getAll(['userId' => $this->id]) : [],
             'files' => $this->files,
-            'mediaFiles' => $this->mediaFiles()
+            'mediaFiles' => $this->mediaFiles(),
+            'information' => InformationTransformer::collection($this->whenLoaded('information')),
+            'skills' => SkillTransformer::collection($this->whenLoaded('skills')),
+            
         ];
+
+        //Extra Data Ratings
+        if(is_module_enabled('Rateable')){
+            if(array_key_exists('ratings',$this->getRelations())){
+                $data['ratings'] = \Modules\Rateable\Transformers\RatingTransformer::collection($this->whenLoaded('ratings'));
+                $data['averageRating'] = round($this->averageRating(),2);
+            }
+        }
+
 
         $customUserIncludes = config('asgard.iprofile.config.customUserIncludes');
 

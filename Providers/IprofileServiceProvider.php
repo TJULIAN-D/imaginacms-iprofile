@@ -196,7 +196,33 @@ class IprofileServiceProvider extends ServiceProvider
                 return new \Modules\Iprofile\Repositories\Cache\CacheUserPasswordHistoryDecorator($repository);
             }
         );
-        // add bindings
+                $this->app->bind(
+            'Modules\Iprofile\Repositories\InformationRepository',
+            function () {
+                $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentInformationRepository(new \Modules\Iprofile\Entities\Information());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Iprofile\Repositories\Cache\CacheInformationDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Iprofile\Repositories\SkillRepository',
+            function () {
+                $repository = new \Modules\Iprofile\Repositories\Eloquent\EloquentSkillRepository(new \Modules\Iprofile\Entities\Skill());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Iprofile\Repositories\Cache\CacheSkillDecorator($repository);
+            }
+        );
+// add bindings
+
+
     }
 
     private function registerMiddleware()

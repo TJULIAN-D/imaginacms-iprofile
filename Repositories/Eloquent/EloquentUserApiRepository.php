@@ -127,6 +127,21 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
                         });
                 });
             }
+
+            //Skills Filters
+            if (isset($filter->skills) && !empty($filter->skills)) {
+                
+                //Check validation array
+                is_array($filter->skills) ? true : $filter->skills = [$filter->skills];
+
+                $query->where(function ($query) use ($filter) {
+                    $query->whereHas('skills', function ($query) use ($filter) {
+                        $query->whereIn("title",$filter->skills);
+                    });
+                });
+
+            }
+
         }
 
         //Filter by department selected

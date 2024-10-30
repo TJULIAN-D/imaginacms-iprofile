@@ -148,5 +148,15 @@ return [
   ],
   /*Option that you can use withEmail | withPassword */
   'authType' => 'withPassword',
-  'resetCompletePasswordPath' => 'iadmin/#/auth/reset'
+  'resetCompletePasswordPath' => 'iadmin/#/auth/reset',
+
+   //Media Fillables
+   'mediaFillable' => [
+        'information' => [
+            'mainimage' => 'single',
+            'gallery' => 'multiple',
+            'documents' => 'multiple'
+        ],
+    ],
+
 ];

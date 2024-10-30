@@ -73,4 +73,20 @@ return [
         'edit' => 'profile::roleapis.edit resource',
         'destroy' => 'profile::roleapis.destroy resource',
     ],
+
+    'profile.information' => [
+        'manage' => 'profile::information.manage resource',
+        'index' => 'profile::information.list resource',
+        'create' => 'profile::information.create resource',
+        'edit' => 'profile::information.edit resource',
+        'destroy' => 'profile::information.destroy resource',
+    ],
+
+    'profile.skills' => [
+        'manage' => 'profile::skills.manage resource',
+        'index' => 'profile::skills.list resource',
+        'create' => 'profile::skills.create resource',
+        'edit' => 'profile::skills.edit resource',
+        'destroy' => 'profile::skills.destroy resource',
+    ],
 ];
