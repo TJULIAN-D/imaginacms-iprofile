@@ -147,5 +147,6 @@ return [
     'role' => "iprofile::cms.documentation.role",
   ],
   /*Option that you can use withEmail | withPassword */
-  'authType' => 'withPassword'
+  'authType' => 'withPassword',
+  'resetCompletePasswordPath' => 'iadmin/#/auth/reset'
 ];
