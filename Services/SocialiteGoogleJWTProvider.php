@@ -22,7 +22,7 @@ class SocialiteGoogleJWTProvider extends GoogleProvider
     $jwkset = json_decode(file_get_contents('https://www.googleapis.com/oauth2/v3/certs'), true);
     $keys = JWK::parseKeySet($jwkset);
     try {
-      $userData = (array)JWT::decode($token, $keys, ['RS256']);// Decode the ID token
+      $userData = (array)JWT::decode($token, $keys);// Decode the ID token
       return $this->mapUserToObject($userData);
     } catch (\Exception $e) {
       throw new Exception('Failed parse Google credentials: ' . $e->getMessage(), 500);
