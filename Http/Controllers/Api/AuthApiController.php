@@ -134,13 +134,13 @@ class AuthApiController extends BaseApiController
       $credentials = [ //Get credentials
         'password' => $request->input('password'),
         'password_confirmation' => $request->input('password_confirmation'),
-        'userId' => $request->input('userId'),
+        'userId' => $request->input('userId') ?? $request->input('user_id'),
         'code' => $request->input('code'),
       ];
       $this->validateRequestApi(new ResetCompleteRequest($credentials));
       app(UserResetter::class)->finishReset($credentials);
 
-      $user = $this->user->find($request->input('userId'));
+      $user = $this->user->find($credentials['userId']);
 
       $response = ['data' => ['email' => $user->email]]; //Response
     } catch (UserNotFoundException $e) {
