@@ -32,4 +32,10 @@ return [
         ],
     ],
 
+    'layouts' => [
+      'group_name' => 'User Profile Templates',
+      'label_views' => 'Views Profile Users',
+      'label_vcard_download' => 'Save My Contact'
+    ]
+
 ];
