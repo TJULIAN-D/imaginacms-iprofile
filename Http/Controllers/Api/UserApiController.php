@@ -500,6 +500,7 @@ class UserApiController extends BaseApiController
             $requestLogout->headers->set('Authorization', $token->bearer);//Add token to headers
             $user = Auth::user();//Get User
 
+
             //Check if password exist in history
             $result = $this->userPasswordHistoryService->checkOldPasswords($user,$params);
 
@@ -514,8 +515,9 @@ class UserApiController extends BaseApiController
                 ))
             );
 
+
             //Logout token
-            $this->validateResponseApi($authApiController->logout($requestLogout));
+            $this->validateResponseApi($authApiController->logoutAllSessions($requestLogout));
 
             $response['data']["messages"] = [
                 [
@@ -753,7 +755,7 @@ class UserApiController extends BaseApiController
                         "actions" => [
                             [
                                 "label" => trans("iprofile::frontend.title.changePassword"),
-                                "toUrl" => url("/{$workspace}/#/auth/force-change-password")
+                                "toUrl" => url("/{$workspace}/#/auth/change-password")
                             ]
                         ]
                     ]

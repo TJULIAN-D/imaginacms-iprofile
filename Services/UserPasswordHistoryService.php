@@ -22,7 +22,7 @@ class UserPasswordHistoryService
             if (count($userHistoryPass) > 0) {
                 foreach ($userHistoryPass as $key => $history) {
                     if (Hash::check($data['newPassword'], $history->password)) {
-                        throw new \Exception(trans('iprofile::frontend.messages.You already used this password'), 400);
+                        throw new \Exception(trans('iprofile::frontend.messages.You already used this password'), 409);
                     }
                 }
             }
