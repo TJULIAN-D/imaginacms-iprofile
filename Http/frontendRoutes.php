@@ -44,6 +44,14 @@ Route::prefix('/account')->group(function (Router $router) {
         'middleware' => 'can:profile.user.edit',
         //'middleware' => 'can:iprofile.profiles.edit'
     ]);
+
+    $router->get('profile/{user_id}', [
+      'as' => 'iprofile.profile.get',
+      'uses' => 'ProfileController@show',
+      //'middleware' => 'can:profile.user.edit'
+      //'middleware' => 'can:iprofile.profiles.edit'
+    ]);
+
     $router->put('user/update', [
         'as' => 'iprofile.user.update',
         'uses' => 'ProfileController@updateUser',
