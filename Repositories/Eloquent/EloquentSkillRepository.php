@@ -47,6 +47,17 @@ class EloquentSkillRepository extends EloquentCrudRepository implements SkillRep
      *
      */
 
+     //add filter by search
+    if (isset($filter->search)) {
+      //find search in columns
+      $query->where(function ($query) use ($filter) {
+        $query->where('id', 'like', '%' . $filter->search . '%')
+          ->orWhere('title', 'like', '%' . $filter->search . '%')
+          ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+          ->orWhere('created_at', 'like', '%' . $filter->search . '%');
+      });
+    }
+
     //Response
     return $query;
   }
