@@ -1,9 +1,9 @@
 <!--- LOGIN -->
 @if(Auth::user())
-@php
-$mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->where('name','mainImage')->first();
-@endphp
-    <div class="account-menu dropdown mx-1" id="accMenuDrop">
+    @php
+        $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->where('name','mainImage')->first();
+    @endphp
+    <div class="account-menu dropdown mx-1" id="accMenuDrop" data-testId="user-menu-layout-1">
         <a class="btn btn-outline-secondary border-0 dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @if($mainImage)
                 <img class="i-circle" style="margin-top: -5px; width: 20px;"
@@ -13,7 +13,7 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
                      src="{{url('modules/iprofile/img/default.jpg')}}"/>
             @endif
 
-               {{trans("iprofile::frontend.title.my_account")}}
+            {{trans("iprofile::frontend.title.my_account")}}
         </a>
 
         <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
@@ -28,13 +28,13 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
                     <?php endif; ?>
                 </span>
             </div>
-            <a class="dropdown-item"  href="{{url('/account')}}">
+            <a class="dropdown-item"  href="{{url('/account')}}" data-testId="menu-dropdown-sign-in">
                 <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.title.profile')}}
             </a>
             @if(is_module_enabled('Icommerce'))
-            <a class="dropdown-item"  href="{{url('/orders')}}">
-                <i class="fa fa-bars mr-2"></i> {{trans("icommerce::orders.title.orders")}}
-            </a>
+                <a class="dropdown-item"  href="{{url('/orders')}}">
+                    <i class="fa fa-bars mr-2"></i> {{trans("icommerce::orders.title.orders")}}
+                </a>
             @endif
             <a class="dropdown-item" href="{{url('/account/logout')}}" data-placement="bottom"
                title="Sign Out">
@@ -44,7 +44,7 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
         </div>
     </div>
 @else
-    <div class="account-menu dropdown" id="accMenuDrop">
+    <div class="account-menu dropdown" id="accMenuDrop" data-testId="user-menu-layout-1">
         <a class="btn btn-outline-secondary border-0 dropdown-toggle" href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user mr-1"></i>{{trans("iprofile::frontend.title.my_account")}}
         </a>
@@ -53,7 +53,7 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
             <a class="dropdown-item" href="{{route('login')}}">
                 <i class="fa fa-user mr-2"></i>{{trans('iprofile::frontend.button.sign_in')}}
             </a>
-             <a class="dropdown-item" href="{{route('account.register')}}">
+            <a class="dropdown-item" href="{{route('account.register')}}">
                 <i class="fa fa-sign-out mr-2"></i>{{trans('iprofile::frontend.button.register')}}
             </a>
         </div>
@@ -61,14 +61,14 @@ $mainImage=\Modules\Iprofile\Entities\Field::where('user_id',Auth::user()->id)->
 @endif
 
 @section('scripts')
-<script type="text/javascript">
-$("#accMenuDrop").hover(function(){
-$(this).addClass("show");
-$('#drop-menu').addClass("show");
-}, function(){
-  $(this).removeClass("show");
-  $('#drop-menu').removeClass("show");
-});
-</script>
-@parent
+    <script type="text/javascript">
+        $("#accMenuDrop").hover(function(){
+            $(this).addClass("show");
+            $('#drop-menu').addClass("show");
+        }, function(){
+            $(this).removeClass("show");
+            $('#drop-menu').removeClass("show");
+        });
+    </script>
+    @parent
 @endsection

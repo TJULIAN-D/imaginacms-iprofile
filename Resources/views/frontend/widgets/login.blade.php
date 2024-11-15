@@ -52,14 +52,14 @@
             <div class="col-sm-12 py-2">
               <div class="form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
                 <label>{{trans('user::auth.email')}}</label>
-                {{ Form::email('email', old('email'),['required','class' => "form-control",'placeholder' => trans('user::auth.email')]) }}
+                {{ Form::email('email', old('email'),['required','class' => "form-control",'placeholder' => trans('user::auth.email'), "data-testId"=>"email-login"])  }}
                 {!! $errors->first('email', '<div class="invalid-feedback">:message</div>') !!}
               </div>
             </div>
             <div class="col-sm-12 py-2">
               <div class="form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">
                 <label>{{trans('user::auth.password')}}</label>
-                {{ Form::password('password',['required','class' => 'form-control','placeholder' => trans('user::auth.password')]) }}
+                {{ Form::password('password',['required','class' => 'form-control','placeholder' => trans('user::auth.password'), "data-testId"=>"password-login"]) }}
                 {!! $errors->first('password', '<div class="invalid-feedback">:message</div>') !!}
               </div>
             </div>
@@ -69,7 +69,8 @@
         <div class=" form-button text-center  border-bottom  border-bottom-dotted py-4 mb-4">
           @php
             //$disabled = setting('isite::activateCaptcha') ? ['disabled' => 'disabled'] : [];
-            $buttonAttrs = ['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2'];
+            $buttonAttrs = ['class'=>'btn btn-primary text-uppercase text-white font-weight-bold rounded-pill px-3 py-2 mr-2',
+                            'data-testId'=>'button-login'];
             //$buttonAttrs = array_merge($buttonAttrs, $disabled);
           @endphp
           {{ Form::submit(trans('user::auth.login'),$buttonAttrs) }}
