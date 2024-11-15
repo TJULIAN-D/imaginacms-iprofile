@@ -1,4 +1,4 @@
-<div wire:init="reload(window.location)" id="{{ $ident }}" class="d-inline-block">
+<div wire:init="reload(window.location)" id="{{ $ident }}" class="d-inline-block" data-testId="user-menu-layout-1">
     <!--- LOGIN -->
     @if($user)
         @php
@@ -7,7 +7,8 @@
         <div  class="account-menu dropdown d-inline-block" id="accMenuDrop">
             <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false" aria-label="dropdown profile">
+                    aria-expanded="false" aria-label="dropdown profile"
+                    data-testId="button-menu-dropdown-sign-in">
 
 
                 @if($showLabel)
@@ -42,17 +43,16 @@
                     <?php endif; ?>
                     </span>
                 </div>
-
-                <a class="dropdown-item"  href="{{$profileRoute}}">
+                <a class="dropdown-item"  href="{{$profileRoute}}" data-testId="user-menu-dropdown">
                     <i class="fa fa-user mr-2"></i> {{trans('iprofile::frontend.title.profile')}}
                 </a>
                 @foreach($moduleLinks as $link)
-                    <a class="dropdown-item"  href="{{ $link['url'] }}">
+                    <a class="dropdown-item"  href="{{ $link['url'] }}"  data-testId="menu-dropdown-{{$link['title']}}">
                         @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
                     </a>
                 @endforeach
                 <a class="dropdown-item cursor-pointer" wire:click="logout" data-placement="bottom"
-                   title="Sign Out">
+                   title="Sign Out" data-testId="menu-dropdown-logout">
                     <i class="fas fa-sign-out-alt mr-1"></i>
                     <span>{{trans('iprofile::frontend.button.sign_out')}}</span>
                 </a>
@@ -63,7 +63,8 @@
         <div class="account-menu dropdown d-inline-block " id="accMenuDrop">
             <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false" aria-label="dropdown profile">
+                    aria-expanded="false" aria-label="dropdown profile"
+                    data-testId="button-menu-dropdown-sign-in">
                 <div class="user d-inline-block">
                     @if($showLabel)
                         <span class="d-none d-lg-inline-block"> {{ $label }}</span>
@@ -74,7 +75,8 @@
 
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
                 @foreach($moduleLinksWithoutSession as $link)
-                    <a class="dropdown-item"  href="{{$link['url']}}" {{isset($link["dispatchModal"]) ? "data-toggle=modal data-target=".$link['dispatchModal'] : ''}}>
+                    <a class="dropdown-item"  href="{{$link['url']}}" {{isset($link["dispatchModal"]) ? "data-toggle=modal data-target=".$link['dispatchModal'] : ''}}
+                    data-testId="menu-dropdown-{{$link['title']}}">
                         @if($link['icon'])<i class="{{ $link['icon'] }}"></i>@endif {{ trans($link['title']) }}
                     </a>
                 @endforeach
@@ -84,7 +86,8 @@
 
     @if($openLoginInModal)
         <!-- User login modal -->
-        <div class="modal fade" id="userLoginModal" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true">
+        <div class="modal fade" id="userLoginModal" tabindex="-1" aria-labelledby="userLoginModalLabel" aria-hidden="true"
+             data-testId="modal-login">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -110,7 +113,8 @@
 
     @if($openRegisterInModal)
         <!-- User register modal -->
-        <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true">
+        <div class="modal fade" id="userRegisterModal" tabindex="-1" aria-labelledby="userRegisterModalLabel" aria-hidden="true"
+             data-testId="modal-register">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
