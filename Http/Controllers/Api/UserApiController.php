@@ -450,7 +450,7 @@ class UserApiController extends BaseApiController
                     $data["password"] = $user->password;
 
                 //Response
-                $response = ["data" => $user];
+                $response = ["data" => new UserTransformer($user)];
             } else {
                 $status = 400;
                 $response = ["errors" => $data["email"] . ' | User Name already exist'];
