@@ -18,7 +18,7 @@ Route::prefix('/users')->group(function (Router $router) {
     $router->get('/', [
         'as' => $locale.'api.iprofile.users.index',
         'uses' => 'UserApiController@index',
-        'middleware' => ['auth:api'],
+        //'middleware' => ['auth:api'],
     ]);
     $router->post('change-password', [
         'as' => $locale.'api.iprofile.change.password',
