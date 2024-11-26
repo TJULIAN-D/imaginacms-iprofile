@@ -42,8 +42,8 @@ Route::prefix('/users')->group(function (Router $router) {
     ]);
     $router->get('/{criteria}', [
         'as' => $locale.'api.iprofile.users.show',
-        'uses' => 'UserApiController@show',
-        'middleware' => ['auth:api'],
+        'uses' => 'UserApiController@show'
+        //'middleware' => ['auth:api'],
     ]);
     $router->post('/media/upload', [
         'as' => 'api.profile.users.media.upload',
