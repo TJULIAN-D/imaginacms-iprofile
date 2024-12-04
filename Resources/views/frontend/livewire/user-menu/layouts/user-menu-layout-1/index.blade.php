@@ -4,24 +4,24 @@
         @php
             $userData = $user['data'];
         @endphp
-        <div  class="account-menu dropdown d-inline-block" id="accMenuDrop">
-            <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
+        <div  class="account-menu dropdown d-inline-block user-dropdown" id="accMenuDrop">
+            <button class="btn dropdown-toggle d-flex align-items-center {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false" aria-label="dropdown profile"
                     data-testId="button-menu-dropdown-sign-in">
 
-
-                @if($showLabel)
-                    <span class="username text-truncate d-none d-sm-block aling-middle text-capitalize">
+                @if($typeContent == "0" || $typeContent == "2")
+                    <span class="username text-truncate d-none d-sm-block align-middle text-capitalize">
                             <?php if (isset($userData->firstName) && $userData->firstName): ?>
                             <?= $userData->firstName; ?>
                         <?php else: ?>
                                 <em>{{trans('core::core.general.complete your profile')}}.</em>
                             <?php endif; ?>
                     </span>
-                    <i class="d-inline-block d-sm-none fa fa-user" aria-hidden="true"></i>
-                @else
-                    <i class="fa fa-user" aria-hidden="true"></i>
+                @endif
+
+                @if($typeContent == "0" || $typeContent == "1")
+                    <i class="fa fa-user pl-1" aria-hidden="true"></i>
                 @endif
             </button>
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" >
@@ -60,19 +60,23 @@
 
         </div>
     @else
-        <div class="account-menu dropdown d-inline-block " id="accMenuDrop">
+        <div class="account-menu dropdown d-inline-block guest-dropdown" id="accMenuDrop">
             <button class="btn dropdown-toggle {{$classUser}}" type="button" role="button"
                     id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false" aria-label="dropdown profile"
                     data-testId="button-menu-dropdown-sign-in">
-                <div class="user d-inline-block">
-                    @if($showLabel)
-                        <span class="d-none d-lg-inline-block"> {{ $label }}</span>
-                    @endif
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </div>
-            </button>
+                    <div class="user d-flex align-items-center">
+                        @if($typeContent == "0" || $typeContent == "2")
+                            <span class="username text-truncate align-middle text-capitalize">
+                                {{ $label }}
+                            </span>
+                        @endif
 
+                        @if($typeContent == "0" || $typeContent == "1")
+                            <i class="fa fa-user pl-1" aria-hidden="true"></i>
+                        @endif
+                    </div>
+            </button>
             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
                 @foreach($moduleLinksWithoutSession as $link)
                     <a class="dropdown-item"  href="{{$link['url']}}" {{isset($link["dispatchModal"]) ? "data-toggle=modal data-target=".$link['dispatchModal'] : ''}}
@@ -131,7 +135,6 @@
         </div>
     @endif
 
-
     @section('scripts')
         <style>
         @if(!empty($styleUser))
@@ -151,5 +154,4 @@
         </script>
         @parent
     @endsection
-
 </div>

@@ -11,7 +11,7 @@ class UserMenu extends Component
     public $view;
     public $user;
     public $params;
-    public $showLabel;
+    public $typeContent;
     public $moduleLinks;
     public $moduleLinksWithoutSession;
     public $id;
@@ -27,7 +27,7 @@ class UserMenu extends Component
     public $styleUser;
     public $layout;
 
-    public function __construct($layout = 'user-menu-layout-1', $showLabel = false, $id = "userMenuComponent",
+    public function __construct($layout = 'user-menu-layout-1', $typeContent = "0", $id = "userMenuComponent",
                                 $params = [], $openLoginInModal = true, $openRegisterInModal = false,
                                 $onlyShowInTheDropdownHeader = true, $onlyShowInTheMenuOfTheIndexProfilePage = false,
                                 $label = null, $classUser = '', $styleUser = ''  )
@@ -37,7 +37,7 @@ class UserMenu extends Component
         $this->onlyShowInTheMenuOfTheIndexProfilePage = $onlyShowInTheMenuOfTheIndexProfilePage;
         $this->view = 'iprofile::frontend.components.user-menu.layouts.' . (isset($layout) ? $layout : 'user-menu-layout-1') . '.index';
 
-        $this->showLabel = $showLabel;
+        $this->typeContent = $typeContent;
         $this->label = $label ?? trans('iprofile::frontend.button.my_account');
         $this->openLoginInModal = $openLoginInModal;
         $this->openRegisterInModal = $openRegisterInModal;
