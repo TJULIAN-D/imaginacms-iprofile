@@ -7,6 +7,17 @@ return [
     "title" => "Menu de Usuario",
     "systemName" => "iprofile::user-menu",
     "nameSpace" => "Modules\Iprofile\View\Components\UserMenu",
+    "contentFields" => [
+      "label" => [
+        "name" => "label",
+        "type" => "input",
+        "colClass" => 'col-12',
+        "isTranslatable" => true,
+        "props" => [
+          "label" => "Texto Label Para Boton (Login)"
+        ]
+      ],
+    ],
     "attributes" => [
         "general" => [
             "title" => "General",
@@ -23,14 +34,18 @@ return [
                         ]
                     ]
                 ],
-                "showLabel" => [
-                    "name" => "showLabel",
-                    "value" => "0",
-                    "type" => "select",
-                    "props" => [
-                        "label" => "showButton",
-                        "options" => $vAttributes["validation"]
+                "typeContent" => [
+                  "name" => "typeContent",
+                  "value" => "0",
+                  "type" => "select",
+                  "props" => [
+                    "label" => "Tipo de Contenido a Mostrar",
+                    "options" => [
+                      ["label" => "Label con icono", "value" => "0"],
+                      ["label" => "Icon", "value" => "1"],
+                      ["label" => "Label", "value" => "2"],
                     ]
+                  ]
                 ],
                 "classUser" => [
                     "name" => "classUser",

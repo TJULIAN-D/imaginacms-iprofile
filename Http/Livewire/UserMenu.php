@@ -10,7 +10,7 @@ class UserMenu extends Component
 {
     public $view;
     public $params;
-    public $showLabel;
+    public $typeContent;
     public $moduleLinks;
     public $moduleLinksWithoutSession;
     public $onlyShowInTheDropdownHeader;
@@ -25,7 +25,7 @@ class UserMenu extends Component
     public $styleUser;
 
 
-    public function mount($layout = 'user-menu-layout-1', $showLabel = false, $ident = "userMenuComponent",
+    public function mount($layout = 'user-menu-layout-1', $typeContent = "0", $ident = "userMenuComponent",
                           $params = [], $openLoginInModal = true, $openRegisterInModal = false,
                           $onlyShowInTheDropdownHeader = true, $onlyShowInTheMenuOfTheIndexProfilePage = false,
                           $label = null, $classUser = '', $styleUser = '')
@@ -33,7 +33,7 @@ class UserMenu extends Component
 
         $this->view = 'iprofile::frontend.livewire.user-menu.layouts.' . (isset($layout) ? $layout : 'user-menu-layout-1') . '.index';
 
-        $this->showLabel = $showLabel;
+        $this->typeContent = $typeContent;
         $this->label = $label ?? trans('iprofile::frontend.button.my_account');
         $this->openLoginInModal = $openLoginInModal;
         $this->openRegisterInModal = $openRegisterInModal;
