@@ -11,6 +11,7 @@ class CacheFieldDecorator extends BaseCacheCrudDecorator implements FieldReposit
     {
         parent::__construct();
         $this->entityName = 'iprofile.fields';
+        $this->tags = ['iprofile.userapis'];
         $this->repository = $field;
     }
 }
