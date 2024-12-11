@@ -247,7 +247,24 @@ class EloquentUserApiRepository extends EloquentBaseRepository implements UserAp
 
     public function updateBy($criteria, $data, $params = false)
     {
-        return app(UserRepository::class)->updateAndSyncRoles($criteria, $data, []);
+        $user = app(UserRepository::class)->updateAndSyncRoles($criteria, $data, []);
+
+        if (is_array($params) && ($params['sync'] ?? false)) {
+          $user = $this->getItem($criteria, []);
+
+          $syncData = [
+            'roles' => $data['roles'] ?? [],
+            'departments' => $data['departments'] ?? [],
+          ];
+
+          foreach ($syncData as $relation => $ids) {
+            if (!empty($ids) && method_exists($user, $relation)) {
+              $user->{$relation}()->sync($ids);
+            }
+          }
+        }
+
+        return $user;
     }
 
 
