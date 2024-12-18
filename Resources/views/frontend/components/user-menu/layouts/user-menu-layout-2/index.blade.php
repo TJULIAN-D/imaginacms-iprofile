@@ -1,4 +1,3 @@
-@livewire("iprofile::user-menu", [ "layout" => $layout, "showLabel" => $showLabel, "id" => $id,
-"params" => $params, $openLoginInModal => $openLoginInModal, "openRegisterInModal" => $openRegisterInModal,
+@livewire("iprofile::user-menu", [ "layout" => $layout, "id" => $id,"params" => $params, $openLoginInModal => $openLoginInModal, "openRegisterInModal" => $openRegisterInModal,
 "onlyShowInTheDropdownHeader" => $onlyShowInTheDropdownHeader, "onlyShowInTheMenuOfTheIndexProfilePage" => $onlyShowInTheMenuOfTheIndexProfilePage,
-"label" => $label, "classUser" => $classUser, "styleUser" => $styleUser])
+"label" => $label, "classUser" => $classUser, "styleUser" => $styleUser, "typeContent" => $typeContent])
