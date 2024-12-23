@@ -75,5 +75,6 @@ return [
     ],
   'authType' => 'Login type',
   'addressAutocomplete' => 'Field Address with Autocompleted (Address Component)',
-  'hideLastNameInAddress' => 'Hide Lastname in address form (Address Component)'
+  'hideLastNameInAddress' => 'Hide Lastname in address form (Address Component)',
+  'notifyUserOnCreation' => 'Notification for password change on new users'
 ];
