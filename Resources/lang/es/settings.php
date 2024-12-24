@@ -77,5 +77,6 @@ return [
   ],
   'authType' => 'Tipo de inicio de sesión',
   'addressAutocomplete' => 'Campo Dirección con Autocompletado (Componente Address)',
-  'hideLastNameInAddress' => 'Ocultar Apellido en el formulario de direcciones (Componente Address)'
+  'hideLastNameInAddress' => 'Ocultar Apellido en el formulario de direcciones (Componente Address)',
+  'notifyUserOnCreation' => 'Notificacion para cambio de contraseña en usuarios nuevos'
 ];
