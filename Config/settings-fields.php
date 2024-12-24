@@ -628,7 +628,6 @@ return [
   ],
   //Register Users
   'notifyUserOnCreation' => [
-    'onlySuperAdmin' => true,
     'name' => 'iprofile::notifyUserOnCreation',
     'value' => '0',
     'type' => 'checkbox',
