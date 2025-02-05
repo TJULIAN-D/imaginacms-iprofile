@@ -11,6 +11,7 @@ return [
         </a>
     </p>
     <p>This link will be valid for a limited time. If you encounter any issues or need assistance, please don’t hesitate to contact us.</p>'
-  ]
-
+  ],
+  'welcomeTitleEmail' => "Welcome! We're glad to have you here.",
+  'welcomeMessageEmail' => "Hi :userName, \n\nThank you for signing up for :appName. We're excited to have you on board! You can now explore all the features and benefits we offer.",
 ];

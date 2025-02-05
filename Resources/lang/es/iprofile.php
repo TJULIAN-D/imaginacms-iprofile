@@ -11,5 +11,7 @@ return [
         </a>
     </p>
     <p>Este enlace será válido por un tiempo limitado. Si tienes algún problema o necesitas ayuda, no dudes en contactarnos.</p>'
-  ]
+  ],
+  'welcomeTitleEmail' => "¡Bienvenid@! Nos alegra tenerte aquí.",
+  'welcomeMessageEmail' => "Hola :userName, \n\nGracias por registrarte en :appName. ¡Estamos emocionados de tenerte a bordo! Ahora puedes explorar todas las funciones y beneficios que ofrecemos.",
 ];
