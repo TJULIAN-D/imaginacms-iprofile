@@ -11,7 +11,7 @@
 
       <ul class="my-account border-bottom py-4">
         <li class=" w-100">
-          <a class="button-left"><i class="fa fa-bars"></i> <span class="nav-label text-bold">Mi cuenta</span></a>
+          <a class="button-left"><i class="fa fa-bars"></i> <span class="nav-label text-bold">{{trans('iprofile::frontend.title.my_account')}}</span></a>
         </li>
       </ul>
       {{--################# MENU #################--}}
