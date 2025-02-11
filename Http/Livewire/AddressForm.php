@@ -95,11 +95,11 @@ class AddressForm extends Component
 
   public function updated($name, $value)
   {
+//    dd('epaa',$name, $value);
     switch ($name) {
       case 'address.country':
         if (!empty($value)) {
           $this->address['country_id'] = $this->countries->where('iso_2', $value)->first()->id;
-
           $this->initProvinces();
         }
         break;
@@ -309,7 +309,7 @@ class AddressForm extends Component
 
   private function initProvinces()
   {
-    if (isset($this->address['country_id'])) {
+    if (isset($this->address['country_id']) && !empty($this->address['country_id'])) {
       $params = ['filter' => ['countryId' => $this->address['country_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
       $this->provinces = $this->provinceRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
@@ -319,7 +319,7 @@ class AddressForm extends Component
 
   private function initCities()
   {
-    if (isset($this->address['state_id'])) {
+    if (isset($this->address['state_id']) && !empty($this->address['state_id'])) {
       $params = ['filter' => ['provinceId' => $this->address['state_id'] ?? null, 'order' => ['way' => 'asc', 'field' => 'name']]];
       $this->cities = $this->cityRepository()->getItemsBy(json_decode(json_encode($params)));
     } else {
