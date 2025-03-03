@@ -16,8 +16,8 @@ class AssignedSettingsInRoles extends Seeder
     $module = app('modules');
     $rolesRepository = app("Modules\Iprofile\Repositories\RoleApiRepository");
     $settingsRepository = app("Modules\Setting\Repositories\SettingRepository");
-    $params = [];
-    $roles = $rolesRepository->getItemsBy($params);
+    $params = ['filter' => ['field' => 'slug']];
+    $role = $rolesRepository->getItem('admin', json_decode(json_encode($params)));
     $data = [];
     $translatableSettings = [];
     $plainSettings = [];
@@ -42,19 +42,18 @@ class AssignedSettingsInRoles extends Seeder
         }
       }
     }
-    foreach ($roles as $role) {
-      if (isset($role->slug) && $role->slug == 'admin') {
-        // Update or create the setting
-        Setting::updateOrCreate(
-          ['related_id' => $role->id, 'entity_name' => 'role', 'name' => 'assignedSettings'],
-          [
-            'related_id' => $role->id,
-            'entity_name' => 'role',
-            'name' => 'assignedSettings',
-            'value' => $data,
-          ]
-        );
-      }
+
+    if (isset($role->slug) && $role->slug == 'admin') {
+      // Update or create the setting
+      Setting::updateOrCreate(
+        ['related_id' => $role->id, 'entity_name' => 'role', 'name' => 'assignedSettings'],
+        [
+          'related_id' => $role->id,
+          'entity_name' => 'role',
+          'name' => 'assignedSettings',
+          'value' => $data,
+        ]
+      );
     }
   }
 }
