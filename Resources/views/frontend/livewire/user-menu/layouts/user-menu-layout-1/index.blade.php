@@ -18,6 +18,7 @@
                                 <em>{{trans('core::core.general.complete your profile')}}.</em>
                             <?php endif; ?>
                     </span>
+                    <i class="fa fa-user pl-1 d-block d-sm-none" aria-hidden="true"></i>
                 @endif
 
                 @if($typeContent == "0" || $typeContent == "1")
