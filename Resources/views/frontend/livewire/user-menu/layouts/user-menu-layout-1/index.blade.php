@@ -145,7 +145,7 @@
         @endif
         </style>
         <script type="text/javascript">
-            $("#accMenuDrop").hover(function(){
+            $("#accMenuDrop").click(function(){
                 $(this).addClass("show");
                 $('#drop-menu').addClass("show");
             }, function(){
