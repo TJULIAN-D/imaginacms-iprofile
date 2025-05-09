@@ -134,12 +134,20 @@ class ProfileController extends AdminBaseController
 
     if(!$user) return 'User Not Found';
 
+    $getSettingValue = function ($name, $default = '') use ($user) {
+      if (!$user->settings) {
+        return $default;
+      }
+      $setting = $user->settings->where('name', $name)->first();
+      return $setting ? $setting->value : $default;
+    };
+
     $jobData = [
-      'jobTitle' => $user->settings ? $user->settings->where("name", "jobTitle")->first()->value : "",
-      'jobRole' => $user->settings ? $user->settings->where("name", "jobRole")->first()->value : "",
-      'jobEmail' => $user->settings ? $user->settings->where("name", "jobEmail")->first()->value : $user->email,
-      'jobMobile' => $user->settings ? $user->settings->where("name", "jobMobile")->first()->value : "",
-      'jobLinks' => $user->settings ? $user->settings->where("name", "jobLinks")->first()->value : [],
+      'jobTitle'  => $getSettingValue('jobTitle'),
+      'jobRole'   => $getSettingValue('jobRole'),
+      'jobEmail'  => $getSettingValue('jobEmail', $user->email),
+      'jobMobile' => $getSettingValue('jobMobile'),
+      'jobLinks'  => $getSettingValue('jobLinks', []),
     ];
 
     $defaultImage = 'modules/iprofile/img/default.jpg';
