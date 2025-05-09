@@ -128,7 +128,9 @@ class ProfileController extends AdminBaseController
 
   public function show($userID)
   {
-    $user = $this->userApi->getItem($userID);
+    $user = $this->userApi->getItem($userID, json_decode(json_encode([
+      'include' => ['files','settings']
+    ])));
 
     $jobData = [
       'jobTitle' => $user->settings->where("name", "jobTitle")->first()->value ?? "",
@@ -140,7 +142,6 @@ class ProfileController extends AdminBaseController
 
     $defaultImage = 'modules/iprofile/img/default.jpg';
     $mainImage = $user->mediaFiles()->profile->path ?? $defaultImage;
-
     $tpl = setting('iprofile::layoutProfileShow');
 
     return view($tpl, compact('user', 'jobData', 'mainImage', 'defaultImage'));
